@@ -1,0 +1,546 @@
+<template>
+    <h1 class="text-h5 text-light-green">My Books</h1>
+
+    <!-- Form -->
+
+    <v-dialog 
+    v-model="isAddingBook" 
+    transition="dialog-bottom-transition" 
+    max-width="400">
+
+        <div class="form-container pa-5">
+
+            <v-form ref="bookForm" @submit.prevent="createBook">
+                <v-text-field v-model="bookName" :rules="nameRules" class="text-white" color="#8BC34A" label="Book Name"
+                    variant="outlined" required />
+
+                <v-text-field v-model="bookAuthor" :rules="nameRules" class="text-white mt-2" color="#8BC34A"
+                    label="Author" variant="outlined" required />
+
+                <v-text-field v-model="bookPages" :rules="pageRules" type="number" class="text-white mt-2"
+                    color="#8BC34A" label="Pages" variant="outlined" required />
+
+                <v-autocomplete v-model="bookStatus" class="text-white mt-2" color="#8BC34A" chips item-color="#8BC34A"
+                    :rules="[v => !!v || 'state is required!']" label="Reading Status" :items="['will read', 'readed',]"
+                    variant="outlined" required />
+
+                <v-btn v-if="!isEditBook" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
+                    type="submit" block>
+                    Create</v-btn>
+
+                <v-btn v-if="isEditBook" @click="editBook(selectedItem)" class="mt-3 pa-2" color="primary" size="medium"
+                    variant="outlined" block>
+                    Save</v-btn>
+
+                <v-btn v-if="isEditBook" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
+                    variant="outlined" block>
+                    Delete</v-btn>
+
+                <v-btn @click="isAddingBook = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
+                    block>
+                    Cancel</v-btn>
+
+            </v-form>
+
+        </div>
+
+    </v-dialog>
+
+    <!-- If list is empty -->
+
+    <v-container 
+    v-if="$store.state.books.booksList.length == 0" 
+    class="d-flex flex-column justify-center align-center">
+
+        <h3 class="text-uppercase header-3">
+            You haven't added a book yet. Add now and start tracking your progress!
+        </h3>
+
+        <v-btn 
+        @click="isAddingBook = true" 
+        class="mt-5" 
+        variant="outlined" 
+        color="#8BC34A" 
+        size="x-large">
+        Create first book
+        </v-btn>
+
+    </v-container>
+
+    <!-- Lists -->
+
+    <v-container 
+    v-if="$store.state.books.booksList.length > 0"
+    class="my-5" >
+
+        <v-card 
+        v-if="!isEditMode"
+        class="px-2 py-1 text-caption text-grey">
+
+            <v-row class="d-flex justify-space-between">
+
+                <v-col 
+                class="d-flex justify-start align-center" 
+                lg="1">
+                    <v-icon
+                    @click="isEditMode = true" 
+                    class="cursor-pointer"
+                    icon="fa-solid fa-pen-to-square" 
+                    color="#8BC34A"/>
+
+                    <v-tooltip activator="parent" location="left">
+                        Edit
+                    </v-tooltip>
+
+                </v-col>
+
+                <v-col
+                class="d-flex justify-start align-center" 
+                lg="3">
+                    <span>Name</span>
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center">
+                    <span>Author</span>
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center">
+                    <span>Pages</span>
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center">
+                    <span>Date</span>
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center">
+                    <span>Status</span>
+                </v-col>
+
+            </v-row>
+
+        </v-card>
+
+         <!-- Edit Mode Start -->
+
+         <v-card 
+        v-if="isEditMode"
+        class="my-4 px-2 py-3 text-body-2 text-primary">
+
+            <v-row class="d-flex justify-space-between px-2">
+
+                <v-col class="d-flex justify-start align-center" lg="4">
+
+                    <v-btn 
+                    @click="selectAll"
+                    class="mx-2"
+                    prepend-icon="fa-solid fa-circle-check" 
+                    variant="outlined"
+                    size="small"
+                    color="#8BC34A">
+                        Select all
+                    </v-btn>
+
+                </v-col>
+
+                <v-col class="d-flex justify-end align-center" lg="8">
+
+                    <v-btn 
+                    @click="setWillRead"
+                    class="mx-2"
+                    prepend-icon="fa-solid fa-dumbbell" 
+                    variant="outlined"
+                    size="small"
+                    color="warning">
+                        Set will read
+                    </v-btn>
+
+                    <v-btn 
+                    @click="setReaded"
+                    prepend-icon="fa-solid fa-check" 
+                    variant="outlined"
+                    size="small"
+                    color="success">
+                        Set readed
+                    </v-btn>
+
+                    <v-btn 
+                    @click="multipleDelete"
+                    class="mx-2"
+                    prepend-icon="fa-solid fa-trash" 
+                    variant="outlined"
+                    size="small"
+                    color="red-darken-3">
+                        Delete
+                    </v-btn>
+
+                    <v-btn 
+                    @click="cancelEditMode" 
+                    prepend-icon="fa-solid fa-xmark"
+                    variant="outlined"
+                    size="small"
+                    color="error">
+                    Cancel
+                    </v-btn>
+
+                </v-col>
+
+            </v-row>
+
+        </v-card>
+
+        <!-- Edit Mode End -->
+
+        <v-card 
+        v-for="(item, index) of $store.state.books.booksList" :key="index"
+        :class="isSelectAll || item.isSelected ? 'selectedCard' : ''"
+        id="card-book" 
+        class="mt-5 py-5 px-3 text-body-1 text-light-green cursor-pointer">
+
+            <v-row class="d-flex justify-space-between">
+
+                <v-spacer v-if="!isEditMode" />
+
+                <v-col 
+                v-if="isEditMode" 
+                @click="selectCard(item)"
+                class="d-flex justify-start align-center"
+                lg="1">
+                    
+                    <v-icon
+                    class="cursor-pointer"
+                    :icon="isSelectAll || item.isSelected ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'" 
+                    :color="isSelectAll || item.isSelected ? '#8BC34A' : 'blue-grey-darken-3' "/>
+
+                </v-col>
+
+                <v-col 
+                @click="handleCard(item, index)" 
+                class="d-flex justify-start align-center" 
+                lg="3">
+
+                    <v-tooltip 
+                    activator="parent" 
+                    location="top">
+                    Edit/Delete
+                    </v-tooltip>
+
+                    <span>{{ item.name }}</span>
+
+                </v-col>
+
+                <v-col 
+                @click="handleCard(item, index)" 
+                class="d-flex justify-start align-center"
+                lg="2">
+
+                    <v-tooltip 
+                    activator="parent" 
+                    location="top">
+                    Edit/Delete
+                    </v-tooltip>
+
+                    <span>{{ item.author }}</span>
+
+                </v-col>
+
+                <v-col 
+                @click="handleCard(item, index)" 
+                class="d-flex justify-start align-center"
+                lg="2">
+
+                    <v-tooltip 
+                    activator="parent" 
+                    location="top">
+                    Edit/Delete
+                    </v-tooltip>
+
+                    <span>{{ item.pages }}</span>
+
+                </v-col>
+
+                <v-col 
+                class="d-flex justify-start align-center"
+                lg="2">
+                    <span>{{ formattedDate }}</span>
+                </v-col>
+
+                <v-col 
+                class="d-flex justify-start align-center"
+                lg="2">
+
+                    <v-chip 
+                    @click="toggleItemStatus(index)" 
+                    :class="item.status == 'will read' ? 'willRead' : 'readed'"
+                    :prepend-icon="item.status == 'will read' ? 'fa-solid fa-dumbbell' : 'fa-solid fa-check'"
+                    :color="item.status == 'will read' ? 'warning' : 'success'" variant="outlined"
+                    class="cursor-pointer"
+                    size="small">
+
+                        <v-tooltip 
+                        activator="parent" 
+                        location="top">
+                        Change Status
+                        </v-tooltip>
+
+                        {{ item.status }}
+
+                    </v-chip>
+
+                </v-col>
+
+            </v-row>
+
+        </v-card>
+
+        <v-row>
+
+            <v-col class="my-5 d-flex justify-center">
+
+                <v-btn 
+                @click="addBook" 
+                class="add-btn" 
+                size="x-large" 
+                color="light-green" 
+                variant="outlined">
+                Add Book
+                </v-btn>
+
+            </v-col>
+            
+        </v-row>
+
+    </v-container>
+
+    <!-- Notifications -->
+
+    <v-snackbar 
+    v-model="snackbarAdded" 
+    timeout="2000" 
+    color="green-darken-3">
+
+        <p class="message text-center">You added a book!</p>
+
+    </v-snackbar>
+
+    <v-snackbar 
+    v-model="snackbarUpdated" 
+    timeout="2000" 
+    color="indigo-darken-3">
+
+        <p class="message text-center">You updated a book!</p>
+
+    </v-snackbar>
+
+    <v-snackbar 
+    v-model="snackbarDeleted" 
+    timeout="2000" 
+    color="red-accent-3">
+
+        <p class="message text-center">You deleted a book!</p>
+
+    </v-snackbar>
+
+    <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
+
+        <p class="message text-center">You deleted all your books!</p>
+
+    </v-snackbar>
+
+</template>
+
+<script>
+export default {
+    name: 'BooksView',
+    data() {
+        return {
+            bookName: '',
+            bookAuthor: '',
+            bookPages: '',
+            bookStatus: 'will read',
+            intervalId: null,
+            currentDate: new Date(),
+            isAddingBook: false,
+            isEditBook: false,
+            selectedItem: {},
+            itemIndex: '',
+            snackbarAdded: false,
+            snackbarUpdated: false,
+            snackbarDeleted: false,
+            snackbarAllDeleted:false,
+            isEditMode:false,
+            isSelectAll:false,
+            nameRules: [
+                v => !!v || 'Book name is required',
+                v => (v && v.length > 1) || 'Book name must be longer than 1 characters',
+            ],
+            pageRules: [
+                v => !!v || 'Number of page is required!',
+                v => (v > 25 && v < 2500) || 'Number of pages must be between 25 and 2500'
+            ]
+        }
+    },
+    methods: {
+        async createBook() {
+            let { valid } = await this.$refs.bookForm.validate();
+
+            if (valid) {
+                this.$store.dispatch('addBook', {
+                    name: this.bookName,
+                    author: this.bookAuthor,
+                    pages: this.bookPages,
+                    status: this.bookStatus,
+                })
+
+                this.$refs.bookForm.reset();
+                this.isAddingBook = false;
+                this.snackbarAdded = true;
+            }
+        },
+
+        toggleItemStatus(index) {
+            this.$store.dispatch('switchBookStatus', index)
+        },
+
+        addBook() {
+            this.isAddingBook = true;
+            this.isEditBook = false;
+            this.bookName = '';
+            this.bookAuthor = '';
+            this.bookPages = '';
+            this.bookStatus = 'will read';
+        },
+
+        handleCard(item, index) {
+            this.isAddingBook = true;
+            this.isEditBook = true;
+            this.bookName = item.name;
+            this.bookAuthor = item.author;
+            this.bookPages = item.pages;
+            this.bookStatus = item.status;
+
+            this.selectedItem = {
+                changedItemName: item.name,
+                changedItemAuthor: item.author,
+                changedItemPages: item.pages,
+                changedItemStatus: item.status,
+                changedItemIndex: index,
+            };
+
+            // for delete
+            this.itemIndex = index;
+        },
+
+        async editBook(item) {
+            let { valid } = await this.$refs.bookForm.validate();
+            if (valid) {
+                this.selectedItem.changedItemName = this.bookName;
+                this.selectedItem.changedItemAuthor = this.bookAuthor;
+                this.selectedItem.changedItemPages = this.bookPages;
+                this.selectedItem.changedItemStatus = this.bookStatus;
+                this.$store.dispatch('switchBookInfo', item);
+
+                this.isAddingBook = false;
+                this.isEditBook = false;
+                this.snackbarUpdated = true;
+            }
+        },
+        deleteItem(itemIndex) {
+            this.$store.dispatch('removeBook', itemIndex);
+            this.snackbarDeleted = true;
+            this.isAddingBook = false;
+            this.isEditBook = false;
+        },
+        cancelEditMode(){
+            this.isEditMode = false;
+            this.isSelectAll = false;  
+        },
+        selectCard(item){
+            
+            if(item.isSelected){
+                item.isSelected = false;
+            } else {
+                item.isSelected = true;
+            }
+        },
+
+        selectAll(){
+            this.isSelectAll = !this.isSelectAll;
+            this.$store.dispatch('selectAllBooks');
+        },
+
+        multipleDelete(){
+            if(this.isSelectAll){
+                this.$store.dispatch('removeAllBook');
+                this.snackbarAllDeleted = true;
+            }else{
+                this.$store.dispatch('multipleRemoveBook');
+            }
+        },
+
+        setWillRead(){
+            if(this.isSelectAll){
+                this.$store.dispatch('setAllWillReadBook');
+            }else{
+                this.$store.dispatch('setWillReadBook');
+            }
+        },
+        setReaded(){
+            if(this.isSelectAll){
+                this.$store.dispatch('setAllReadedBook');
+            }else{
+                this.$store.dispatch('setReadedBook');
+            }
+        }
+    },
+    mounted() {
+        this.intervalId = setInterval(() => {
+            this.currentDate = new Date();
+        }, 1000);
+    },
+    computed: {
+        formattedDate() {
+            const day = String(this.currentDate.getDate()).padStart(2, '0');
+            const month = String(this.currentDate.getMonth() + 1).padStart(2, '0');
+            const year = this.currentDate.getFullYear();
+            return `${day}.${month}.${year}`;
+        }
+    },
+}
+</script>
+
+<style scoped>
+/* #8BC34A */
+
+#card-book {
+    transition: all .2s ease;
+}
+
+#card-book:hover {
+    box-shadow: 0 0 2rem #8BC34A;
+}
+
+span.willRead:hover {
+    box-shadow: 0 0 1rem #D87B06;
+    border: none;
+}
+
+span.readed:hover {
+    box-shadow: 0 0 1rem #449547;
+    border: none;
+}
+
+.form-container {
+    border: none;
+    box-shadow: 0 0 2rem #8BC34A;
+    background: #1E293B;
+}
+
+.message {
+    letter-spacing: 3px;
+    font-size: .9rem;
+}
+
+.selectedCard{
+    border-left: 1px solid #8BC34A;
+}
+</style>

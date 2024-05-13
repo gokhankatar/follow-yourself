@@ -1,0 +1,407 @@
+<template>
+    <h1 class="text-h5 text-primary">My Projects</h1>
+
+    <!-- Form -->
+
+    <v-dialog v-model="isAddingProject" transition="dialog-bottom-transition" max-width="400">
+
+        <div class="form-container pa-5">
+
+            <v-form ref="projectForm" @submit.prevent="createProject">
+
+                <v-text-field v-model="projectName" :rules="titleRules" class="text-white" color="primary"
+                    label="Project Title" variant="outlined" />
+
+                <v-autocomplete v-model="projectStatus" class="mt-2 text-white"
+                    :rules="[v => !!v || 'state is required!']" :items="['ongoing', 'finished',]" chips color="primary"
+                    item-color="primary" label="Project Status" variant="outlined" required />
+
+                <v-btn v-if="!isEditProject" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
+                    type="submit" block>Create</v-btn>
+
+                <v-btn v-if="isEditProject" @click="editProject(selectedItem)" class="mt-3 pa-2" color="primary"
+                    size="medium" variant="outlined" block>Save</v-btn>
+
+                <v-btn v-if="isEditProject" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
+                    variant="outlined" block>Delete</v-btn>
+
+                <v-btn @click="isAddingProject = false" class="mt-3 pa-2" color="warning" size="medium"
+                    variant="outlined" block>Cancel</v-btn>
+
+            </v-form>
+
+        </div>
+
+    </v-dialog>
+
+    <!-- If list is empty -->
+
+    <v-container v-if="$store.state.projects.projectsList.length == 0"
+        class="d-flex flex-column justify-center align-center">
+
+        <h3 class="text-uppercase header-3">
+            You haven't added a project yet. Add now and start tracking your progress!
+        </h3>
+
+        <v-btn @click="isAddingProject = true" class="mt-5" variant="outlined" color="primary" size="x-large">
+            Create first project
+        </v-btn>
+
+    </v-container>
+
+    <!-- Lists -->
+
+    <v-container class="my-5" v-if="$store.state.projects.projectsList.length > 0">
+
+        <v-card v-if="!isEditMode" class="text-caption text-grey">
+
+            <v-row class="px-2 py-1 d-flex justify-space-between">
+
+                <v-col class="d-flex justify-start align-center" lg="1">
+                    <v-icon @click="isEditMode = true" class="cursor-pointer" icon="fa-solid fa-pen-to-square"
+                        color="primary" />
+
+                    <v-tooltip activator="parent" location="left">
+                        Edit
+                    </v-tooltip>
+
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center" lg="7">
+                    <span>Title</span>
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center" lg="2">
+                    <span>Date</span>
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center" lg="2">
+                    <span>Status</span>
+                </v-col>
+
+            </v-row>
+
+        </v-card>
+
+        <!-- Edit Mode Start -->
+
+        <v-card v-if="isEditMode" class="my-4 px-2 py-3 text-body-2 text-primary">
+
+            <v-row class="d-flex justify-space-between px-2">
+
+                <v-col class="d-flex justify-start align-center" lg="4">
+
+                    <v-btn @click="selectAll" class="mx-2" prepend-icon="fa-solid fa-circle-check" variant="outlined"
+                        size="small" color="primary">
+                        Select all
+                    </v-btn>
+
+                </v-col>
+
+                <v-col class="d-flex justify-end align-center" lg="8">
+
+                    <v-btn @click="setOngoing" class="mx-2" prepend-icon="fa-solid fa-dumbbell" variant="outlined"
+                        size="small" color="warning">
+                        Set ongoing
+                    </v-btn>
+
+                    <v-btn @click="setFinisihed" prepend-icon="fa-solid fa-check" variant="outlined" size="small"
+                        color="success">
+                        Set finished
+                    </v-btn>
+
+                    <v-btn @click="multipleDelete" class="mx-2" prepend-icon="fa-solid fa-trash" variant="outlined"
+                        size="small" color="red-darken-3">
+                        Delete
+                    </v-btn>
+
+                    <v-btn @click="cancelEditMode" prepend-icon="fa-solid fa-xmark" variant="outlined" size="small"
+                        color="error">
+                        Cancel
+                    </v-btn>
+
+                </v-col>
+
+            </v-row>
+
+        </v-card>
+
+        <!-- Edit Mode End -->
+
+        <v-card v-for="(item, index) of $store.state.projects.projectsList" :key="index"
+            :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-project"
+            class="mt-5 py-5 px-3 text-body-1 text-primary cursor-pointer">
+
+            <v-row class="d-flex justify-space-between">
+
+                <v-spacer v-if="!isEditMode" />
+
+                <v-col 
+                v-if="isEditMode" 
+                @click="selectCard(item)" 
+                class="d-flex justify-start align-center"
+                lg="1">
+
+                    <v-icon class="cursor-pointer"
+                        :icon="isSelectAll || item.isSelected ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'"
+                        :color="isSelectAll || item.isSelected ? 'primary' : 'blue-grey-darken-3'" />
+
+                </v-col>
+
+                <v-col @click="handleCard(item, index)" class="d-flex justify-start align-center" lg="7">
+
+                    <v-tooltip activator="parent" location="top">
+                        Edit/Delete
+                    </v-tooltip>
+
+                    <span>{{ item.name }}</span>
+
+                </v-col>
+
+                <v-col class="d-flex justify-start align-center" lg="2">
+                    <span>{{ formattedDate }}</span>
+                </v-col>
+
+                <v-col id="project-status" class="d-flex justify-start align-center" lg="2">
+
+                    <v-chip @click="toggleItemStatus(index)" :class="item.status == 'ongoing' ? 'ongoing' : 'success'"
+                        :prepend-icon="item.status == 'ongoing' ? 'fa-solid fa-dumbbell' : 'fa-solid fa-check'"
+                        :color="item.status == 'ongoing' ? 'warning' : 'success'" class="cursor-pointer" size="small"
+                        variant="outlined">
+
+                        <v-tooltip activator="parent" location="top">
+                            Change Status
+                        </v-tooltip>
+
+                        {{ item.status }}
+
+                    </v-chip>
+
+                </v-col>
+
+            </v-row>
+
+        </v-card>
+
+        <v-row>
+
+            <v-col class="my-5 d-flex justify-center">
+
+                <v-btn @click="addProject" class="add-btn" size="x-large" color="primary" variant="outlined">
+                    Add Project
+                </v-btn>
+
+            </v-col>
+
+        </v-row>
+
+    </v-container>
+
+    <!-- Notifications -->
+
+    <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
+
+        <p class="message text-center">You added a project!</p>
+
+    </v-snackbar>
+
+    <v-snackbar v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
+
+        <p class="message text-center">You updated a project!</p>
+
+    </v-snackbar>
+
+    <v-snackbar v-model="snackbarDeleted" timeout="2000" color="red-accent-3">
+
+        <p class="message text-center">You deleted a project!</p>
+
+    </v-snackbar>
+
+
+    <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
+
+        <p class="message text-center">You deleted all your projects!</p>
+
+    </v-snackbar>
+
+</template>
+
+<script>
+
+export default {
+    name: 'ProjectsView',
+    data() {
+        return {
+            projectName: '',
+            projectStatus: 'ongoing',
+            intervalId: null,
+            currentDate: new Date(),
+            isAddingProject: false,
+            isEditProject: false,
+            selectedItem: {},
+            itemIndex: '',
+            snackbarAdded: false,
+            snackbarUpdated: false,
+            snackbarDeleted: false,
+            snackbarAllDeleted: false,
+            isEditMode: false,
+            isSelectAll: false,
+            titleRules: [
+                v => !!v || 'Title is required',
+                v => (v && v.length > 2) || 'Title must be longer than 2 characters',
+            ]
+        }
+    },
+    methods: {
+        addProject() {
+            this.isAddingProject = true;
+            this.isEditProject = false;
+            this.projectName = '';
+            this.projectStatus = 'ongoing';
+        },
+
+        async createProject() {
+            let { valid } = await this.$refs.projectForm.validate();
+            if (valid) {
+                this.$store.dispatch('addProject', {
+                    name: this.projectName,
+                    status: this.projectStatus,
+                })
+
+                this.$refs.projectForm.reset();
+                this.isAddingProject = false;
+                this.snackbarAdded = true;
+            }
+        },
+
+        toggleItemStatus(index) {
+            this.$store.dispatch('switchProjectStatus', index)
+        },
+
+        handleCard(item, index) {
+            this.isAddingProject = true;
+            this.isEditProject = true;
+            this.projectName = item.name;
+            this.projectStatus = item.status;
+            this.selectedItem = {
+                changedItemName: item.name,
+                changedItemStatus: item.status,
+                changedItemIndex: index,
+            };
+
+            // for delete
+            this.itemIndex = index;
+        },
+
+        async editProject(item) {
+            let { valid } = await this.$refs.projectForm.validate();
+            if (valid) {
+
+                this.selectedItem.changedItemName = this.projectName;
+                this.selectedItem.changedItemStatus = this.projectStatus;
+                this.$store.dispatch('switchProjectInfo', item);
+
+                this.isAddingProject = false;
+                this.isEditProject = false;
+                this.snackbarUpdated = true;
+            }
+        },
+        deleteItem(itemIndex) {
+            this.$store.dispatch('removeProject', itemIndex);
+            this.snackbarDeleted = true;
+            this.isAddingProject = false;
+            this.isEditProject = false;
+        },
+        cancelEditMode() {
+            this.isEditMode = false;
+            this.isSelectAll = false;
+        },
+
+        selectCard(item) {
+
+            if (item.isSelected) {
+                item.isSelected = false;
+            } else {
+                item.isSelected = true;
+            }
+        },
+
+        selectAll() {
+            this.isSelectAll = !this.isSelectAll;
+            this.$store.dispatch('selectAllProjects');
+        },
+
+        multipleDelete() {
+            if (this.isSelectAll) {
+                this.$store.dispatch('removeAllProject');
+                this.snackbarAllDeleted = true;
+            } else {
+                this.$store.dispatch('multipleRemoveProject');
+            }
+        },
+
+        setOngoing() {
+            if (this.isSelectAll) {
+                this.$store.dispatch('setAllOngoingProject');
+            } else {
+                this.$store.dispatch('setOngoingProject');
+            }
+        },
+        setFinisihed() {
+            if (this.isSelectAll) {
+                this.$store.dispatch('setAllFinishedProject');
+            } else {
+                this.$store.dispatch('setFinishedProject');
+            }
+        }
+    },
+    computed: {
+        formattedDate() {
+            const day = String(this.currentDate.getDate()).padStart(2, '0');
+            const month = String(this.currentDate.getMonth() + 1).padStart(2, '0');
+            const year = this.currentDate.getFullYear();
+            return `${day}.${month}.${year}`;
+        }
+    },
+    mounted() {
+        this.intervalId = setInterval(() => {
+            this.currentDate = new Date();
+        }, 1000);
+    }
+}
+</script>
+
+<style scoped>
+#card-project {
+    transition: all .2s ease;
+}
+
+#card-project:hover {
+    box-shadow: 0 0 2rem #2196F3;
+}
+
+span.ongoing:hover {
+    box-shadow: 0 0 1rem #D87B06;
+    border: none;
+}
+
+span.success:hover {
+    box-shadow: 0 0 1rem #449547;
+    border: none;
+}
+
+.form-container {
+    border: none;
+    box-shadow: 0 0 2rem #2196F3;
+    background: #1E293B;
+}
+
+.message {
+    letter-spacing: 3px;
+    font-size: .9rem;
+}
+
+.selectedCard {
+    border-left: 1px solid #2196F3;
+}
+</style>
