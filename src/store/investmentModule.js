@@ -26,6 +26,7 @@ const investmentModule = {
             state.investmentsList[payload.changedItemIndex].amount = payload.changedItemAmount;
             state.investmentsList[payload.changedItemIndex].cost = payload.changedItemCost;
             state.investmentsList[payload.changedItemIndex].status = payload.changedItemStatus;
+            state.investmentsList[payload.changedItemIndex].currency = payload.changedItemCurrency;
         },
 
         deleteInvestment(state, payload) {

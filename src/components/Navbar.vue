@@ -1,4 +1,48 @@
 <template>
+
+<v-dialog
+  v-model="isAddingCustomList"
+  transition="dialog-bottom-transition"
+  max-width="400">
+
+<div class="form-container pa-5">
+
+    <v-form ref="customForm" @submit.prevent="createList">
+
+        <v-text-field v-model="movieName" :rules="nameRules" class="text-white" color="#FF5722"
+            label="Movie Name" variant="outlined" required />
+
+        <v-autocomplete v-model="movieGenre" :rules="[v => !!v || 'State is required!']"
+            :items="['Action', 'Adventure', 'Horror', 'Sci-Fi', 'Romantic', 'Dram', 'Comedy', 'Thriller', 'Detective', 'Western', 'Animation', 'History']"
+            class="text-white mt-2" color="#FF5722" chips item-color="#FF5722" label="Genre" multiple
+            variant="outlined" required />
+
+        <v-autocomplete v-model="movieStatus" :rules="[v => !!v || 'State is required!']"
+            :items="['will watch', 'watched',]" class="text-white mt-2" color="#FF5722" chips
+            item-color="#FF5722" label="Watching Status" variant="outlined" required />
+
+        <v-btn v-if="!isEditMovie" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
+            type="submit" block>
+            Create</v-btn>
+
+        <v-btn v-if="isEditMovie" @click="editMovie(selectedItem)" class="mt-3 pa-2" color="primary"
+            size="medium" variant="outlined" block>
+            Save</v-btn>
+
+        <v-btn v-if="isEditMovie" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
+            variant="outlined" block>
+            Delete</v-btn>
+
+        <v-btn @click="isAddingMovie = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
+            block>
+            Cancel</v-btn>
+
+    </v-form>
+
+</div>
+
+</v-dialog>
+
     <v-navigation-drawer 
     :rail="rail" 
     permanent 
@@ -95,6 +139,18 @@
         <v-list>
 
             <v-list-item 
+        
+            v-if="!isCustomList" 
+            title="Add List"
+            prepend-icon="fa-solid fa-plus">
+
+            <v-tooltip activator="parent" location="end">
+                        Add List
+            </v-tooltip>
+
+            </v-list-item>
+
+            <v-list-item 
             :prepend-icon="$store.state.theme == 'dark'?'fa-solid fa-moon':'fa-solid fa-sun'" 
             :title="$store.state.theme == 'dark' ? 'Dark Theme':'Light Theme'" 
             @click.stop="changeTheme"> 
@@ -141,6 +197,7 @@
         </template>
 
     </v-app-bar>
+
 </template>
 <script>
 export default {
@@ -148,7 +205,9 @@ export default {
     data() {
         return {
             drawer: true,
-            rail: true
+            rail: true,
+            isCustomList:false,
+            isAddingCustomList:false,
         }
     },
     methods: {
@@ -156,9 +215,21 @@ export default {
             this.rail = !this.rail;
             this.drawer = true;
         },
+
         changeTheme(){
             this.$store.dispatch('switchTheme','theme changed')
         },
+
+        async createList(){
+            let { valid } = await this.$refs.customForm.validate();
+            if (valid) {
+                this.$store.dispatch('addMovie', {
+                    
+                });
+                this.$refs.customForm.reset();
+                this.snackbarAdded = true;
+            }
+        }
     }
 }
 </script>

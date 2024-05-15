@@ -25,11 +25,12 @@
                   variant="outlined"
                   required />
 
-                    <!-- ! hallet -->
                 <v-autocomplete
-                  v-model="currency"
+                  v-model="investmentCurrency"
                   :rules="[v => !!v || 'Currency is required!']"
-                  :items="['dollar','euro','tl']"
+                  :items="currencies"
+                  item-value="symbol"
+                  item-title="name"
                   class="text-white mt-2"
                   color="#00ACC1"
                   chips
@@ -62,6 +63,8 @@
                   v-model="investmentStatus"
                   :rules="[v => !!v || 'State is required!']"
                   :items="['bought', 'sold',]"
+                  :item-title="value"
+                  :item-value="code"
                   class="text-white mt-2"
                   color="#00ACC1"
                   chips
@@ -247,7 +250,7 @@
                         Edit/Delete
                     </v-tooltip>
 
-                    <span>{{ item.name }} <strong>({{ item.genre }})</strong></span>
+                    <span>{{ item.name.toUpperCase() }} <strong>({{ item.genre }})</strong></span>
 
                 </v-col>
 
@@ -258,7 +261,7 @@
                     </v-tooltip>
 
                     <span>
-                        {{ item.cost }}
+                        {{ item.cost }} <strong>{{ item.currency }}</strong>
                     </span>
 
                 </v-col>
@@ -342,19 +345,25 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
     name: 'InvestmentsView',
     data() {
         return {
-            investmentName: '',
+            investmentName: null,
             investmentGenre: null,
             investmentCost: null,
             investmentAmount: null,
-            investmentStatus: 'bought',
-            currency:null,
-            currencyList: [],
+            investmentStatus: null,
+            investmentCurrency:null,
+            currencies:[
+                {name:'USD $', symbol:'$'},
+                {name:'EUR €', symbol:'€'},
+                {name:'GBP £', symbol:'£'},
+                {name:'JPY ¥', symbol:'¥'},
+                {name:'TRY ₺', symbol:'₺'},
+                {name:'BTC ₿', symbol:'₿'}
+            ],
             intervalId: null,
             currentDate: new Date(),
             isAddingInvestment: false,
@@ -383,11 +392,6 @@ export default {
     },
 
     methods: {
-        async getCurrencies() {
-            let response = await axios.get('https://restcountries.com/v3.1/all');
-            let dataList = [...response.data];
-            console.log(dataList);
-        },
         async createInvestment() {
             let { valid } = await this.$refs.investmentForm.validate();
             if (valid) {
@@ -397,6 +401,7 @@ export default {
                     cost: this.investmentCost,
                     amount: this.investmentAmount,
                     status: this.investmentStatus,
+                    currency:this.investmentCurrency,
                 });
                 this.$refs.investmentForm.reset();
                 this.isAddingInvestment = false;
@@ -415,7 +420,8 @@ export default {
             this.investmentGenre = null;
             this.investmentCost = null;
             this.investmentAmount = null;
-            this.investmentStatus = 'bought';
+            this.investmentStatus = null;
+            this.investmentCurrency = null;
         },
 
         handleInvestment(item, index) {
@@ -426,11 +432,13 @@ export default {
             this.investmentCost = item.cost;
             this.investmentAmount = item.amount;
             this.investmentStatus = item.status;
+            this.investmentCurrency = item.currency;
             this.selectedItem = {
                 changedItemName: item.name,
                 changedItemGenre: item.genre,
                 changedItemCost: item.cost,
                 changedItemAmount: item.amount,
+                changedItemCurrency: item.currency,
                 changedItemStatus: item.status,
                 changedItemIndex: index,
             };
@@ -447,6 +455,7 @@ export default {
                 this.selectedItem.changedItemGenre = this.investmentGenre;
                 this.selectedItem.changedItemCost = this.investmentCost;
                 this.selectedItem.changedItemAmount = this.investmentAmount;
+                this.selectedItem.changedItemCurrency = this.investmentCurrency;
                 this.selectedItem.changedItemStatus = this.investmentStatus;
                 this.$store.dispatch('switchInvestmentInfo', item);
 
@@ -462,10 +471,12 @@ export default {
             this.isAddingInvestment = false;
             this.isEditInvestment = false;
         },
+
         cancelEditMode() {
             this.isEditMode = false;
             this.isSelectAll = false;
         },
+
         selectCard(item) {
 
             if (item.isSelected) {
@@ -496,6 +507,7 @@ export default {
                 this.$store.dispatch('setBoughtInvestment');
             }
         },
+
         setSold() {
             if (this.isSelectAll) {
                 this.$store.dispatch('setAllSoldInvestment');
@@ -509,9 +521,8 @@ export default {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
         }, 1000);
-
-        this.getCurrencies();
     },
+
     computed: {
         formattedDate() {
             const day = String(this.currentDate.getDate()).padStart(2, '0');
