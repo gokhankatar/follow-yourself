@@ -4,7 +4,9 @@ const investmentModule = {
             investmentsList: [],
         };
     },
+
     getters: {},
+
     mutations: {
         pushInvestment(state, payload) {
             state.investmentsList.push(payload);
@@ -17,14 +19,19 @@ const investmentModule = {
                 state.investmentsList[payload].status = "bought";
             }
         },
-        //   ! bak
+    
         changeInvestmentInfo(state, payload) {
             state.investmentsList[payload.changedItemIndex].name = payload.changedItemName;
+            state.investmentsList[payload.changedItemIndex].genre = payload.changedItemGenre;
+            state.investmentsList[payload.changedItemIndex].amount = payload.changedItemAmount;
+            state.investmentsList[payload.changedItemIndex].cost = payload.changedItemCost;
+            state.investmentsList[payload.changedItemIndex].status = payload.changedItemStatus;
         },
 
         deleteInvestment(state, payload) {
             state.investmentsList.splice(payload, 1);
         },
+
         selectAllInvestment(state) {
             if (state.investmentsList.every(item => item.isSelected)) {
                 state.investmentsList.forEach(item => item.isSelected = false);
@@ -32,6 +39,7 @@ const investmentModule = {
                 state.investmentsList.forEach(item => item.isSelected = false);
             }
         },
+
         multipleDeleteInvestment(state) {
             state.investmentsList.map(item => {
                 if (item.isSelected) {
@@ -39,9 +47,11 @@ const investmentModule = {
                 }
             })
         },
+
         deleteAllInvestment(state) {
             state.investmentsList = [];
         },
+
         multipleBoughtInvestment(state) {
             state.investmentsList.map(item => {
                 if (item.isSelected) {
@@ -49,11 +59,13 @@ const investmentModule = {
                 }
             })
         },
+
         allBoughtInvestment(state) {
             state.investmentsList.forEach(item => {
                 item.status = 'bought'
             });
         },
+
         multipleSoldInvestment(state) {
             state.investmentsList.map(item => {
                 if (item.isSelected) {
@@ -61,43 +73,55 @@ const investmentModule = {
                 }
             })
         },
+
         allSoldInvestment(state) {
             state.investmentsList.forEach(item => {
                 item.status = 'sold'
             });
         },
     },
+
     actions: {
         addInvestment(state, payload) {
             state.commit("pushInvestment", payload);
         },
+
         switchInvestmentStatus(state, payload) {
             state.commit("changeInvestmentStatus", payload);
         },
+
         switchInvestmentInfo(state, payload) {
             state.commit("changeInvestmentInfo", payload);
         },
+
         removeInvestment(state, payload) {
             state.commit("deleteInvestment", payload);
         },
+
         selectAllInvestments(state, payload) {
             state.commit('selectAllInvestment', payload)
         },
+
         multipleRemoveInvestment(state, payload) {
             state.commit("multipleDeleteInvestment", payload);
         },
+
         removeAllInvestment(state, payload) {
             state.commit("deleteAllInvestment", payload);
         },
+
         setBoughtInvestment(state, payload) {
             state.commit("multipleBoughtInvestment", payload);
         },
+
         setAllBoughtInvestment(state, payload) {
             state.commit("allBoughtInvestment", payload);
         },
+
         setSoldInvestment(state, payload) {
             state.commit("multipleSoldInvestment", payload);
         },
+        
         setAllSoldInvestment(state, payload) {
             state.commit("allSoldInvestment", payload);
         },

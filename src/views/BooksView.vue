@@ -11,34 +11,84 @@
         <div class="form-container pa-5">
 
             <v-form ref="bookForm" @submit.prevent="createBook">
-                <v-text-field v-model="bookName" :rules="nameRules" class="text-white" color="#8BC34A" label="Book Name"
-                    variant="outlined" required />
+                <v-text-field
+                  v-model="bookName"
+                  :rules="nameRules"
+                  class="text-white"
+                  color="#8BC34A"
+                  label="Book Name"
+                  variant="outlined"
+                  required/>
 
-                <v-text-field v-model="bookAuthor" :rules="nameRules" class="text-white mt-2" color="#8BC34A"
-                    label="Author" variant="outlined" required />
+                  <v-text-field
+                  v-model="bookAuthor"
+                  :rules="nameRules"
+                  class="text-white mt-2"
+                  color="#8BC34A"
+                  label="Author"
+                  variant="outlined"
+                  required />
 
-                <v-text-field v-model="bookPages" :rules="pageRules" type="number" class="text-white mt-2"
-                    color="#8BC34A" label="Pages" variant="outlined" required />
+                  <v-text-field
+                  v-model="bookPages"
+                  :rules="pageRules"
+                  type="number"
+                  class="text-white mt-2"
+                  color="#8BC34A"
+                  label="Pages"
+                  variant="outlined"
+                  required />
 
-                <v-autocomplete v-model="bookStatus" class="text-white mt-2" color="#8BC34A" chips item-color="#8BC34A"
-                    :rules="[v => !!v || 'state is required!']" label="Reading Status" :items="['will read', 'readed',]"
-                    variant="outlined" required />
+                  <v-autocomplete
+                  v-model="bookStatus"
+                  class="text-white mt-2"
+                  color="#8BC34A"
+                  chips
+                  item-color="#8BC34A"
+                  :rules="[v => !!v || 'state is required!']"
+                  label="Reading Status"
+                  :items="['will read', 'readed',]"
+                  variant="outlined"
+                  required />
+                  
+                  <v-btn
+                  v-if="!isEditBook"
+                  class="mt-3 pa-2"
+                  color="success"
+                  size="medium"
+                  variant="outlined"
+                  type="submit"
+                  block>
+                  Create</v-btn>
 
-                <v-btn v-if="!isEditBook" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
-                    type="submit" block>
-                    Create</v-btn>
+                  <v-btn
+                  v-if="isEditBook"
+                  @click="editBook(selectedItem)"
+                  class="mt-3 pa-2"
+                  color="primary"
+                  size="medium"
+                  variant="outlined"
+                  block>
+                  Save</v-btn>
 
-                <v-btn v-if="isEditBook" @click="editBook(selectedItem)" class="mt-3 pa-2" color="primary" size="medium"
-                    variant="outlined" block>
-                    Save</v-btn>
-
-                <v-btn v-if="isEditBook" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
-                    variant="outlined" block>
-                    Delete</v-btn>
-
-                <v-btn @click="isAddingBook = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
-                    block>
-                    Cancel</v-btn>
+                  <v-btn
+                  v-if="isEditBook"
+                  @click="deleteItem(itemIndex)"
+                  class="mt-3 pa-2"
+                  color="error"
+                  size="medium"
+                  variant="outlined"
+                  block>
+                  Delete</v-btn>
+                  
+                  <v-btn
+                  @click="isAddingBook = false"
+                  class="mt-3 pa-2"
+                  color="warning"
+                  size="medium"
+                  variant="outlined"
+                  block>
+                  Cancel</v-btn>
 
             </v-form>
 

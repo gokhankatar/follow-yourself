@@ -29,7 +29,7 @@
                 <v-autocomplete
                   v-model="currency"
                   :rules="[v => !!v || 'Currency is required!']"
-                  :items="currencyList"
+                  :items="['dollar','euro','tl']"
                   class="text-white mt-2"
                   color="#00ACC1"
                   chips
@@ -38,15 +38,37 @@
                   variant="outlined"
                   required />
 
-                <v-text-field v-model="investmentCost" :rules="costRules" type="number" class="text-white mt-2"
-                    color="#00ACC1" label="Investment Cost" variant="outlined" required />
+                <v-text-field
+                  v-model="investmentCost"
+                  :rules="costRules"
+                  type="number"
+                  class="text-white mt-2"
+                  color="#00ACC1"
+                  label="Investment Cost"
+                  variant="outlined"
+                  required />
 
-                <v-text-field v-model="investmentAmount" :rules="amountRules" type="number" class="text-white mt-2"
-                    color="#00ACC1" label="Investment Amount" variant="outlined" required />
+                <v-text-field
+                  v-model="investmentAmount"
+                  :rules="amountRules"
+                  type="number"
+                  class="text-white mt-2"
+                  color="#00ACC1"
+                  label="Investment Amount"
+                  variant="outlined"
+                  required />
 
-                <v-autocomplete v-model="investmentStatus" :rules="[v => !!v || 'State is required!']"
-                    :items="['bought', 'sold',]" class="text-white mt-2" color="#00ACC1" chips item-color="#00ACC1"
-                    label="Trade Status" variant="outlined" required />
+                <v-autocomplete
+                  v-model="investmentStatus"
+                  :rules="[v => !!v || 'State is required!']"
+                  :items="['bought', 'sold',]"
+                  class="text-white mt-2"
+                  color="#00ACC1"
+                  chips
+                  item-color="#00ACC1"
+                  label="Trade Status"
+                  variant="outlined"
+                  required />
 
                 <v-btn v-if="!isEditInvestment" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
                     type="submit" block>
@@ -109,11 +131,11 @@
 
 
                 <v-col class="d-flex justify-start align-center" lg="3">
-                    <span>Name</span>
+                    <span>Name (Genre)</span>
                 </v-col>
 
                 <v-col class="d-flex justify-start align-center">
-                    <span>Genre</span>
+                    <span>Cost</span>
                 </v-col>
 
                 <v-col class="d-flex justify-start align-center">
@@ -149,26 +171,44 @@
 
                 <v-col class="d-flex justify-end align-center" lg="8">
 
-                    <v-btn @click="setBought" class="mx-2" prepend-icon="fa-solid fa-hand-holding-dollar"
-                        variant="outlined" size="small" color="success">
-                        Set bought
+                    <v-btn
+                      @click="setSold"
+                      prepend-icon="fa-solid fa-hand-holding-hand"
+                      variant="outlined"
+                      size="small"
+                      color="red-lighten-1">
+                      Set sold
                     </v-btn>
 
-                    <!-- ! renk hatası olabilir -->
-                    <v-btn @click="setSold" prepend-icon="fa-solid fa-hand-holding-hand" variant="outlined" size="small"
-                        color="warning">
-                        Set sold
-                    </v-btn>
+                    <v-btn
+                      @click="setBought"
+                      class="mx-2"
+                      prepend-icon="fa-solid fa-hand-holding-dollar"
+                      variant="outlined"
+                      size="small"
+                      color="success">
+                      Set
+                      bought
+                      </v-btn>
 
-                    <v-btn @click="multipleDelete" class="mx-2" prepend-icon="fa-solid fa-trash" variant="outlined"
-                        size="small" color="red-darken-3">
-                        Delete
-                    </v-btn>
+                    <v-btn
+                      @click="multipleDelete"
+                      class="mx-2"
+                      prepend-icon="fa-solid fa-trash"
+                      variant="outlined"
+                      size="small"
+                      color="red-darken-3">
+                      Delete
+                      </v-btn>
 
-                    <v-btn @click="cancelEditMode" prepend-icon="fa-solid fa-xmark" variant="outlined" size="small"
-                        color="error">
-                        Cancel
-                    </v-btn>
+                    <v-btn
+                      @click="cancelEditMode"
+                      prepend-icon="fa-solid fa-xmark"
+                      variant="outlined"
+                      size="small"
+                      color="error">
+                      Cancel
+                      </v-btn>
 
                 </v-col>
 
@@ -178,15 +218,22 @@
 
         <!-- Edit Mode End -->
 
-        <v-card v-for="(item, index) of $store.state.investments.investmentsList" :key="index"
-            :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-investment"
-            class="mt-5 py-5 px-3 text-body-1 text-deep-orange cursor-pointer">
+        <v-card
+          v-for="(item, index) of $store.state.investments.investmentsList"
+          :key="index"
+          :class="isSelectAll || item.isSelected ? 'selectedCard' : ''"
+          id="card-investment"
+          class="mt-5 py-5 px-3 text-body-1 text-cyan-darken-1 cursor-pointer">
 
             <v-row class="d-flex justify-space-between">
 
                 <v-spacer v-if="!isEditMode" />
 
-                <v-col v-if="isEditMode" @click="selectCard(item)" class="d-flex justify-start align-center" lg="1">
+                <v-col
+                  v-if="isEditMode"
+                  @click="selectCard(item)"
+                  class="d-flex justify-start align-center"
+                  lg="1">
 
                     <v-icon class="cursor-pointer"
                         :icon="isSelectAll || item.isSelected ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'"
@@ -200,7 +247,7 @@
                         Edit/Delete
                     </v-tooltip>
 
-                    <span>{{ item.name }}</span>
+                    <span>{{ item.name }} <strong>({{ item.genre }})</strong></span>
 
                 </v-col>
 
@@ -211,7 +258,7 @@
                     </v-tooltip>
 
                     <span>
-                        {{ item.genre }}
+                        {{ item.cost }}
                     </span>
 
                 </v-col>
@@ -233,9 +280,9 @@
                 </v-col>
 
                 <v-col class="d-flex justify-start align-center" lg="2">
-                    <v-chip @click="toggleItemStatus(index)" :class="item.status == 'sold' ? 'bought' : 'sold'"
+                    <v-chip @click="toggleItemStatus(index)" :class="item.status == 'sold' ? 'sold' : 'bought'"
                         :prepend-icon="item.status == 'sold' ? 'fa-solid fa-hand-holding-hand' : 'fa-solid fa-hand-holding-dollar'"
-                        :color="item.status == 'sold' ? 'warning' : 'success'" class="cursor-pointer" size="small"
+                        :color="item.status == 'sold' ? 'red-lighten-1' : 'success'" class="cursor-pointer" size="small"
                         variant="outlined">
 
                         <v-tooltip activator="parent" location="top">
@@ -339,19 +386,7 @@ export default {
         async getCurrencies() {
             let response = await axios.get('https://restcountries.com/v3.1/all');
             let dataList = [...response.data];
-            dataList.forEach(data => {
-                let money = data.currencies;
-                for (let currencyCode in money) {
-                if (Object.prototype.hasOwnProperty.call(money, currencyCode)) {
-                    let currencyInfo = money[currencyCode];
-                    this.currencyList.push({
-                        code: currencyCode,
-                        symbol: currencyInfo.symbol
-                    });
-                }
-            }
-                
-            });
+            console.log(dataList);
         },
         async createInvestment() {
             let { valid } = await this.$refs.investmentForm.validate();
@@ -359,6 +394,7 @@ export default {
                 this.$store.dispatch('addInvestment', {
                     name: this.investmentName,
                     genre: this.investmentGenre,
+                    cost: this.investmentCost,
                     amount: this.investmentAmount,
                     status: this.investmentStatus,
                 });
@@ -377,6 +413,7 @@ export default {
             this.isEditInvestment = false;
             this.investmentName = '';
             this.investmentGenre = null;
+            this.investmentCost = null;
             this.investmentAmount = null;
             this.investmentStatus = 'bought';
         },
@@ -386,11 +423,13 @@ export default {
             this.isEditInvestment = true;
             this.investmentName = item.name;
             this.investmentGenre = item.genre;
+            this.investmentCost = item.cost;
             this.investmentAmount = item.amount;
             this.investmentStatus = item.status;
             this.selectedItem = {
                 changedItemName: item.name,
                 changedItemGenre: item.genre,
+                changedItemCost: item.cost,
                 changedItemAmount: item.amount,
                 changedItemStatus: item.status,
                 changedItemIndex: index,
@@ -406,6 +445,7 @@ export default {
             if (valid) {
                 this.selectedItem.changedItemName = this.investmentName;
                 this.selectedItem.changedItemGenre = this.investmentGenre;
+                this.selectedItem.changedItemCost = this.investmentCost;
                 this.selectedItem.changedItemAmount = this.investmentAmount;
                 this.selectedItem.changedItemStatus = this.investmentStatus;
                 this.$store.dispatch('switchInvestmentInfo', item);
@@ -495,12 +535,12 @@ export default {
 }
 
 span.sold:hover {
-    box-shadow: 0 0 1rem #449547  ;
+    box-shadow: 0 0 1rem #EF5350  ;
     border: none;
 }
 
 span.bought:hover {
-    box-shadow: 0 0 1rem #FB8C00;
+    box-shadow: 0 0 1rem #3C7C3F;
     border: none;
 }
 

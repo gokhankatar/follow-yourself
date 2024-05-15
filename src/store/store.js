@@ -16,7 +16,9 @@ const store = createStore({
       theme: "light",
     };
   },
+
   getters: {},
+
   mutations: {
     switchMode(state, payload) {
       if (state.theme === "light") {
@@ -27,12 +29,15 @@ const store = createStore({
       console.log(payload);
     },
   },
+
   actions: {
     switchTheme(state, payload) {
       state.commit("switchMode", payload);
     },
   },
+
   plugins: [vueLocal.plugin],
+  
   modules: {
     projects: projectModule,
     books: bookModule,
