@@ -345,6 +345,9 @@
 </template>
 
 <script>
+import soundOfCreated from '../assets/sounds/addCard.mp3';
+import soundOfBought from '../assets/sounds/bought.mp3';
+import soundOfDeleted from '../assets/sounds/trashed.mp3';
 
 export default {
     name: 'InvestmentsView',
@@ -406,11 +409,20 @@ export default {
                 this.$refs.investmentForm.reset();
                 this.isAddingInvestment = false;
                 this.snackbarAdded = true;
+
+                 // created sound effect
+                 let createdSound = new Audio(soundOfCreated);
+                 createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
             this.$store.dispatch('switchInvestmentStatus', index);
+            
+            if(this.$store.state.investments.investmentsList[index].status == 'bought'){
+                let boughtSound = new Audio(soundOfBought);
+                boughtSound.play();
+            }
         },
 
         addInvestment() {
@@ -467,6 +479,10 @@ export default {
 
         deleteItem(itemIndex) {
             this.$store.dispatch('removeInvestment', itemIndex);
+
+            let deletedSound = new Audio(soundOfDeleted);
+            deletedSound.play();
+
             this.snackbarDeleted = true;
             this.isAddingInvestment = false;
             this.isEditInvestment = false;

@@ -399,14 +399,18 @@
 </template>
 
 <script>
+import soundOfCreated from '../assets/sounds/addCard.mp3';
+import soundOfReaded from '../assets/sounds/readed.mp3';
+import soundOfDeleted from '../assets/sounds/trashed.mp3';
+
 export default {
     name: 'BooksView',
     data() {
         return {
-            bookName: '',
-            bookAuthor: '',
-            bookPages: '',
-            bookStatus: 'will read',
+            bookName: null,
+            bookAuthor: null,
+            bookPages: null,
+            bookStatus: null,
             intervalId: null,
             currentDate: new Date(),
             isAddingBook: false,
@@ -444,20 +448,30 @@ export default {
                 this.$refs.bookForm.reset();
                 this.isAddingBook = false;
                 this.snackbarAdded = true;
+
+                
+                 // created sound effect
+                 let createdSound = new Audio(soundOfCreated);
+                 createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
-            this.$store.dispatch('switchBookStatus', index)
+            this.$store.dispatch('switchBookStatus', index);
+
+            if(this.$store.state.books.booksList[index].status == 'readed'){
+                let readedSound = new Audio(soundOfReaded);
+                readedSound.play();
+            }
         },
 
         addBook() {
             this.isAddingBook = true;
             this.isEditBook = false;
-            this.bookName = '';
-            this.bookAuthor = '';
-            this.bookPages = '';
-            this.bookStatus = 'will read';
+            this.bookName = null;
+            this.bookAuthor = null;
+            this.bookPages = null;
+            this.bookStatus = null;
         },
 
         handleCard(item, index) {
@@ -496,6 +510,10 @@ export default {
         },
         deleteItem(itemIndex) {
             this.$store.dispatch('removeBook', itemIndex);
+
+            let deletedSound = new Audio(soundOfDeleted);
+            deletedSound.play();
+
             this.snackbarDeleted = true;
             this.isAddingBook = false;
             this.isEditBook = false;

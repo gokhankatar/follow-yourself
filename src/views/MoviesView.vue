@@ -249,13 +249,17 @@
 </template>
 
 <script>
+import soundOfCreated from '../assets/sounds/addCard.mp3';
+import soundOfWatched from '../assets/sounds/watched.mp3';
+import soundOfDeleted from '../assets/sounds/trashed.mp3';
+
 export default {
     name: 'MoviesView',
     data() {
         return {
-            movieName: '',
+            movieName: null,
             movieGenre: null,
-            movieStatus: 'will watch',
+            movieStatus: null,
             intervalId: null,
             currentDate: new Date(),
             isAddingMovie: false,
@@ -287,19 +291,28 @@ export default {
                 this.$refs.movieForm.reset();
                 this.isAddingMovie = false;
                 this.snackbarAdded = true;
+
+                 // created sound effect
+                 let createdSound = new Audio(soundOfCreated);
+                 createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
             this.$store.dispatch('switchMovieStatus', index);
+
+            if(this.$store.state.movies.moviesList[index].status == 'watched'){
+                let watchedSound = new Audio(soundOfWatched);
+                watchedSound.play();
+            }
         },
 
         addMovie() {
             this.isAddingMovie = true;
             this.isEditMovie = false;
-            this.movieName = '';
+            this.movieName = null;
             this.movieGenre = null;
-            this.movieStatus = 'will watch';
+            this.movieStatus = null;
         },
 
         handleMovie(item, index) {
@@ -336,6 +349,10 @@ export default {
 
         deleteItem(itemIndex) {
             this.$store.dispatch('removeMovie', itemIndex);
+
+            let deletedSound = new Audio(soundOfDeleted);
+            deletedSound.play();
+
             this.snackbarDeleted = true;
             this.isAddingMovie = false;
             this.isEditMovie = false;

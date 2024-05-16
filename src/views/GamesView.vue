@@ -248,13 +248,17 @@
 </template>
 
 <script>
+import soundOfCreated from '../assets/sounds/addCard.mp3';
+import soundOfPlayed from '../assets/sounds/played.mp3';
+import soundOfDeleted from '../assets/sounds/trashed.mp3';
+
 export default {
     name: 'GamesView',
     data() {
         return {
-            gameName: '',
+            gameName: null,
             gamePlatform: null,
-            playStatus: 'playing',
+            playStatus: null,
             intervalId: null,
             currentDate: new Date(),
             isAddingGame: false,
@@ -286,19 +290,28 @@ export default {
                 this.$refs.gameForm.reset();
                 this.isAddingGame = false;
                 this.snackbarAdded = true;
+
+                  // created sound effect
+                  let createdSound = new Audio(soundOfCreated);
+                 createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
             this.$store.dispatch('switchGameStatus', index);
+
+            if(this.$store.state.games.gamesList[index].status == 'played'){
+                let playedSound = new Audio(soundOfPlayed);
+                playedSound.play();
+            }
         },
 
         addGame() {
             this.isAddingGame = true;
             this.isEditGame = false;
-            this.gameName = '';
+            this.gameName = null;
             this.gamePlatform = null;
-            this.playStatus = 'playing';
+            this.playStatus = null;
         },
 
         handleGame(item, index) {
@@ -334,6 +347,10 @@ export default {
 
         deleteItem(itemIndex) {
             this.$store.dispatch('removeGame', itemIndex);
+
+            let deletedSound = new Audio(soundOfDeleted);
+            deletedSound.play();
+
             this.snackbarDeleted = true;
             this.isAddingGame = false;
             this.isEditGame = false;

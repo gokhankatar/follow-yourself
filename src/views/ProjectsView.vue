@@ -227,13 +227,16 @@
 </template>
 
 <script>
+import soundOfCreated from '../assets/sounds/addCard.mp3';
+import soundOfSuccess from '../assets/sounds/success.mp3';
+import soundOfDeleted from '../assets/sounds/trashed.mp3';
 
 export default {
     name: 'ProjectsView',
     data() {
         return {
-            projectName: '',
-            projectStatus: 'ongoing',
+            projectName: null,
+            projectStatus: null,
             intervalId: null,
             currentDate: new Date(),
             isAddingProject: false,
@@ -256,8 +259,8 @@ export default {
         addProject() {
             this.isAddingProject = true;
             this.isEditProject = false;
-            this.projectName = '';
-            this.projectStatus = 'ongoing';
+            this.projectName = null;
+            this.projectStatus = null;
         },
 
         async createProject() {
@@ -271,11 +274,19 @@ export default {
                 this.$refs.projectForm.reset();
                 this.isAddingProject = false;
                 this.snackbarAdded = true;
+
+                // created sound effect
+                let createdSound = new Audio(soundOfCreated);
+                createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
-            this.$store.dispatch('switchProjectStatus', index)
+            this.$store.dispatch('switchProjectStatus', index);
+            if(this.$store.state.projects.projectsList[index].status == 'finished'){
+                let successSound = new Audio(soundOfSuccess);
+                successSound.play();
+            }
         },
 
         handleCard(item, index) {
@@ -308,6 +319,10 @@ export default {
         },
         deleteItem(itemIndex) {
             this.$store.dispatch('removeProject', itemIndex);
+
+            let deletedSound = new Audio(soundOfDeleted);
+            deletedSound.play();
+            
             this.snackbarDeleted = true;
             this.isAddingProject = false;
             this.isEditProject = false;
