@@ -4,7 +4,20 @@ const bookModule = {
       booksList: [],
     };
   },
-  getters: {},
+  getters: {
+    getReadedBooks(state) {
+      return state.booksList.filter((book) => book.status === "readed").length;
+    },
+    getTotalReadedPages(state){
+      let totalPages = 0;
+      state.booksList.map(book=>{
+        if(book.status === 'readed'){
+          totalPages += Number(book.pages);
+        }
+      });
+      return totalPages;
+    }
+  },
   mutations: {
     pushBook(state, payload) {
       state.booksList.push(payload);
@@ -29,44 +42,44 @@ const bookModule = {
       state.booksList.splice(payload, 1);
     },
     selectAllBook(state) {
-      if (state.booksList.every(item => item.isSelected)) {
-        state.booksList.forEach(item => item.isSelected = false);
+      if (state.booksList.every((item) => item.isSelected)) {
+        state.booksList.forEach((item) => (item.isSelected = false));
       } else {
-        state.booksList.forEach(item => item.isSelected = false);
+        state.booksList.forEach((item) => (item.isSelected = false));
       }
     },
     multipleDeleteBook(state) {
-      state.booksList.map(item => {
+      state.booksList.map((item) => {
         if (item.isSelected) {
-          state.booksList = state.booksList.filter(book => book !== item);
+          state.booksList = state.booksList.filter((book) => book !== item);
         }
-      })
+      });
     },
     deleteAllBook(state) {
       state.booksList = [];
     },
     multipleWillReadBook(state) {
-      state.booksList.map(item => {
+      state.booksList.map((item) => {
         if (item.isSelected) {
-          item.status = 'will read'
+          item.status = "will read";
         }
-      })
+      });
     },
     allWillReadBook(state) {
-      state.booksList.forEach(item => {
-        item.status = 'will read'
+      state.booksList.forEach((item) => {
+        item.status = "will read";
       });
     },
     multipleReadedBook(state) {
-      state.booksList.map(item => {
+      state.booksList.map((item) => {
         if (item.isSelected) {
-          item.status = 'readed'
+          item.status = "readed";
         }
-      })
+      });
     },
     allReadedBook(state) {
-      state.booksList.forEach(item => {
-        item.status = 'readed'
+      state.booksList.forEach((item) => {
+        item.status = "readed";
       });
     },
   },
@@ -84,7 +97,7 @@ const bookModule = {
       state.commit("deleteBook", payload);
     },
     selectAllBooks(state, payload) {
-      state.commit('selectAllBook', payload)
+      state.commit("selectAllBook", payload);
     },
     multipleRemoveBook(state, payload) {
       state.commit("multipleDeleteBook", payload);
