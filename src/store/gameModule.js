@@ -4,7 +4,41 @@ const gameModule = {
       gamesList: [],
     };
   },
-  getters: {},
+  getters: {
+    getPlayedGames(state) {
+      return state.gamesList.filter((game) => game.status === "played").length;
+    },
+    playPlatform(state) {
+      let pc = 0;
+      let playstation = 0;
+      let xbox = 0;
+      let mobile = 0;
+      let nintendo = 0;
+
+      state.gamesList.map((game) => {
+        if (game.platform == "PC") {
+          pc++;
+        } else if (game.platform == "Playstation") {
+          playstation++;
+        } else if (game.platform == "Xbox") {
+          xbox++;
+        } else if (game.platform == "Mobile") {
+          mobile++;
+        } else if (game.platform == "Nintendo") {
+          nintendo++;
+        }
+      });
+
+      const platformCounts = [pc, playstation, mobile, nintendo, xbox];
+      const platforms = ["PC", "Playstation", "Mobile", "Nintendo", "Xbox"];
+
+      let maxCount = Math.max(...platformCounts);
+      let maxIndex = platformCounts.indexOf(maxCount);
+      let mostPopularPlatform = platforms[maxIndex];
+
+      return mostPopularPlatform;
+    },
+  },
   mutations: {
     pushGame(state, payload) {
       state.gamesList.push(payload);
@@ -28,44 +62,44 @@ const gameModule = {
       state.gamesList.splice(payload, 1);
     },
     selectAllGame(state) {
-      if (state.gamesList.every(item => item.isSelected)) {
-        state.gamesList.forEach(item => item.isSelected = false);
+      if (state.gamesList.every((item) => item.isSelected)) {
+        state.gamesList.forEach((item) => (item.isSelected = false));
       } else {
-        state.gamesList.forEach(item => item.isSelected = false);
+        state.gamesList.forEach((item) => (item.isSelected = false));
       }
     },
     multipleDeleteGame(state) {
-      state.gamesList.map(item => {
+      state.gamesList.map((item) => {
         if (item.isSelected) {
-          state.gamesList = state.gamesList.filter(game => game !== item);
+          state.gamesList = state.gamesList.filter((game) => game !== item);
         }
-      })
+      });
     },
     deleteAllGame(state) {
       state.gamesList = [];
     },
     multiplePlayingGame(state) {
-      state.gamesList.map(item => {
+      state.gamesList.map((item) => {
         if (item.isSelected) {
-          item.status = 'playing'
+          item.status = "playing";
         }
-      })
+      });
     },
     allPlayingGame(state) {
-      state.gamesList.forEach(item => {
-        item.status = 'playing'
+      state.gamesList.forEach((item) => {
+        item.status = "playing";
       });
     },
     multiplePlayedGame(state) {
-      state.gamesList.map(item => {
+      state.gamesList.map((item) => {
         if (item.isSelected) {
-          item.status = 'played'
+          item.status = "played";
         }
-      })
+      });
     },
     allPlayedGame(state) {
-      state.gamesList.forEach(item => {
-        item.status = 'played'
+      state.gamesList.forEach((item) => {
+        item.status = "played";
       });
     },
   },
@@ -83,7 +117,7 @@ const gameModule = {
       state.commit("deleteGame", payload);
     },
     selectAllGames(state, payload) {
-      state.commit('selectAllGame', payload)
+      state.commit("selectAllGame", payload);
     },
     multipleRemoveGame(state, payload) {
       state.commit("multipleDeleteGame", payload);

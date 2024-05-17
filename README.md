@@ -2,7 +2,6 @@
  
 # dashboard kodla
 - investments
-- games
 - movies 
 - stil tasarımları ve pop-up lar
 

@@ -592,6 +592,11 @@ span.bought:hover {
 }
 
 .form-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 20rem;
     border: none;
     box-shadow: 0 0 2rem #00ACC1;
     background: #1E293B;

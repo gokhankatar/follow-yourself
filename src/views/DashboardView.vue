@@ -2,11 +2,13 @@
     <h1 class="text-h5">WELCOME TO YOUR DASHBOARD</h1>
     <v-container class="my-5">
     <v-sheet>
-        <span class="text-h3">{{ finishedProject }}</span> <br>
-        <span class="text-h3">{{ ongoingProject }}</span> <br>
+        <span class="text-h3">Bitirdigin proje {{ finishedProject }}</span> <br>
+        <span class="text-h3">Devam eden proje {{ ongoingProject }}</span> <br>
 
-        <span class="text-h3">{{ readedBooks }}</span> <br>
-        <span class="text-h3">{{ readedTotalPages }}</span>
+        <span class="text-h3">Okunmuş kitap {{ readedBooks }}</span> <br>
+        <span class="text-h3">Okunmuş sayfa {{ readedTotalPages }}</span> <br>
+        <span class="text-h3">Bitirdiğin oyun {{ playedGames }}</span> <br>
+        <span class="text-h3">En çok oyun oynadığın platform {{ mostPlayPlatform }}</span> <br>
         
     </v-sheet>
     </v-container>
@@ -21,6 +23,9 @@ export default {
 
             readedBooks:null,
             readedTotalPages:null,
+
+            playedGames:null,
+            mostPlayPlatform:null,
 
         }
     },
@@ -40,11 +45,19 @@ export default {
        },
        /* Books End */
 
+       /* Games Start */
+       getterGame(){
+        this.playedGames = this.$store.getters.getPlayedGames;
+        this.mostPlayPlatform = this.$store.getters.playPlatform;
+       }
+       /* Games End */
+
 
     },
     mounted(){
         this.getterProject();
         this.getterBook();
+        this.getterGame();
     },
     watch:{
 
