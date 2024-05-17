@@ -4,7 +4,33 @@ const movieModule = {
       moviesList: [],
     };
   },
-  getters: {},
+  getters: {
+    getWatchedMovies(state) {
+      return state.moviesList.filter((movie) => movie.status === "watched").length;
+    },
+    favoriteMovieGenre(state) {
+      let totalGenres = [];
+
+      state.moviesList.map(movie => {
+        if (movie.status === 'watched') {
+          totalGenres.push(movie.genre)
+        }
+      });
+
+      // find favorite genre
+      const genresArray = totalGenres.toString().split(',');
+
+      const mostFrequentGenre = genresArray.reduce((acc, curr) => {
+        acc[curr] = (acc[curr] || 0) + 1;
+        if (!acc.mostFrequent || acc[curr] > acc[acc.mostFrequent]) {
+          acc.mostFrequent = curr;
+        }
+        return acc;
+      }, {}).mostFrequent;
+      
+      return mostFrequentGenre;
+    }
+  },
   mutations: {
     pushMovie(state, payload) {
       state.moviesList.push(payload);

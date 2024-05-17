@@ -1,8 +1,7 @@
 # customAddList (in navbar component)
  
 # dashboard kodla
-- investments
-- movies 
+- investment (cost, amount)
 - stil tasarımları ve pop-up lar
 
 # homepage kodla

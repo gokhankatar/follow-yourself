@@ -5,7 +5,61 @@ const investmentModule = {
         };
     },
 
-    getters: {},
+    getters: {
+        
+        getMaxGenre(state){
+        let gold = 0;
+        let silver = 0;
+        let cryptocurrency = 0;
+        let forex = 0;
+        let stocks = 0
+    
+        state.investmentsList.map(investment =>{
+            if(investment.status === 'bought'){
+                if(investment.genre === 'Stocks'){
+                    stocks++;
+                }else if(investment.genre === 'Gold'){
+                    gold++;
+                }else if(investment.genre === 'Silver'){
+                    silver++;
+                }else if(investment.genre === 'Cryptocurrency'){
+                    cryptocurrency++;
+                }else if(investment.genre === 'Forex'){
+                    forex++;
+                }
+            }
+        });
+
+        let genreList = [stocks, gold, cryptocurrency, silver, forex];
+        let maxIndex = genreList.indexOf(Math.max(...genreList)); 
+        let maxGenre;
+    
+    
+        switch(maxIndex) {
+            case 0:
+                maxGenre = 'Stocks';
+                break;
+            case 1:
+                maxGenre = 'Gold';
+                break;
+            case 2:
+                maxGenre = 'Cryptocurrency';
+                break;
+            case 3:
+                maxGenre = 'Silver';
+                break;
+            case 4:
+                maxGenre = 'Forex';
+                break;
+            default:
+                maxGenre = 'Unknown';
+        }
+    
+        return maxGenre;
+
+        }
+        
+    },
 
     mutations: {
         pushInvestment(state, payload) {
