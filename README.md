@@ -1,7 +1,7 @@
 # customAddList (in navbar component)
  
 # dashboard kodla
-- investment (cost, amount)
+- investment amount için algoritma yaz
 - stil tasarımları ve pop-up lar
 
 # homepage kodla
