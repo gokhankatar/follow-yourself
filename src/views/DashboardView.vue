@@ -29,6 +29,18 @@
                         </div>
                     </v-sheet>
 
+                    <v-sheet v-if="ongoingProject >= 2" @click="goToProjectManagement"
+                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-projects">
+                        <div class="d-flex flex-column">
+                            <span>Look at</span>
+                            <span>project management</span>
+                            <span>techniques</span>
+                        </div>
+                        <div class="d-flex justify-center align-center">
+                            <v-icon icon="fa-solid fa-arrow-right" />
+                        </div>
+                    </v-sheet>
+
                 </v-card>
             </v-col>
         </v-row>
@@ -58,6 +70,18 @@
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h1 font-weight-bold">{{ readedTotalPages }}</strong>
+                        </div>
+                    </v-sheet>
+
+                    <v-sheet v-if="readedBooks >= 1" @click="goToBook"
+                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-books">
+                        <div class="d-flex flex-column">
+                            <span>What</span>
+                            <span>should I</span>
+                            <span>read next?</span>
+                        </div>
+                        <div class="d-flex justify-center align-center">
+                            <v-icon icon="fa-solid fa-arrow-right" />
                         </div>
                     </v-sheet>
 
@@ -93,6 +117,18 @@
                         </div>
                     </v-sheet>
 
+                    <v-sheet v-if="playedGames >= 2" @click="goToGames"
+                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-games">
+                        <div class="d-flex flex-column">
+                            <span>See</span>
+                            <span>all</span>
+                            <span>{{ mostPlayPlatform }} games</span>
+                        </div>
+                        <div class="d-flex justify-center align-center">
+                            <v-icon icon="fa-solid fa-arrow-right" />
+                        </div>
+                    </v-sheet>
+
                 </v-card>
             </v-col>
         </v-row>
@@ -125,6 +161,18 @@
                         </div>
                     </v-sheet>
 
+                    <v-sheet v-if="watchedMovies >= 2" @click="goToMovies"
+                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-movies">
+                        <div class="d-flex flex-column">
+                            <span>See</span>
+                            <span>the best</span>
+                            <span>{{ favoriteGenre }} movies</span>
+                        </div>
+                        <div class="d-flex justify-center align-center">
+                            <v-icon icon="fa-solid fa-arrow-right" />
+                        </div>
+                    </v-sheet>
+
                 </v-card>
             </v-col>
         </v-row>
@@ -132,7 +180,7 @@
 
         <!-- * Investments Start -->
         <v-row class="my-5">
-            <v-col>
+            <v-col >
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center investment-card">
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
@@ -161,13 +209,27 @@
                         </div>
                     </v-sheet>
 
+                    <v-sheet @click="goToInvestment"
+                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-investments">
+                        <div class="d-flex flex-column">
+                            <span>Let's</span>
+                            <span>browse</span>
+                            <span>{{ maxGenre }}</span>
+                        </div>
+                        <div class="d-flex justify-center align-center">
+                            <v-icon icon="fa-solid fa-arrow-right" />
+                        </div>
+                    </v-sheet>
+
                 </v-card>
             </v-col>
+
         </v-row>
         <!-- ! Investments End -->
 
     </v-container>
 </template>
+
 <script>
 export default {
     name: 'DashboardView',
@@ -191,9 +253,7 @@ export default {
 
             // investment
             maxGenre: null,
-            costArray: null,
-
-
+            costArray: [],
         }
     },
     methods: {
@@ -230,9 +290,59 @@ export default {
         getterInvestment() {
             this.maxGenre = this.$store.getters.getMaxGenre;
             this.costArray = this.$store.getters.totalCost;
-        }
+        },
         /* Investment End */
 
+
+        // algorithms 
+        goToMovies() {
+            let url = `https://www.imdb.com/search/title/?genres=${this.favoriteGenre}`;
+            window.open(url, '_blank');
+        },
+        goToGames() {
+            let genre;
+            if (this.mostPlayPlatform === 'Nintendo') {
+                genre = 'nintendo-switch';
+            } else if (this.mostPlayPlatform === 'Playstation') {
+                genre = 'ps5';
+            } else if (this.mostPlayPlatform === 'Xbox') {
+                genre = 'Xbox'
+            } else if (this.mostPlayPlatform === 'PC') {
+                genre = 'PC'
+            } else if (this.mostPlayPlatform === 'Mobile') {
+                genre = 'Mobile'
+            }
+            let url = `https://www.metacritic.com/browse/game/Xbox/all/all-time/new/?releaseYearMin=1958&releaseYearMax=2024&platform=${genre}&page=1`;
+            window.open(url, '_blank');
+        },
+        goToProjectManagement() {
+            let url = 'https://www.indeed.com/career-advice/career-development/project-management-techniques';
+            window.open(url, '_blank')
+        },
+        goToBook() {
+            let url = 'https://www.goodreads.com/list/show/2681.Time_Magazine_s_All_Time_100_Novels';
+            window.open(url, '_blank');
+        },
+        goToInvestment() {
+            let genre;
+            if (this.maxGenre === 'Stocks') {
+                genre = 'stocks-usa'
+            } else if (this.maxGenre === 'Cryptocurrency') {
+                genre = 'cryptocurrencies'
+            } else if (this.maxGenre === 'Forex') {
+                genre = 'currencies'
+            } else if (this.maxGenre === 'Gold') {
+                genre = 'etfs/funds-gold'
+            } else if (this.maxGenre === 'Silver') {
+                genre = 'etfs/funds-gold'
+            } else {
+                genre = ''
+            }
+
+            let url = `https://www.tradingview.com/markets/${genre}`;
+            window.open(url, '_blank');
+
+        }
 
     },
     mounted() {
@@ -243,7 +353,6 @@ export default {
         this.getterInvestment();
     },
     watch: {
-
         /* Projects Start */
         finishedProject(val) {
             if (val > 10) {
@@ -272,6 +381,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .project-card,
 .book-card,
@@ -333,5 +443,50 @@ export default {
 
 ul {
     list-style: none;
+}
+
+.go-projects {
+    transition: all .2s ease;
+}
+
+.go-projects:hover {
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.go-books {
+    transition: all .2s ease;
+}
+
+.go-books:hover {
+    background-color: #8BC34A;
+    color: #fff;
+}
+
+.go-movies {
+    transition: all .2s ease;
+}
+
+.go-movies:hover {
+    background-color: #FF5722;
+    color: #fff;
+}
+
+.go-games {
+    transition: all .2s ease;
+}
+
+.go-games:hover {
+    background-color: #673AB7;
+    color: #fff;
+}
+
+.go-investments {
+    transition: all .2s ease;
+}
+
+.go-investments:hover {
+    background-color: #00ACC1;
+    color: #fff;
 }
 </style>
