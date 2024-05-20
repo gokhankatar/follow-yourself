@@ -1,179 +1,129 @@
 <template>
 
-<v-dialog
-  v-model="isAddingCustomList"
-  transition="dialog-bottom-transition"
-  max-width="400">
+    <v-dialog v-model="isAddingCustomList" transition="dialog-bottom-transition" max-width="400">
 
-<div class="form-container pa-5">
+        <div class="form-container pa-5">
 
-    <v-form ref="customForm" @submit.prevent="createList">
+            <v-form ref="customForm" @submit.prevent="createList">
 
-        <v-text-field v-model="movieName" :rules="nameRules" class="text-white" color="#FF5722"
-            label="Movie Name" variant="outlined" required />
+                <v-text-field v-model="listName" :rules="nameRules" class="text-white" color="#00796B" label="List Name"
+                    variant="outlined" required />
 
-        <v-autocomplete v-model="movieGenre" :rules="[v => !!v || 'State is required!']"
-            :items="['Action', 'Adventure', 'Horror', 'Sci-Fi', 'Romantic', 'Dram', 'Comedy', 'Thriller', 'Detective', 'Western', 'Animation', 'History']"
-            class="text-white mt-2" color="#FF5722" chips item-color="#FF5722" label="Genre" multiple
-            variant="outlined" required />
+                <v-autocomplete v-model="icons" :rules="[v => !!v || 'State is required!']" :items="[]"
+                    class="text-white mt-2" color="#00796B" chips item-color="#00796B" label="Icon" variant="outlined"
+                    required />
 
-        <v-autocomplete v-model="movieStatus" :rules="[v => !!v || 'State is required!']"
-            :items="['will watch', 'watched',]" class="text-white mt-2" color="#FF5722" chips
-            item-color="#FF5722" label="Watching Status" variant="outlined" required />
+                <v-autocomplete v-model="color" :rules="[v => !!v || 'State is required!']"
+                    :items="[]" class="text-white mt-2" color="#00796B" chips
+                    item-color="#00796B" label="Color" type="color" variant="outlined" required />
 
-        <v-btn v-if="!isEditMovie" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
-            type="submit" block>
-            Create</v-btn>
+                <v-btn v-if="!isEditMovie" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
+                    type="submit" block>
+                    Create</v-btn>
 
-        <v-btn v-if="isEditMovie" @click="editMovie(selectedItem)" class="mt-3 pa-2" color="primary"
-            size="medium" variant="outlined" block>
-            Save</v-btn>
+                <v-btn @click="isAddingCustomList = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
+                    block>
+                    Cancel</v-btn>
 
-        <v-btn v-if="isEditMovie" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
-            variant="outlined" block>
-            Delete</v-btn>
+            </v-form>
 
-        <v-btn @click="isAddingMovie = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
-            block>
-            Cancel</v-btn>
+        </div>
 
-    </v-form>
+    </v-dialog>
 
-</div>
-
-</v-dialog>
-
-    <v-navigation-drawer 
-    :rail="rail" 
-    permanent 
-    v-model="drawer" 
-    class="text-teal-darken-2">
+    <v-navigation-drawer :rail="rail" permanent v-model="drawer" class="text-teal-darken-2">
 
         <v-list>
-            <v-list-item 
-            prepend-icon="fas fa-home" 
-            title="Home" 
-            value="home" 
-            router to="/"> 
-            
-            <v-tooltip activator="parent" location="end">
-                        Home
-            </v-tooltip>
+            <v-list-item prepend-icon="fas fa-home" title="Home" value="home" router to="/">
 
-            </v-list-item>
-            
-            <v-list-item 
-            prepend-icon="fa-solid fa-layer-group" 
-            title="Dashboard" 
-            value="dashboard" 
-            router to="/dashboard">
-
-            <v-tooltip activator="parent" location="end">
-                        Dashboard
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Home
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            prepend-icon="fa-solid fa-briefcase" 
-            title="My Projects" 
-            value="projects" 
-            router to="/projects">
+            <v-list-item prepend-icon="fa-solid fa-layer-group" title="Dashboard" value="dashboard" router
+                to="/dashboard">
 
-            <v-tooltip activator="parent" location="end">
-                        Projects
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Dashboard
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            prepend-icon="fa-solid fa-sack-dollar" 
-            title="My Investments" 
-            value="investments" 
-            router to="/investments">
+            <v-list-item prepend-icon="fa-solid fa-briefcase" title="My Projects" value="projects" router
+                to="/projects">
 
-            <v-tooltip activator="parent" location="end">
-                        Investments
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Projects
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            prepend-icon="fa-solid fa-book" 
-            title="My Books" 
-            value="books" 
-            router to="/books">
+            <v-list-item prepend-icon="fa-solid fa-sack-dollar" title="My Investments" value="investments" router
+                to="/investments">
 
-            <v-tooltip activator="parent" location="end">
-                        Books
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Investments
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            prepend-icon="fa-solid fa-tv" 
-            title="My Movies" 
-            value="movies" 
-            router to="/movies">
+            <v-list-item prepend-icon="fa-solid fa-book" title="My Books" value="books" router to="/books">
 
-            <v-tooltip activator="parent" location="end">
-                        Movies
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Books
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            prepend-icon="fa-solid fa-gamepad" 
-            title="My Games" 
-            value="games" 
-            router to="/games">
+            <v-list-item prepend-icon="fa-solid fa-tv" title="My Movies" value="movies" router to="/movies">
 
-            <v-tooltip activator="parent" location="end">
-                        Games
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Movies
+                </v-tooltip>
 
             </v-list-item>
-            
+
+            <v-list-item prepend-icon="fa-solid fa-gamepad" title="My Games" value="games" router to="/games">
+
+                <v-tooltip activator="parent" location="end">
+                    Games
+                </v-tooltip>
+
+            </v-list-item>
+
         </v-list>
 
         <v-list>
 
-            <v-list-item 
-        
-            v-if="!isCustomList" 
-            title="Add List"
-            prepend-icon="fa-solid fa-plus">
+            <v-list-item v-if="!isCustomList" @click="isAddingCustomList = true" title="Add List" prepend-icon="fa-solid fa-plus">
 
-            <v-tooltip activator="parent" location="end">
-                        Add List
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Add List
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            :prepend-icon="$store.state.theme == 'dark'?'fa-solid fa-moon':'fa-solid fa-sun'" 
-            :title="$store.state.theme == 'dark' ? 'Dark Theme':'Light Theme'" 
-            @click.stop="changeTheme"> 
-            
-            <v-tooltip activator="parent" location="end">
-                        Change Theme
-            </v-tooltip>
+            <v-list-item :prepend-icon="$store.state.theme == 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"
+                :title="$store.state.theme == 'dark' ? 'Dark Theme' : 'Light Theme'" @click.stop="changeTheme">
+
+                <v-tooltip activator="parent" location="end">
+                    Change Theme
+                </v-tooltip>
 
             </v-list-item>
 
-            <v-list-item 
-            @click="drawer=false" 
-            v-if="rail" 
-            prepend-icon="fa-solid fa-circle-chevron-left">
+            <v-list-item @click="drawer = false" v-if="rail" prepend-icon="fa-solid fa-circle-chevron-left">
 
-            <v-tooltip activator="parent" location="end">
-                        Hide Bar
-            </v-tooltip>
+                <v-tooltip activator="parent" location="end">
+                    Hide Bar
+                </v-tooltip>
 
             </v-list-item>
 
         </v-list>
-        
+
     </v-navigation-drawer>
 
     <v-app-bar elevation="2">
@@ -188,10 +138,7 @@
         </v-app-bar-title>
 
         <template v-slot:append>
-            <v-btn 
-            variant="outlined" 
-            color="teal-darken-2" 
-            append-icon="fa-solid fa-arrow-right-from-bracket">
+            <v-btn variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-arrow-right-from-bracket">
                 Sign Out
             </v-btn>
         </template>
@@ -206,8 +153,12 @@ export default {
         return {
             drawer: true,
             rail: true,
-            isCustomList:false,
-            isAddingCustomList:false,
+            isCustomList: false,
+            isAddingCustomList: false,
+            listName:null,
+            icons:[],
+            color:null,
+            colors:[],
         }
     },
     methods: {
@@ -216,15 +167,15 @@ export default {
             this.drawer = true;
         },
 
-        changeTheme(){
-            this.$store.dispatch('switchTheme','theme changed')
+        changeTheme() {
+            this.$store.dispatch('switchTheme', 'theme changed')
         },
 
-        async createList(){
+        async createList() {
             let { valid } = await this.$refs.customForm.validate();
             if (valid) {
                 this.$store.dispatch('addMovie', {
-                    
+
                 });
                 this.$refs.customForm.reset();
                 this.snackbarAdded = true;
@@ -234,4 +185,7 @@ export default {
 }
 </script>
 <style scoped>
+.form-container {
+    box-shadow: 0 0 1.5rem #00796B;
+}
 </style>

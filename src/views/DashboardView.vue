@@ -2,6 +2,21 @@
     <h1 class="text-h5">WELCOME TO YOUR DASHBOARD</h1>
     <v-container class="my-5">
 
+        <!-- * Notification Start -->
+        <v-dialog v-model="isNotification" max-width="700">
+            <v-card class="pa-5 d-flex flex-column notification">
+                <div class="d-flex justify-space-between align-center">
+                    <h2 class="text-h2 text-uppercase">congratulations!</h2>
+                    <v-icon class="d-flex align-center" size="large" :icon="icon" />
+                </div>
+                <h5 class="text-h5">{{ msg }}</h5>
+                <v-btn max-width="40%" variant="outlined" @click="isNotification = false">
+                    Close
+                </v-btn>
+            </v-card>
+        </v-dialog>
+        <!-- ! Notification End -->
+
         <!-- * Projects Start -->
         <v-row>
             <v-col>
@@ -180,7 +195,7 @@
 
         <!-- * Investments Start -->
         <v-row class="my-5">
-            <v-col >
+            <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center investment-card">
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
@@ -209,7 +224,7 @@
                         </div>
                     </v-sheet>
 
-                    <v-sheet @click="goToInvestment"
+                    <v-sheet v-if="costArray.length > 0" @click="goToInvestment"
                         class="cursor-pointer pa-3 d-flex text-h3 text-white go-investments">
                         <div class="d-flex flex-column">
                             <span>Let's</span>
@@ -235,6 +250,11 @@ export default {
     name: 'DashboardView',
     data() {
         return {
+            // Notification
+            isNotification: false,
+            msg: '',
+            icon: null,
+
             // Project
             finishedProject: null,
             ongoingProject: null,
@@ -257,7 +277,6 @@ export default {
         }
     },
     methods: {
-
         /* Projects Start */
         getterProject() {
             this.finishedProject = this.$store.getters.getFinishedProjects;
@@ -292,7 +311,6 @@ export default {
             this.costArray = this.$store.getters.totalCost;
         },
         /* Investment End */
-
 
         // algorithms 
         goToMovies() {
@@ -341,7 +359,6 @@ export default {
 
             let url = `https://www.tradingview.com/markets/${genre}`;
             window.open(url, '_blank');
-
         }
 
     },
@@ -355,30 +372,52 @@ export default {
     watch: {
         /* Projects Start */
         finishedProject(val) {
-            if (val > 10) {
-                console.log('tebrikler 3 dan fazla bitirdiğiniz proje var devam edin!');
+            if (val > 5) {
+                this.msg = "You have completed more than 5 projects!";
+                this.icon = "fa-solid fa-check"
+                this.isNotification = true;
             }
         },
-        ongoingProject(val) {
-            if (val > 10) {
-                console.log("10'dan fazla bitirmediğiniz proje bulunmaktadır. Vitesi arttırmalısınız!");
-            }
-        },
-        /* Projects End */
+    },
+    /* Projects End */
 
-        /* Books Start */
-        readedBooks(val) {
-            if (val > 10) {
-                console.log("10'dan fazla kitap okudun !");
-            }
-        },
-        readedTotalPages(val) {
-            if (val > 1000) {
-                console.log("Tebrikler 1000'den fazla sayfa okumuşsun!");
-            }
+    /* Books Start */
+    readedBooks(val) {
+        if (val > 10) {
+            this.msg = "You've read over 10 books";
+            this.icon = 'fa-solid fa-book'
+            this.isNotification = true;
         }
-        /* Books End */
+    },
+    readedTotalPages(val) {
+        if (val > 1000) {
+            this.msg = "You've read over 1000 pages!";
+            this.icon = 'fa-solid fa-book'
+            this.isNotification = true;
+        }
+    },
+    /* Books End */
+
+    /* Movies Start */
+    watchedMovies(val) {
+        if (val > 5) {
+            this.msg = "You've wathced over 5 movies!";
+            this.icon = 'fa-solid fa-film';
+            this.isNotification = true;
+        }
+    },
+    /* Movies End */
+
+    /* Games Start */
+    playedGames(val) {
+        if (val > 5) {
+            this.msg = "You've played over 5 games!";
+            this.icon = 'fa-solid fa-gamepad';
+            this.isNotification = true;
+
+        }
     }
+    /* Games End */
 }
 </script>
 
@@ -488,5 +527,9 @@ ul {
 .go-investments:hover {
     background-color: #00ACC1;
     color: #fff;
+}
+
+.notification {
+    gap: 1rem;
 }
 </style>

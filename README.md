@@ -1,8 +1,10 @@
 # customAddList (in navbar component)
  
+# customList 
+- icons
+- colors
+- route view pages
+
 # dashboard kodla
-
-- kosullar pop-up lar
-
 # homepage kodla
 # gsap animasyonlar
