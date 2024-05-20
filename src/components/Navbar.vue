@@ -187,5 +187,6 @@ export default {
 <style scoped>
 .form-container {
     box-shadow: 0 0 1.5rem #00796B;
+    background: rgba(0, 0, 0, .9);
 }
 </style>
