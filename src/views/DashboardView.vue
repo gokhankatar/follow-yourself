@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-h5">WELCOME TO YOUR DASHBOARD</h1>
+    <h1 class="text-h5">DASHBOARD</h1>
     <v-container class="my-5">
 
         <!-- * Notification Start -->
@@ -205,7 +205,7 @@
                             <span>Investment</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ maxGenre }}</strong>
+                            <strong class="text-h3 font-weight-bold">{{ maxGenre }}</strong>
                         </div>
                     </v-sheet>
 
@@ -414,7 +414,6 @@ export default {
             this.msg = "You've played over 5 games!";
             this.icon = 'fa-solid fa-gamepad';
             this.isNotification = true;
-
         }
     }
     /* Games End */

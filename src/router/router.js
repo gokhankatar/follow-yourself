@@ -6,7 +6,6 @@ import BooksView from '../views/BooksView.vue';
 import MoviesView from '../views/MoviesView.vue';
 import GamesView from '../views/GamesView.vue';
 import InvestmentsView from '../views/InvestmentsView.vue';
-import CustomListView from "../views/CustomListView.vue";
 
 const routes = [
     { path: '/', name: 'Home', component: HomeView },
@@ -15,8 +14,7 @@ const routes = [
     { path: '/books', name: 'Books', component: BooksView },
     { path: '/movies', name: 'Movies', component: MoviesView },
     { path: '/games', name: 'Games', component: GamesView },
-    { path: '/investments', name: 'Investments', component: InvestmentsView },
-    { path: '/customList', name: 'CustomList', component: CustomListView },
+    { path: '/investments', name: 'Investments', component: InvestmentsView }
 ];
 
 const router = createRouter({

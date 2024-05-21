@@ -16,7 +16,6 @@ const store = createStore({
       theme: "light",
     };
   },
-
   getters: {},
 
   mutations: {
@@ -37,7 +36,7 @@ const store = createStore({
   },
 
   plugins: [vueLocal.plugin],
-  
+
   modules: {
     projects: projectModule,
     books: bookModule,

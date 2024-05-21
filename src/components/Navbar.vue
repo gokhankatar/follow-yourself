@@ -1,35 +1,5 @@
 <template>
 
-    <v-dialog v-model="isAddingCustomList" transition="dialog-bottom-transition" max-width="400">
-
-        <div class="form-container pa-5">
-
-            <v-form ref="customForm" @submit.prevent="createList">
-
-                <v-text-field v-model="listName" :rules="nameRules" class="text-white" color="#00796B" label="List Name"
-                    variant="outlined" required />
-
-                <v-autocomplete v-model="icons" :rules="[v => !!v || 'State is required!']" :items="[]"
-                    class="text-white mt-2" color="#00796B" chips item-color="#00796B" label="Icon" variant="outlined"
-                    required />
-
-                <v-autocomplete v-model="color" :rules="[v => !!v || 'State is required!']"
-                    :items="[]" class="text-white mt-2" color="#00796B" chips
-                    item-color="#00796B" label="Color" type="color" variant="outlined" required />
-
-                <v-btn v-if="!isEditMovie" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
-                    type="submit" block>
-                    Create</v-btn>
-
-                <v-btn @click="isAddingCustomList = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
-                    block>
-                    Cancel</v-btn>
-
-            </v-form>
-
-        </div>
-
-    </v-dialog>
 
     <v-navigation-drawer :rail="rail" permanent v-model="drawer" class="text-teal-darken-2">
 
@@ -97,14 +67,6 @@
 
         <v-list>
 
-            <v-list-item v-if="!isCustomList" @click="isAddingCustomList = true" title="Add List" prepend-icon="fa-solid fa-plus">
-
-                <v-tooltip activator="parent" location="end">
-                    Add List
-                </v-tooltip>
-
-            </v-list-item>
-
             <v-list-item :prepend-icon="$store.state.theme == 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"
                 :title="$store.state.theme == 'dark' ? 'Dark Theme' : 'Light Theme'" @click.stop="changeTheme">
 
@@ -138,9 +100,13 @@
         </v-app-bar-title>
 
         <template v-slot:append>
-            <v-btn variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-arrow-right-from-bracket">
-                Sign Out
-            </v-btn>
+            <v-btn
+              variant="outlined"
+              color="teal-darken-2"
+              append-icon="fa-solid fa-code">
+              Source
+              Codes
+              </v-btn>
         </template>
 
     </v-app-bar>
@@ -153,12 +119,6 @@ export default {
         return {
             drawer: true,
             rail: true,
-            isCustomList: false,
-            isAddingCustomList: false,
-            listName:null,
-            icons:[],
-            color:null,
-            colors:[],
         }
     },
     methods: {
@@ -166,27 +126,10 @@ export default {
             this.rail = !this.rail;
             this.drawer = true;
         },
-
         changeTheme() {
             this.$store.dispatch('switchTheme', 'theme changed')
-        },
-
-        async createList() {
-            let { valid } = await this.$refs.customForm.validate();
-            if (valid) {
-                this.$store.dispatch('addMovie', {
-
-                });
-                this.$refs.customForm.reset();
-                this.snackbarAdded = true;
-            }
         }
     }
 }
 </script>
-<style scoped>
-.form-container {
-    box-shadow: 0 0 1.5rem #00796B;
-    background: rgba(0, 0, 0, .9);
-}
-</style>
+<style scoped></style>

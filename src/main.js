@@ -14,7 +14,7 @@ loadFonts();
 
 const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon)
-library.add(fas) 
+library.add(fas)
 library.add(far)
 
 app.use(vuetify);
