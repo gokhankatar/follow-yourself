@@ -1,7 +1,19 @@
 <template>
     <h1 class="text-h5 text-primary">My Projects</h1>
 
-    <!-- Form -->
+    <!-- <div 
+    class="small-screen d-flex flex-column justify-center text-primary font-weight-bold text-h3">
+        <span>P</span>
+        <span>R</span>
+        <span>O</span>
+        <span>J</span>
+        <span>E</span>
+        <span>C</span>
+        <span>T</span>
+        <span>S</span>
+    </div> -->
+
+    <!-- * Form Start -->
 
     <v-dialog v-model="isAddingProject" transition="dialog-bottom-transition" max-width="400">
 
@@ -34,10 +46,13 @@
 
     </v-dialog>
 
+    <!-- ! Form End -->
+
     <!-- If list is empty -->
 
-    <v-container v-if="$store.state.projects.projectsList.length == 0"
-        class="d-flex flex-column justify-center align-center">
+    <v-container 
+    v-if="$store.state.projects.projectsList.length == 0"
+    class="d-flex flex-column justify-center align-center">
 
         <h3 class="text-uppercase header-3">
             You haven't added a project yet. Add now and start tracking your progress!
@@ -49,9 +64,11 @@
 
     </v-container>
 
-    <!-- Lists -->
+    <!-- * Lists Start -->
 
-    <v-container class="my-5" v-if="$store.state.projects.projectsList.length > 0">
+    <v-container 
+    v-if="$store.state.projects.projectsList.length > 0"
+    class="my-5" >
 
         <v-card v-if="!isEditMode" class="text-caption text-grey">
 
@@ -67,15 +84,15 @@
 
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center" lg="7">
+                <v-col class="d-none d-sm-flex justify-start align-center" lg="7">
                     <span>Title</span>
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center" lg="2">
+                <v-col class="d-none d-sm-flex justify-start align-center" lg="2">
                     <span>Date</span>
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center" lg="2">
+                <v-col class="d-none d-sm-flex justify-start align-center" lg="2">
                     <span>Status</span>
                 </v-col>
 
@@ -83,56 +100,79 @@
 
         </v-card>
 
-        <!-- Edit Mode Start -->
+        <!-- * Edit Mode Start -->
 
         <v-card v-if="isEditMode" class="my-4 px-2 py-3 text-body-2 text-primary">
 
-            <v-row class="d-flex justify-space-between px-2">
+            <v-row class="d-flex justify-space-between px-2 flex-column flex-md-row">
 
                 <v-col class="d-flex justify-start align-center" lg="4">
 
-                    <v-btn @click="selectAll" class="mx-2" prepend-icon="fa-solid fa-circle-check" variant="outlined"
-                        size="small" color="primary">
-                        Select all
-                    </v-btn>
+                    <v-btn
+                      @click="selectAll"
+                      class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
+                      prepend-icon="fa-solid fa-circle-check"
+                      variant="outlined"
+                      color="primary">
+                      Select
+                      all
+                      </v-btn>
 
                 </v-col>
 
-                <v-col class="d-flex justify-end align-center" lg="8">
+                <v-col 
+                class="d-flex justify-end align-center flex-column flex-md-row" 
+                lg="8">
 
-                    <v-btn @click="setOngoing" class="mx-2" prepend-icon="fa-solid fa-dumbbell" variant="outlined"
-                        size="small" color="warning">
-                        Set ongoing
-                    </v-btn>
-
-                    <v-btn @click="setFinisihed" prepend-icon="fa-solid fa-check" variant="outlined" size="small"
-                        color="success">
-                        Set finished
-                    </v-btn>
-
-                    <v-btn @click="multipleDelete" class="mx-2" prepend-icon="fa-solid fa-trash" variant="outlined"
-                        size="small" color="red-darken-3">
-                        Delete
-                    </v-btn>
-
-                    <v-btn @click="cancelEditMode" prepend-icon="fa-solid fa-xmark" variant="outlined" size="small"
-                        color="error">
-                        Cancel
-                    </v-btn>
-
+                    <v-btn
+                      @click="setOngoing"
+                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                      prepend-icon="fa-solid fa-dumbbell"
+                      variant="outlined"
+                      color="warning">
+                      Set
+                      ongoing
+                      </v-btn>
+                      <v-btn
+                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                      @click="setFinisihed"
+                      prepend-icon="fa-solid fa-check"
+                      variant="outlined"
+                      color="success">
+                      Set
+                      finished
+                      </v-btn>
+                      <v-btn
+                      @click="multipleDelete"
+                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                      prepend-icon="fa-solid fa-trash"
+                      variant="outlined"
+                      color="red-darken-3">
+                      Delete
+                      </v-btn>
+                      <v-btn
+                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                      @click="cancelEditMode"
+                      prepend-icon="fa-solid fa-xmark"
+                      variant="outlined"
+                      color="error">
+                      Cancel
+                      </v-btn>
                 </v-col>
 
             </v-row>
 
         </v-card>
 
-        <!-- Edit Mode End -->
+        <!-- ! Edit Mode End -->
 
-        <v-card v-for="(item, index) of $store.state.projects.projectsList" :key="index"
-            :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-project"
-            class="mt-5 py-5 px-3 text-body-1 text-primary cursor-pointer">
-
-            <v-row class="d-flex justify-space-between">
+        <v-card
+        v-for="(item, index) of $store.state.projects.projectsList"
+        :key="index"
+        :class="isSelectAll || item.isSelected ? 'selectedCard' : ''"
+        id="card-project"
+        class="mt-5 py-5 px-3 text-body-1 text-primary cursor-pointer">
+            <v-row class="d-flex flex-column flex-sm-row justify-space-between">
 
                 <v-spacer v-if="!isEditMode" />
 
@@ -148,7 +188,10 @@
 
                 </v-col>
 
-                <v-col @click="handleCard(item, index)" class="d-flex justify-start align-center" lg="7">
+               <v-col
+                 @click="handleCard(item, index)"
+                 class="d-flex justify-start align-center"
+                 lg="7">
 
                     <v-tooltip activator="parent" location="top">
                         Edit/Delete
@@ -197,15 +240,23 @@
 
     </v-container>
 
+    <!-- ! Lists End -->
+
     <!-- Notifications -->
 
-    <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
+    <v-snackbar
+      v-model="snackbarAdded"
+      timeout="2000"
+      color="green-darken-3">
 
         <p class="message text-center">You added a project!</p>
 
     </v-snackbar>
 
-    <v-snackbar v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
+    <v-snackbar
+      v-model="snackbarUpdated"
+      timeout="2000"
+      color="indigo-darken-3">
 
         <p class="message text-center">You updated a project!</p>
 
@@ -216,7 +267,6 @@
         <p class="message text-center">You deleted a project!</p>
 
     </v-snackbar>
-
 
     <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
 
@@ -381,8 +431,8 @@ export default {
     mounted() {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
-        }, 1000);
-    }
+        }, 1000);  
+    },
 }
 </script>
 
@@ -418,5 +468,9 @@ span.success:hover {
 
 .selectedCard {
     border-left: 1px solid #2196F3;
+}
+
+.small-screen{
+    gap: .5rem;
 }
 </style>

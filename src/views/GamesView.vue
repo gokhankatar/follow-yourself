@@ -63,7 +63,7 @@
     v-if="$store.state.games.gamesList.length > 0" 
     class="my-5">
 
-        <v-card class="px-2 py-1 text-caption text-grey">
+        <v-card v-if="!isEditMode" class="px-2 py-1 text-caption text-grey">
 
             <v-row class="d-flex justify-space-between">
 
@@ -77,19 +77,19 @@
 
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center" lg="5">
+                <v-col class="d-none d-sm-flex justify-start align-center" lg="5">
                     <span>Name</span>
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center">
+                <v-col class="d-none d-sm-flex justify-start align-center">
                     <span>Platform</span>
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center">
+                <v-col class="d-none d-sm-flex justify-start align-center">
                     <span>Date</span>
                 </v-col>
 
-                <v-col class="d-flex justify-start align-center">
+                <v-col class="d-none d-sm-flex justify-start align-center">
                     <span>Status</span>
                 </v-col>
 
@@ -101,38 +101,58 @@
 
         <v-card v-if="isEditMode" class="my-4 px-2 py-3 text-body-2 text-primary">
 
-            <v-row class="d-flex justify-space-between px-2">
+            <v-row class="d-flex justify-space-between px-2 flex-column flex-md-row">
 
                 <v-col class="d-flex justify-start align-center" lg="4">
 
-                    <v-btn @click="selectAll" class="mx-2" prepend-icon="fa-solid fa-circle-check" variant="outlined"
-                        size="small" color="#673AB7">
-                        Select all
-                    </v-btn>
+                <v-btn
+                  @click="selectAll"
+                  class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
+                  prepend-icon="fa-solid fa-circle-check"
+                  variant="outlined"
+                  color="#673AB7">
+                  Select
+                  all
+                  </v-btn>
 
                 </v-col>
 
-                <v-col class="d-flex justify-end align-center" lg="8">
+                <v-col class="d-flex justify-end align-center flex-column flex-md-row" lg="8">
 
-                    <v-btn @click="setPlaying" class="mx-2" prepend-icon="fa-solid fa-dumbbell" variant="outlined"
-                        size="small" color="warning">
-                        Set playing
-                    </v-btn>
-
-                    <v-btn @click="setPlayed" prepend-icon="fa-solid fa-check" variant="outlined" size="small"
-                        color="success">
-                        Set played
-                    </v-btn>
-
-                    <v-btn @click="multipleDelete" class="mx-2" prepend-icon="fa-solid fa-trash" variant="outlined"
-                        size="small" color="red-darken-3">
-                        Delete
-                    </v-btn>
-
-                    <v-btn @click="cancelEditMode" prepend-icon="fa-solid fa-xmark" variant="outlined" size="small"
-                        color="error">
-                        Cancel
-                    </v-btn>
+                 <v-btn
+                   @click="setPlaying"
+                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                   prepend-icon="fa-solid fa-dumbbell"
+                   variant="outlined"
+                   color="warning">
+                   Set
+                   playing
+                   </v-btn>
+                   <v-btn
+                   @click="setPlayed"
+                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                   prepend-icon="fa-solid fa-check"
+                   variant="outlined"
+                   color="success">
+                   Set
+                   played
+                   </v-btn>
+                   <v-btn
+                   @click="multipleDelete"
+                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                   prepend-icon="fa-solid fa-trash"
+                   variant="outlined"
+                   color="red-darken-3">
+                   Delete
+                   </v-btn>
+                   <v-btn
+                   @click="cancelEditMode"
+                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                   prepend-icon="fa-solid fa-xmark"
+                   variant="outlined"
+                   color="error">
+                   Cancel
+                   </v-btn>
 
                 </v-col>
 
@@ -146,7 +166,7 @@
             :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-game"
             class="mt-5 py-5 px-3 text-body-1 text-deep-purple cursor-pointer">
 
-            <v-row class="d-flex justify-space-between">
+            <v-row class="d-flex flex-column flex-sm-row justify-space-between">
 
                 <v-spacer v-if="!isEditMode" />
 

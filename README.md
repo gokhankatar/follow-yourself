@@ -1,10 +1,7 @@
-# customAddList (in navbar component)
- 
-# customList 
-- icons
-- colors
-- route view pages
+# homepage responsive hallet
 
-# dashboard kodla
-# homepage kodla
+# snackbar responsive hallet
+
+# event spread olayını hallet cunku sidebar acılıs kapanıslarında her componentte bir olayın tetiklenmesi gerek
+
 # gsap animasyonlar

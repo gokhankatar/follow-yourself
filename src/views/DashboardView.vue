@@ -6,10 +6,10 @@
         <v-dialog v-model="isNotification" max-width="700">
             <v-card class="pa-5 d-flex flex-column notification">
                 <div class="d-flex justify-space-between align-center">
-                    <h2 class="text-h2 text-uppercase">congratulations!</h2>
+                    <h2 class="text-h5 text-sm-h4 text-md-h3">CONGRATULATIONS!</h2>
                     <v-icon class="d-flex align-center" size="large" :icon="icon" />
                 </div>
-                <h5 class="text-h5">{{ msg }}</h5>
+                <h5 class="text-p2 text-sm-p1 text-md-h5">{{ msg }}</h5>
                 <v-btn max-width="40%" variant="outlined" @click="isNotification = false">
                     Close
                 </v-btn>
@@ -22,30 +22,30 @@
             <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center project-card">
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Finished</span>
                             <span>Total</span>
                             <span>Projects</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ finishedProject }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ finishedProject }}</strong>
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Ongoing</span>
                             <span>Total</span>
                             <span>Projects</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ ongoingProject }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ ongoingProject }}</strong>
                         </div>
                     </v-sheet>
 
                     <v-sheet v-if="ongoingProject >= 2" @click="goToProjectManagement"
-                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-projects">
+                        class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-projects">
                         <div class="d-flex flex-column">
                             <span>Look at</span>
                             <span>project management</span>
@@ -66,30 +66,30 @@
             <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center book-card">
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Readed</span>
                             <span>Total</span>
                             <span>Books</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ readedBooks }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ readedBooks }}</strong>
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Readed</span>
                             <span>Total</span>
                             <span>Pages</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ readedTotalPages }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ readedTotalPages }}</strong>
                         </div>
                     </v-sheet>
 
                     <v-sheet v-if="readedBooks >= 1" @click="goToBook"
-                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-books">
+                        class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-books">
                         <div class="d-flex flex-column">
                             <span>What</span>
                             <span>should I</span>
@@ -110,30 +110,30 @@
             <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center game-card">
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Played</span>
                             <span>Total</span>
                             <span>Games</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ playedGames }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ playedGames }}</strong>
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Your</span>
                             <span>Favorite</span>
                             <span>Platform</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h2 font-weight-bold">{{ mostPlayPlatform }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ mostPlayPlatform }}</strong>
                         </div>
                     </v-sheet>
 
                     <v-sheet v-if="playedGames >= 2" @click="goToGames"
-                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-games">
+                        class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-games">
                         <div class="d-flex flex-column">
                             <span>See</span>
                             <span>all</span>
@@ -154,30 +154,30 @@
             <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center movie-card">
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Watched</span>
                             <span>Total</span>
                             <span>Movies</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h1 font-weight-bold">{{ watchedMovies }}</strong>
+                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ watchedMovies }}</strong>
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Your</span>
                             <span>Favorite</span>
                             <span>Genre</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h2 font-weight-bold">{{ favoriteGenre }}</strong>
+                            <strong class="text-h4 text-md-h3 font-weight-bold">{{ favoriteGenre }}</strong>
                         </div>
                     </v-sheet>
 
                     <v-sheet v-if="watchedMovies >= 2" @click="goToMovies"
-                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-movies">
+                        class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-movies">
                         <div class="d-flex flex-column">
                             <span>See</span>
                             <span>the best</span>
@@ -198,25 +198,25 @@
             <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center investment-card">
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>Your</span>
                             <span>Favorite</span>
                             <span>Investment</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h3 font-weight-bold">{{ maxGenre }}</strong>
+                            <strong class="text-h4 text-md-h3 font-weight-bold">{{ maxGenre }}</strong>
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column justify-center">
                             <span>Total</span>
                             <span>Investment</span>
                             <span>Cost</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h3 font-weight-bold">
+                            <strong class="text-h4 text-md-h3 font-weight-bold">
                                 <ul>
                                     <li v-for="item of costArray" :key="item">{{ item }}</li>
                                 </ul>
@@ -225,7 +225,7 @@
                     </v-sheet>
 
                     <v-sheet v-if="costArray.length > 0" @click="goToInvestment"
-                        class="cursor-pointer pa-3 d-flex text-h3 text-white go-investments">
+                        class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-investments">
                         <div class="d-flex flex-column">
                             <span>Let's</span>
                             <span>browse</span>

@@ -1,15 +1,10 @@
 <template>
 
     <v-carousel height="800" progress="teal-darken-2" hide-delimiters cycle>
-        <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-sheet height="100%">
-                <div class="d-flex flex-column ">
-                    <img :src="slide.src" class="slide-img" height="100%" alt="image" aspect-ratio="16/9" cover>
-                    <h3 class="text-h3 slide-text text-teal-darken-2">{{ slide.text }}</h3>
-                </div>
-            </v-sheet>
+        <v-carousel-item v-for="(slide, i) in slides" :key="i" class="slider-image" cover :src="slide.src">
         </v-carousel-item>
     </v-carousel>
+
     <v-container class="pa-5">
 
         <!-- * How to use start -->
@@ -27,7 +22,7 @@
             </v-col>
         </v-row>
         <!-- ! How to use end -->
-        
+
         <!-- * Why should use it start -->
         <v-row>
             <v-col>
@@ -41,6 +36,7 @@
                         <v-tab value="practical">Practical</v-tab>
                         <v-tab value="open-source">Open Source</v-tab>
                         <v-tab value="accesibility">Accesibility</v-tab>
+                        <v-tab value="freeNoMembership">Free! No Membership!</v-tab>
                     </v-tabs>
 
                     <v-card-text>
@@ -66,6 +62,10 @@
                                 whenever you want. My social media links are available in the contact section. At the
                                 same time, this project is a project under "GK Software" that I created myself.
                             </v-tabs-window-item>
+                            <v-tabs-window-item value="freeNoMembership">
+                                You do not need to pay any fee or use the panel as long as you are a member. You can use
+                                it unlimitedly as you wish.
+                            </v-tabs-window-item>
                         </v-tabs-window>
                     </v-card-text>
                 </v-card>
@@ -82,22 +82,29 @@
         <v-row>
             <v-col>
                 <div class="chips d-flex flex-wrap justify-center align-center">
-                    <v-chip @click="goToVueJs" class="chip cursor-pointer" size="x-large" variant="outlined">Vue.Js</v-chip>
-                    <v-chip @click="goToVuetify" class="chip cursor-pointer" size="x-large" variant="outlined">Vuetify</v-chip>
-                    <v-chip @click="goToVueRouter" class="chip cursor-pointer" size="x-large" variant="outlined">Vue Router</v-chip>
-                    <v-chip @click="goToVuex" class="chip cursor-pointer" size="x-large" variant="outlined">Vuex</v-chip>
-                    <v-chip @click="goToAws" class="chip cursor-pointer" size="x-large" variant="outlined">Amazon Web Services</v-chip>
-                    <v-chip @click="goToGsap" class="chip cursor-pointer" size="x-large" variant="outlined">Gsap</v-chip>
-                    <v-chip @click="goToFontAwesome" class="chip cursor-pointer" size="x-large" variant="outlined">Font Awesome</v-chip>
+                    <v-chip @click="goToVueJs" class="chip cursor-pointer" size="x-large"
+                        variant="outlined">VueJs</v-chip>
+                    <v-chip @click="goToVuetify" class="chip cursor-pointer" size="x-large"
+                        variant="outlined">Vuetify</v-chip>
+                    <v-chip @click="goToVueRouter" class="chip cursor-pointer" size="x-large" variant="outlined">Vue
+                        Router</v-chip>
+                    <v-chip @click="goToVuex" class="chip cursor-pointer" size="x-large"
+                        variant="outlined">Vuex</v-chip>
+                    <v-chip @click="goToAws" class="chip cursor-pointer" size="x-large" variant="outlined">Amazon Web
+                        Services</v-chip>
+                    <v-chip @click="goToGsap" class="chip cursor-pointer" size="x-large"
+                        variant="outlined">Gsap</v-chip>
+                    <v-chip @click="goToFontAwesome" class="chip cursor-pointer" size="x-large" variant="outlined">Font
+                        Awesome</v-chip>
                 </div>
             </v-col>
         </v-row>
         <!-- ! Technologies end -->
 
-        
-  <v-footer class="d-flex flex-column mt-5">
-    <!-- ! yapılacak -->
-  </v-footer>
+
+        <v-footer class="d-flex flex-column mt-5">
+            <!-- ! yapılacak -->
+        </v-footer>
     </v-container>
 </template>
 <script>
@@ -106,10 +113,10 @@ export default {
     data() {
         return {
             slides: [
-                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/dashboard.png', text: '' },
-                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/books.png', text: 'Follow your investments' },
-                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/create.png', text: 'Follow your movies' },
-                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/proje.png', text: 'Dark Mode/Light Mode' },
+                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/dashboard.png' },
+                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/books.png' },
+                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/create.png' },
+                { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/proje.png' },
             ],
             useList: [
                 { title: 'Projects', text: 'You can create a project by clicking the create project button. All you have to do is enter the name and status of your project.You can also edit your project information or delete your project by clicking on the project card you created. You can also make changes to your projects with the multiple selection method.' },
@@ -119,38 +126,39 @@ export default {
                 { title: 'Games', text: 'You can create a game by clicking the cretae game button. All you have to do is enter the game name, the platform you are playing on or will play on, and the playing status. You can control by updating, deleting and multiple selection.' },
                 { title: 'Dashboard', text: 'First of all, all the data you create, delete and update is stored locally in your browser and will not disappear anywhere unless you want it to. Therefore, you can conveniently track your data here. At the same time, there are algorithms in this software I wrote. You may receive suggestions and notifications based on your data.' }
             ],
-
             tab: null,
         }
     },
-    methods:{
-        goToVueJs(){
+    methods: {
+        goToVueJs() {
             window.open('https://vuejs.org', '_blank');
         },
-        goToVuetify(){
+        goToVuetify() {
             window.open('https://vuetifyjs.com/en/', '_blank');
         },
-        goToVueRouter(){
+        goToVueRouter() {
             window.open('https://router.vuejs.org/', '_blank');
         },
-        goToVuex(){
+        goToVuex() {
             window.open('https://vuex.vuejs.org/', '_blank');
         },
-        goToAws(){
+        goToAws() {
             window.open('https://aws.amazon.com/', '_blank');
         },
-        goToGsap(){
+        goToGsap() {
             window.open('https://gsap.com/', '_blank');
         },
-        goToFontAwesome(){
+        goToFontAwesome() {
             window.open('https://fontawesome.com/', '_blank');
         }
     }
 }
 </script>
 <style scoped>
-.slide-img {
-    position: relative;
+.slider-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .slide-text {
@@ -160,10 +168,12 @@ export default {
     transform: translateX(-50%);
     z-index: 999;
 }
-.chips{
+
+.chips {
     gap: 1rem;
 }
-.chip:hover{
+
+.chip:hover {
     border-color: #00796B;
     background: #00796B;
     color: #fff;
