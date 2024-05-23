@@ -66,7 +66,8 @@
 
     <!-- * Lists Start -->
 
-    <v-container 
+    <v-container
+    ref="container"
     v-if="$store.state.projects.projectsList.length > 0"
     class="my-5" >
 
@@ -254,6 +255,7 @@
     </v-snackbar>
 
     <v-snackbar
+    class="snackbar"
       v-model="snackbarUpdated"
       timeout="2000"
       color="indigo-darken-3">
@@ -432,7 +434,7 @@ export default {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
         }, 1000);  
-    },
+    }
 }
 </script>
 
