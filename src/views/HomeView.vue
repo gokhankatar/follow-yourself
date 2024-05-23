@@ -10,7 +10,7 @@
         <!-- * How to use start -->
         <v-row>
             <v-col>
-                <h2 class="text-h2 font-weight-bold text-center py-5">How to use ?</h2>
+                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">How to use ?</h2>
             </v-col>
         </v-row>
         <v-row>
@@ -26,7 +26,7 @@
         <!-- * Why should use it start -->
         <v-row>
             <v-col>
-                <h2 class="text-h2 font-weight-bold text-center py-5">Why should I use it ?</h2>
+                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">Why should I use it ?</h2>
             </v-col>
         </v-row>
         <v-row>
@@ -76,7 +76,7 @@
         <!-- * Technologies start -->
         <v-row>
             <v-col>
-                <h2 class="text-h2 font-weight-bold text-center py-5">Technologies I Use</h2>
+                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">Technologies I Use</h2>
             </v-col>
         </v-row>
         <v-row>
@@ -90,7 +90,8 @@
                         Router</v-chip>
                     <v-chip @click="goToVuex" class="chip cursor-pointer" size="x-large"
                         variant="outlined">Vuex</v-chip>
-                    <v-chip @click="goToAws" class="chip cursor-pointer" size="x-large" variant="outlined">Amazon Web
+                    <v-chip @click="goToAws" class="chip cursor-pointer" size="x-large" variant="outlined">Amazon
+                        Web
                         Services</v-chip>
                     <v-chip @click="goToGsap" class="chip cursor-pointer" size="x-large"
                         variant="outlined">Gsap</v-chip>
@@ -101,9 +102,31 @@
         </v-row>
         <!-- ! Technologies end -->
 
+        <v-footer class="d-flex flex-column mt-5 py-5">
+            <div id="footer-container" class="d-flex flex-column flex-md-row w-100 justify-between align-center px-2 py-5">
+                <strong>You can easily contact me via my social media accounts.</strong>
 
-        <v-footer class="d-flex flex-column mt-5">
-            <!-- ! yapılacak -->
+                <v-spacer></v-spacer>
+
+                <ul class="socials d-flex flex-wrap justify-center align-center">
+                    <a href="https://twitter.com/gokhan_crypto" target="_blank" aria-label="Twitter">
+                        <i class="fa-brands fa-x-twitter" id="social-icon"></i>
+                    </a>
+                    <a href="https://discord.gg/QNh6y9vv" target="_blank" aria-label="Discord">
+                        <i class="fa-brands fa-discord" id="social-icon"></i>
+                    </a>
+                    <a href="https://github.com/gokhankatar" target="_blank" aria-label="Github">
+                        <i class="fa-brands fa-github" id="social-icon"></i>
+                    </a>
+                    <a href="https://www.instagram.com/katargokhan96/" target="_blank" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram" id="social-icon"></i>
+                    </a>
+                </ul>
+            </div>
+
+            <div class="px-4 py-2 bg-teal text-center w-100">
+                {{ new Date().getFullYear() }} — <strong>GK Software</strong>
+            </div>
         </v-footer>
     </v-container>
 </template>
@@ -176,6 +199,27 @@ export default {
 .chip:hover {
     border-color: #00796B;
     background: #00796B;
+    color: #fff;
+}
+
+#footer-container{
+    gap: 1rem;
+}
+.socials{
+    display: flex;
+    gap: 2rem;
+}
+#social-icon{
+    border: 1px solid #00796B;
+    border-radius: 50%;
+    color: #00796B;
+    cursor: pointer;
+    padding: 1rem;
+    font-size: 1.5rem;
+    transition: all .2s ease;
+}
+#social-icon:hover{
+    background-color:#00796B;
     color: #fff;
 }
 </style>
