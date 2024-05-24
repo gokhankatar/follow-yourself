@@ -1,6 +1,6 @@
 <template>
 
-    <h1 class="text-h5 text-cyan-darken-1">My Investments</h1>
+    <h1 class="text-h5 text-cyan-darken-1">{{ $t('my-investments') }}</h1>
 
     <!-- Form -->
 
@@ -13,105 +13,40 @@
                 <v-text-field v-model="investmentName" :rules="nameRules" class="text-white mt-2" color="#00ACC1"
                     label="Investment Name" variant="outlined" required />
 
-                <v-autocomplete
-                  v-model="investmentGenre"
-                  :rules="[v => !!v || 'Genre is required!']"
-                  :items="['Stocks','Gold','Silver','Cryptocurrency','Forex','Other']"
-                  class="text-white mt-2"
-                  color="#00ACC1"
-                  chips
-                  item-color="#00ACC1"
-                  label="Investment Genre"
-                  variant="outlined"
-                  required />
+                <v-autocomplete v-model="investmentGenre" :rules="[v => !!v || 'Genre is required!']"
+                    :items="['Stocks', 'Gold', 'Silver', 'Cryptocurrency', 'Forex', 'Other']" class="text-white mt-2"
+                    color="#00ACC1" chips item-color="#00ACC1" label="Investment Genre" variant="outlined" required />
 
-                <v-autocomplete
-                  v-model="investmentCurrency"
-                  :rules="[v => !!v || 'Currency is required!']"
-                  :items="currencies"
-                  item-value="symbol"
-                  item-title="name"
-                  class="text-white mt-2"
-                  color="#00ACC1"
-                  chips
-                  item-color="#00ACC1"
-                  label="currency"
-                  variant="outlined"
-                  required />
+                <v-autocomplete v-model="investmentCurrency" :rules="[v => !!v || 'Currency is required!']"
+                    :items="currencies" item-value="symbol" item-title="name" class="text-white mt-2" color="#00ACC1"
+                    chips item-color="#00ACC1" label="currency" variant="outlined" required />
 
-                <v-text-field
-                  v-model="investmentCost"
-                  :rules="costRules"
-                  type="number"
-                  class="text-white mt-2"
-                  color="#00ACC1"
-                  label="Investment Cost"
-                  variant="outlined"
-                  required />
+                <v-text-field v-model="investmentCost" :rules="costRules" type="number" class="text-white mt-2"
+                    color="#00ACC1" label="Investment Cost" variant="outlined" required />
 
-                <v-text-field
-                  v-model="investmentAmount"
-                  :rules="amountRules"
-                  type="number"
-                  class="text-white mt-2"
-                  color="#00ACC1"
-                  label="Investment Amount"
-                  variant="outlined"
-                  required />
+                <v-text-field v-model="investmentAmount" :rules="amountRules" type="number" class="text-white mt-2"
+                    color="#00ACC1" label="Investment Amount" variant="outlined" required />
 
-                <v-autocomplete
-                  v-model="investmentStatus"
-                  :rules="[v => !!v || 'State is required!']"
-                  :items="['bought', 'sold',]"
-                  :item-title="value"
-                  :item-value="code"
-                  class="text-white mt-2"
-                  color="#00ACC1"
-                  chips
-                  item-color="#00ACC1"
-                  label="Trade Status"
-                  variant="outlined"
-                  required />
+                <v-autocomplete v-model="investmentStatus" :rules="[v => !!v || 'State is required!']"
+                    :items="['bought', 'sold',]" :item-title="value" :item-value="code" class="text-white mt-2"
+                    color="#00ACC1" chips item-color="#00ACC1" label="Trade Status" variant="outlined" required />
 
-                <v-btn
-                  v-if="!isEditInvestment"
-                  class="pa-2"
-                  color="success"
-                  size="small"
-                  variant="outlined"
-                  type="submit"
-                  block>
-                  Create
-                  </v-btn>
-                  <v-btn
-                  v-if="isEditInvestment"
-                  @click="editInvestment(selectedItem)"
-                  class="mt-2 pa-2"
-                  color="primary"
-                  size="small"
-                  variant="outlined"
-                  block>
-                  Save
-                  </v-btn>
-                  <v-btn
-                  v-if="isEditInvestment"
-                  @click="deleteItem(itemIndex)"
-                  class="mt-2 pa-2"
-                  color="error"
-                  size="small"
-                  variant="outlined"
-                  block>
-                  Delete
-                  </v-btn>
-                  <v-btn
-                  @click="isAddingInvestment = false"
-                  class="mt-2 pa-2"
-                  color="warning"
-                  size="small"
-                  variant="outlined"
-                  block>
-                  Cancel
-                  </v-btn>
+                <v-btn v-if="!isEditInvestment" class="pa-2" color="success" size="small" variant="outlined"
+                    type="submit" block>
+                    {{ $t('create') }}
+                </v-btn>
+                <v-btn v-if="isEditInvestment" @click="editInvestment(selectedItem)" class="mt-2 pa-2" color="primary"
+                    size="small" variant="outlined" block>
+                    {{ $t('save') }}
+                </v-btn>
+                <v-btn v-if="isEditInvestment" @click="deleteItem(itemIndex)" class="mt-2 pa-2" color="error"
+                    size="small" variant="outlined" block>
+                    {{ $t('delete') }}
+                </v-btn>
+                <v-btn @click="isAddingInvestment = false" class="mt-2 pa-2" color="warning" size="small"
+                    variant="outlined" block>
+                    {{ $t('cancel') }}
+                </v-btn>
 
             </v-form>
 
@@ -125,11 +60,11 @@
         class="d-flex flex-column justify-center align-center">
 
         <h3 class="text-uppercase header-3">
-            You haven't added a investment yet. Add now and start tracking your progress!
+            {{ $t('empty-message-investment') }}
         </h3>
 
         <v-btn @click="isAddingInvestment = true" class="mt-5" variant="outlined" color="#00ACC1" size="x-large">
-            Create first investment
+            {{ $t('create-first-investment') }}
         </v-btn>
 
     </v-container>
@@ -147,30 +82,30 @@
                         color="#00ACC1" />
 
                     <v-tooltip activator="parent" location="left">
-                        Edit
+                        {{ $t('edit') }}
                     </v-tooltip>
 
                 </v-col>
 
 
                 <v-col class="d-none d-sm-flex justify-start align-center" lg="3">
-                    <span>Name (Genre)</span>
+                    <span>{{ $t('name-investment') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Cost</span>
+                    <span>{{ $t('cost') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Amount</span>
+                    <span>{{ $t('amount') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Date</span>
+                    <span>{{ $t('date') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Status</span>
+                    <span>{{ $t('status') }}</span>
                 </v-col>
 
             </v-row>
@@ -185,56 +120,34 @@
 
                 <v-col class="d-flex justify-start align-center" lg="4">
 
-                   <v-btn
-                     @click="selectAll"
-                     class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
-                     prepend-icon="fa-solid fa-circle-check"
-                     variant="outlined"
-                     color="#00ACC1">
-                     Select
-                     all
-                     </v-btn>
+                    <v-btn @click="selectAll" class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-circle-check" variant="outlined" color="#00ACC1">
+                        {{ $t('select-all') }}
+                    </v-btn>
 
                 </v-col>
 
                 <v-col class="d-flex justify-end align-center flex-column flex-md-row" lg="8">
 
-                    <v-btn
-                      @click="setSold"
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-hand-holding-hand"
-                      variant="outlined"
-                      color="red-lighten-1">
-                      Set sold
+                    <v-btn @click="setSold" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-hand-holding-hand" variant="outlined" color="red-lighten-1">
+                        {{$t('set-sold')}}
                     </v-btn>
 
-                    <v-btn
-                      @click="setBought"
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-hand-holding-dollar"
-                      variant="outlined"
-                      color="success">
-                      Set
-                      bought
-                      </v-btn>
+                    <v-btn @click="setBought" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-hand-holding-dollar" variant="outlined" color="success">
+                        {{$t('set-bought')}}
+                    </v-btn>
 
-                    <v-btn
-                      @click="multipleDelete"
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-trash"
-                      variant="outlined"
-                      color="red-darken-3">
-                      Delete
-                      </v-btn>
+                    <v-btn @click="multipleDelete" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-trash" variant="outlined" color="red-darken-3">
+                        {{ $t('delete') }}
+                    </v-btn>
 
-                    <v-btn
-                      @click="cancelEditMode"
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-xmark"
-                      variant="outlined"
-                      color="error">
-                      Cancel
-                      </v-btn>
+                    <v-btn @click="cancelEditMode" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-xmark" variant="outlined" color="error">
+                        {{ $t('cancel') }}
+                    </v-btn>
 
                 </v-col>
 
@@ -244,22 +157,15 @@
 
         <!-- Edit Mode End -->
 
-        <v-card
-          v-for="(item, index) of $store.state.investments.investmentsList"
-          :key="index"
-          :class="isSelectAll || item.isSelected ? 'selectedCard' : ''"
-          id="card-investment"
-          class="mt-5 py-5 px-3 text-body-1 text-cyan-darken-1 cursor-pointer">
+        <v-card v-for="(item, index) of $store.state.investments.investmentsList" :key="index"
+            :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-investment"
+            class="mt-5 py-5 px-3 text-body-1 text-cyan-darken-1 cursor-pointer">
 
             <v-row class="d-flex flex-column flex-sm-row justify-space-between">
 
                 <v-spacer v-if="!isEditMode" />
 
-                <v-col
-                  v-if="isEditMode"
-                  @click="selectCard(item)"
-                  class="d-flex justify-start align-center"
-                  lg="1">
+                <v-col v-if="isEditMode" @click="selectCard(item)" class="d-flex justify-start align-center" lg="1">
 
                     <v-icon class="cursor-pointer"
                         :icon="isSelectAll || item.isSelected ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'"
@@ -270,7 +176,7 @@
                 <v-col @click="handleInvestment(item, index)" class="d-flex justify-start align-center" lg="3">
 
                     <v-tooltip activator="parent" location="top">
-                        Edit/Delete
+                        {{$t('edit')}}/{{$t('delete')}}
                     </v-tooltip>
 
                     <span>{{ item.name.toUpperCase() }} <strong>({{ item.genre }})</strong></span>
@@ -280,7 +186,7 @@
                 <v-col @click="handleInvestment(item, index)" class="d-flex justify-start align-center" lg="2">
 
                     <v-tooltip activator="parent" location="top">
-                        Edit/Delete
+                        {{$t('edit')}}/{{$t('delete')}}
                     </v-tooltip>
 
                     <span>
@@ -292,7 +198,7 @@
                 <v-col @click="handleInvestment(item, index)" class="d-flex justify-start align-center" lg="2">
 
                     <v-tooltip activator="parent" location="top">
-                        Edit/Delete
+                        {{$t('edit')}}/{{$t('delete')}}
                     </v-tooltip>
 
                     <span>
@@ -312,7 +218,7 @@
                         variant="outlined">
 
                         <v-tooltip activator="parent" location="top">
-                            Change Status
+                            {{ $t('change-status') }}
                         </v-tooltip>
 
                         {{ item.status }}
@@ -330,7 +236,7 @@
             <v-col class="my-5 d-flex justify-center">
 
                 <v-btn @click="addInvestment" class="add-btn" size="x-large" color="cyan-darken-1" variant="outlined">
-                    Add Investment
+                    {{ $t('add-investment') }}
                 </v-btn>
 
             </v-col>
@@ -381,14 +287,14 @@ export default {
             investmentCost: null,
             investmentAmount: null,
             investmentStatus: null,
-            investmentCurrency:null,
-            currencies:[
-                {name:'USD $', symbol:'$'},
-                {name:'EUR €', symbol:'€'},
-                {name:'GBP £', symbol:'£'},
-                {name:'JPY ¥', symbol:'¥'},
-                {name:'TRY ₺', symbol:'₺'},
-                {name:'BTC ₿', symbol:'₿'}
+            investmentCurrency: null,
+            currencies: [
+                { name: 'USD $', symbol: '$' },
+                { name: 'EUR €', symbol: '€' },
+                { name: 'GBP £', symbol: '£' },
+                { name: 'JPY ¥', symbol: '¥' },
+                { name: 'TRY ₺', symbol: '₺' },
+                { name: 'BTC ₿', symbol: '₿' }
             ],
             intervalId: null,
             currentDate: new Date(),
@@ -427,22 +333,22 @@ export default {
                     cost: this.investmentCost,
                     amount: this.investmentAmount,
                     status: this.investmentStatus,
-                    currency:this.investmentCurrency,
+                    currency: this.investmentCurrency,
                 });
                 this.$refs.investmentForm.reset();
                 this.isAddingInvestment = false;
                 this.snackbarAdded = true;
 
-                 // created sound effect
-                 let createdSound = new Audio(soundOfCreated);
-                 createdSound.play();
+                // created sound effect
+                let createdSound = new Audio(soundOfCreated);
+                createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
             this.$store.dispatch('switchInvestmentStatus', index);
-            
-            if(this.$store.state.investments.investmentsList[index].status == 'bought'){
+
+            if (this.$store.state.investments.investmentsList[index].status == 'bought') {
                 let boughtSound = new Audio(soundOfBought);
                 boughtSound.play();
             }
@@ -585,7 +491,7 @@ export default {
 }
 
 span.sold:hover {
-    box-shadow: 0 0 1rem #EF5350  ;
+    box-shadow: 0 0 1rem #EF5350;
     border: none;
 }
 

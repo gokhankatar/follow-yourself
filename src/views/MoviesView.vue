@@ -1,6 +1,6 @@
 <template>
 
-    <h1 class="text-h5 text-deep-orange">My Movies</h1>
+    <h1 class="text-h5 text-deep-orange">{{ $t('my-movies') }}</h1>
 
     <!-- Form -->
 
@@ -24,19 +24,19 @@
 
                 <v-btn v-if="!isEditMovie" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
                     type="submit" block>
-                    Create</v-btn>
+                    {{ $t('create') }}</v-btn>
 
                 <v-btn v-if="isEditMovie" @click="editMovie(selectedItem)" class="mt-3 pa-2" color="primary"
                     size="medium" variant="outlined" block>
-                    Save</v-btn>
+                    {{ $t('save') }}</v-btn>
 
                 <v-btn v-if="isEditMovie" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
                     variant="outlined" block>
-                    Delete</v-btn>
+                    {{ $t('delete') }}</v-btn>
 
                 <v-btn @click="isAddingMovie = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined"
                     block>
-                    Cancel</v-btn>
+                    {{ $t('cancel') }}</v-btn>
 
             </v-form>
 
@@ -50,11 +50,11 @@
         class="d-flex flex-column justify-center align-center">
 
         <h3 class="text-uppercase header-3">
-            You haven't added a movie yet. Add now and start tracking your progress!
+            {{ $t('empty-message-movie') }}
         </h3>
 
         <v-btn @click="isAddingMovie = true" class="mt-5" variant="outlined" color="#FF5722" size="x-large">
-            Create first movie
+            {{ $t('create-first-movie') }}
         </v-btn>
 
     </v-container>
@@ -72,26 +72,26 @@
                         color="#FF5722" />
 
                     <v-tooltip activator="parent" location="left">
-                        Edit
+                        {{ $t('edit') }}
                     </v-tooltip>
 
                 </v-col>
 
 
                 <v-col class="d-none d-sm-flex justify-start align-center" lg="5">
-                    <span>Name</span>
+                    <span>{{ $t('name-movie') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Genre</span>
+                    <span>{{ $t('movie-genre') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Date</span>
+                    <span>{{ $t('date') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Status</span>
+                    <span>{{ $t('status') }}</span>
                 </v-col>
 
             </v-row>
@@ -106,58 +106,34 @@
 
                 <v-col class="d-flex justify-start align-center" lg="4">
 
-                  <v-btn
-                    @click="selectAll"
-                    class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
-                    prepend-icon="fa-solid fa-circle-check"
-                    variant="outlined"
-                    color="#FF5722">
-                    Select
-                    all
+                    <v-btn @click="selectAll" class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-circle-check" variant="outlined" color="#FF5722">
+                        {{ $t('select-all') }}
                     </v-btn>
 
                 </v-col>
 
                 <v-col class="d-flex justify-end align-center flex-column flex-md-row" lg="8">
 
-                 <v-btn
-                   @click="setWillWatch"
-                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                   prepend-icon="fa-solid fa-dumbbell"
-                   variant="outlined"
-                   color="warning">
-                   Set
-                   will
-                   watch
-                   </v-btn>
+                    <v-btn @click="setWillWatch" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-dumbbell" variant="outlined" color="warning">
+                        {{ $t('set-will-watch') }}
+                    </v-btn>
 
-                   <v-btn
-                   @click="setWatched"
-                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                   prepend-icon="fa-solid fa-check"
-                   variant="outlined"
-                   color="success">
-                   Set
-                   watched
-                   </v-btn>
+                    <v-btn @click="setWatched" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-check" variant="outlined" color="success">
+                        {{ $t('set-watched') }}
+                    </v-btn>
 
-                   <v-btn
-                   @click="multipleDelete"
-                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                   prepend-icon="fa-solid fa-trash"
-                   variant="outlined"
-                   color="red-darken-3">
-                   Delete
-                   </v-btn>
+                    <v-btn @click="multipleDelete" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-trash" variant="outlined" color="red-darken-3">
+                        {{ $t('delete') }}
+                    </v-btn>
 
-                   <v-btn
-                   @click="cancelEditMode"
-                   class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                   prepend-icon="fa-solid fa-xmark"
-                   variant="outlined"
-                   color="error">
-                   Cancel
-                   </v-btn>
+                    <v-btn @click="cancelEditMode" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-xmark" variant="outlined" color="error">
+                        {{ $t('cancel') }}
+                    </v-btn>
 
                 </v-col>
 
@@ -186,7 +162,7 @@
                 <v-col @click="handleMovie(item, index)" class="d-flex justify-start align-center" lg="5">
 
                     <v-tooltip activator="parent" location="top">
-                        Edit/Delete
+                        {{ $t('edit') }}/{{ $t('delete') }}
                     </v-tooltip>
 
                     <span>{{ item.name }}</span>
@@ -196,7 +172,7 @@
                 <v-col @click="handleMovie(item, index)" class="d-flex justify-start align-center" lg="2">
 
                     <v-tooltip activator="parent" location="top">
-                        Edit/Delete
+                        {{ $t('edit') }}/{{ $t('delete') }}
                     </v-tooltip>
 
                     <span>
@@ -218,7 +194,7 @@
                         variant="outlined">
 
                         <v-tooltip activator="parent" location="top">
-                            Change Status
+                            {{ $t('change-status') }}
                         </v-tooltip>
 
                         {{ item.status }}
@@ -236,7 +212,7 @@
             <v-col class="my-5 d-flex justify-center">
 
                 <v-btn @click="addMovie" class="add-btn" size="x-large" color="deep-orange" variant="outlined">
-                    Add Movie</v-btn>
+                    {{ $t('add-movie') }}</v-btn>
 
             </v-col>
 
@@ -316,16 +292,16 @@ export default {
                 this.isAddingMovie = false;
                 this.snackbarAdded = true;
 
-                 // created sound effect
-                 let createdSound = new Audio(soundOfCreated);
-                 createdSound.play();
+                // created sound effect
+                let createdSound = new Audio(soundOfCreated);
+                createdSound.play();
             }
         },
 
         toggleItemStatus(index) {
             this.$store.dispatch('switchMovieStatus', index);
 
-            if(this.$store.state.movies.moviesList[index].status == 'watched'){
+            if (this.$store.state.movies.moviesList[index].status == 'watched') {
                 let watchedSound = new Audio(soundOfWatched);
                 watchedSound.play();
             }

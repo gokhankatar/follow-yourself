@@ -41,7 +41,7 @@
         class="d-flex flex-column justify-center align-center">
 
         <h3 class="text-uppercase header-3">
-            {{ $t('empty-message') }}
+            {{ $t('empty-message-project') }}
         </h3>
 
         <v-btn @click="isAddingProject = true" class="mt-5" variant="outlined" color="primary" size="x-large">

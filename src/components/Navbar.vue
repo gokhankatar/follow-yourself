@@ -84,7 +84,7 @@
             </v-btn>
             <v-btn 
             class="mx-2" id="menu-activator" variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-globe">
-                Languages
+            {{ $t('languages') }}
             </v-btn>
 
             <v-menu activator="#menu-activator">

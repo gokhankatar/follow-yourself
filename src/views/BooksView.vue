@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-h5 text-light-green">My Books</h1>
+    <h1 class="text-h5 text-light-green">{{ $t('my-books') }}</h1>
 
     <!-- Form -->
 
@@ -59,7 +59,7 @@
                   variant="outlined"
                   type="submit"
                   block>
-                  Create</v-btn>
+                  {{ $t('create') }}</v-btn>
 
                   <v-btn
                   v-if="isEditBook"
@@ -69,7 +69,7 @@
                   size="medium"
                   variant="outlined"
                   block>
-                  Save</v-btn>
+                  {{ $t('save') }}</v-btn>
 
                   <v-btn
                   v-if="isEditBook"
@@ -79,7 +79,7 @@
                   size="medium"
                   variant="outlined"
                   block>
-                  Delete</v-btn>
+                  {{ $t('delete') }}</v-btn>
                   
                   <v-btn
                   @click="isAddingBook = false"
@@ -88,7 +88,7 @@
                   size="medium"
                   variant="outlined"
                   block>
-                  Cancel</v-btn>
+                  {{ $t('cancel') }}</v-btn>
 
             </v-form>
 
@@ -103,7 +103,7 @@
     class="d-flex flex-column justify-center align-center">
 
         <h3 class="text-uppercase header-3">
-            You haven't added a book yet. Add now and start tracking your progress!
+            {{ $t('empty-message-book') }}
         </h3>
 
         <v-btn 
@@ -112,7 +112,7 @@
         variant="outlined" 
         color="#8BC34A" 
         size="x-large">
-        Create first book
+        {{ $t('create-first-book') }}
         </v-btn>
 
     </v-container>
@@ -139,7 +139,7 @@
                     color="#8BC34A"/>
 
                     <v-tooltip activator="parent" location="left">
-                        Edit
+                        {{$t('edit')}}
                     </v-tooltip>
 
                 </v-col>
@@ -147,23 +147,23 @@
                 <v-col
                 class="d-none d-sm-flex justify-start align-center" 
                 lg="3">
-                    <span>Name</span>
+                    <span>{{ $t('name-book') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Author</span>
+                    <span>{{ $t('author') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Pages</span>
+                    <span>{{ $t('pages') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Date</span>
+                    <span>{{$t('date')}}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center">
-                    <span>Status</span>
+                    <span>{{$t('status')}}</span>
                 </v-col>
 
             </v-row>
@@ -186,7 +186,7 @@
                     prepend-icon="fa-solid fa-circle-check" 
                     variant="outlined"
                     color="#8BC34A">
-                        Select all
+                    {{$t('select-all')}}
                     </v-btn>
 
                 </v-col>
@@ -199,7 +199,7 @@
                     prepend-icon="fa-solid fa-dumbbell" 
                     variant="outlined"
                     color="warning">
-                        Set will read
+                        {{$t('set-will-read')}}
                     </v-btn>
 
                     <v-btn 
@@ -208,7 +208,7 @@
                     prepend-icon="fa-solid fa-check" 
                     variant="outlined"
                     color="success">
-                        Set readed
+                    {{$t('set-readed')}}
                     </v-btn>
 
                     <v-btn 
@@ -217,7 +217,7 @@
                     prepend-icon="fa-solid fa-trash" 
                     variant="outlined"
                     color="red-darken-3">
-                        Delete
+                    {{$t('delete')}}
                     </v-btn>
 
                     <v-btn 
@@ -226,7 +226,7 @@
                     prepend-icon="fa-solid fa-xmark"
                     variant="outlined"
                     color="error">
-                    Cancel
+                    {{$t('cancel')}}
                     </v-btn>
 
                 </v-col>
@@ -268,7 +268,7 @@
                     <v-tooltip 
                     activator="parent" 
                     location="top">
-                    Edit/Delete
+                    {{$t('edit')}}/{{$t('delete')}}
                     </v-tooltip>
 
                     <span>{{ item.name }}</span>
@@ -283,7 +283,7 @@
                     <v-tooltip 
                     activator="parent" 
                     location="top">
-                    Edit/Delete
+                    {{$t('edit')}}/{{$t('delete')}}
                     </v-tooltip>
 
                     <span>{{ item.author }}</span>
@@ -298,7 +298,7 @@
                     <v-tooltip 
                     activator="parent" 
                     location="top">
-                    Edit/Delete
+                    {{$t('edit')}}/{{$t('delete')}}
                     </v-tooltip>
 
                     <span>{{ item.pages }}</span>
@@ -326,7 +326,7 @@
                         <v-tooltip 
                         activator="parent" 
                         location="top">
-                        Change Status
+                        {{$t('change-status')}}
                         </v-tooltip>
 
                         {{ item.status }}
@@ -349,7 +349,7 @@
                 size="x-large" 
                 color="light-green" 
                 variant="outlined">
-                Add Book
+                {{$t('add-book')}}
                 </v-btn>
 
             </v-col>
