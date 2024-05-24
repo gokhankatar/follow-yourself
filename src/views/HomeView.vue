@@ -10,7 +10,7 @@
         <!-- * How to use start -->
         <v-row>
             <v-col>
-                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">How to use ?</h2>
+                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">{{ $t('how-to-use') }}</h2>
             </v-col>
         </v-row>
         <v-row>
@@ -26,45 +26,34 @@
         <!-- * Why should use it start -->
         <v-row>
             <v-col>
-                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">Why should I use it ?</h2>
+                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">{{ $t('why-should') }}</h2>
             </v-col>
         </v-row>
         <v-row>
             <v-col>
                 <v-card>
                     <v-tabs v-model="tab" bg-color="teal-darken-2">
-                        <v-tab value="practical">Practical</v-tab>
-                        <v-tab value="open-source">Open Source</v-tab>
-                        <v-tab value="accesibility">Accesibility</v-tab>
-                        <v-tab value="freeNoMembership">Free! No Membership!</v-tab>
+                        <v-tab value="practical">{{ $t('practical') }}</v-tab>
+                        <v-tab value="open-source">{{ $t('open-source') }}</v-tab>
+                        <v-tab value="accesibility">{{ $t('accesibility') }}</v-tab>
+                        <v-tab value="freeNoMembership">{{ $t('free') }}</v-tab>
                     </v-tabs>
 
                     <v-card-text>
                         <v-tabs-window v-model="tab">
                             <v-tabs-window-item value="practical">
-                                Since your data is stored locally in your browser, you can easily track your progress.
-                                Publishers can easily track and manage the games they have played or will be playing by
-                                entering data here. Instead of creating tables in tools such as Excel, investors can
-                                easily track their investments with algorithms. Those who like to read books can store
-                                and manage the books they have read or will read here as if they were a database. Those
-                                who love watching movies and those who forget which movie you watched or are going to
-                                watch can easily follow it here.
+                                {{ $t('practical-info') }}
                             </v-tabs-window-item>
 
                             <v-tabs-window-item value="open-source">
-                                This project is open source. So you can view my codes as you wish and criticize me. I
-                                shared my codes with you. You can access it from the source codes button. Please
-                                contribute to my codes, criticize and support me. I would be very grateful to you.
+                                {{ $t('open-source-info') }}
                             </v-tabs-window-item>
 
                             <v-tabs-window-item value="accesibility">
-                                Since I did the project alone from start to finish, I am the person you can easily reach
-                                whenever you want. My social media links are available in the contact section. At the
-                                same time, this project is a project under "GK Software" that I created myself.
+                                {{ $t('accesibility-info') }}
                             </v-tabs-window-item>
                             <v-tabs-window-item value="freeNoMembership">
-                                You do not need to pay any fee or use the panel as long as you are a member. You can use
-                                it unlimitedly as you wish.
+                                {{ $t('free-info') }}
                             </v-tabs-window-item>
                         </v-tabs-window>
                     </v-card-text>
@@ -76,7 +65,7 @@
         <!-- * Technologies start -->
         <v-row>
             <v-col>
-                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">Technologies I Use</h2>
+                <h2 class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center py-5">{{ $t('technologies') }}</h2>
             </v-col>
         </v-row>
         <v-row>
@@ -97,6 +86,8 @@
                         variant="outlined">Gsap</v-chip>
                     <v-chip @click="goToFontAwesome" class="chip cursor-pointer" size="x-large" variant="outlined">Font
                         Awesome</v-chip>
+                        <v-chip @click="goToI18n" class="chip cursor-pointer" size="x-large"
+                        variant="outlined">Vue i18n</v-chip>
                 </div>
             </v-col>
         </v-row>
@@ -104,7 +95,7 @@
 
         <v-footer class="d-flex flex-column mt-5 py-5">
             <div id="footer-container" class="d-flex flex-column flex-md-row w-100 justify-between align-center px-2 py-5">
-                <strong>You can easily contact me via my social media accounts.</strong>
+                <strong>{{ $t('footer-msg') }}</strong>
 
                 <v-spacer></v-spacer>
 
@@ -142,12 +133,12 @@ export default {
                 { src: 'https://improveyourself-images.s3.eu-north-1.amazonaws.com/proje.png' },
             ],
             useList: [
-                { title: 'Projects', text: 'You can create a project by clicking the create project button. All you have to do is enter the name and status of your project.You can also edit your project information or delete your project by clicking on the project card you created. You can also make changes to your projects with the multiple selection method.' },
-                { title: 'Books', text: 'You can create a book by clicking the cretae book button. All you have to do is specify the name, author, number of pages and status of the book you created. You can control by updating, deleting and multiple selection as in the project.' },
-                { title: 'Investments', text: 'You can create an investment by clicking the create investment button. It is sufficient to specify the name of the product you invested in, its type (stock? cryptocurrency? etc.), your cost (how much money did you invest in?), the amount of the product you bought or sold, its currency and investment status. You can control by updating, deleting and multiple selection.' },
-                { title: 'Movies', text: 'You can create a movie by clicking the cretae movie button. Just enter the movie name, genre(s), movie status. You can control by updating, deleting and multiple selection.' },
-                { title: 'Games', text: 'You can create a game by clicking the cretae game button. All you have to do is enter the game name, the platform you are playing on or will play on, and the playing status. You can control by updating, deleting and multiple selection.' },
-                { title: 'Dashboard', text: 'First of all, all the data you create, delete and update is stored locally in your browser and will not disappear anywhere unless you want it to. Therefore, you can conveniently track your data here. At the same time, there are algorithms in this software I wrote. You may receive suggestions and notifications based on your data.' }
+                { title: this.$t('projects'), text: this.$t('projects-info') },
+                { title: this.$t('books'), text: this.$t('books-info') },
+                { title: this.$t('investments'), text: this.$t('investments-info')},
+                { title: this.$t('movies'), text: this.$t('movies-info') },
+                { title: this.$t('games'), text:this.$t('games-info') },
+                { title: this.$t('dashboard'), text: this.$t('dashboard-info')}
             ],
             tab: null,
         }
@@ -173,6 +164,9 @@ export default {
         },
         goToFontAwesome() {
             window.open('https://fontawesome.com/', '_blank');
+        },
+        goToI18n(){
+            window.open('https://vue-i18n.intlify.dev/', '_blank');
         }
     }
 }

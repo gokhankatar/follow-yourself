@@ -1,18 +1,5 @@
 <template>
-    <h1 class="text-h5 text-primary">My Projects</h1>
-
-    <!-- <div 
-    class="small-screen d-flex flex-column justify-center text-primary font-weight-bold text-h3">
-        <span>P</span>
-        <span>R</span>
-        <span>O</span>
-        <span>J</span>
-        <span>E</span>
-        <span>C</span>
-        <span>T</span>
-        <span>S</span>
-    </div> -->
-
+    <h1 class="text-h5 text-primary">{{ $t('my-projects') }}</h1>
     <!-- * Form Start -->
 
     <v-dialog v-model="isAddingProject" transition="dialog-bottom-transition" max-width="400">
@@ -29,16 +16,16 @@
                     item-color="primary" label="Project Status" variant="outlined" required />
 
                 <v-btn v-if="!isEditProject" class="mt-3 pa-2" color="success" size="medium" variant="outlined"
-                    type="submit" block>Create</v-btn>
+                    type="submit" block>{{ $t('create') }}</v-btn>
 
                 <v-btn v-if="isEditProject" @click="editProject(selectedItem)" class="mt-3 pa-2" color="primary"
-                    size="medium" variant="outlined" block>Save</v-btn>
+                    size="medium" variant="outlined" block>{{ $t('save') }}</v-btn>
 
                 <v-btn v-if="isEditProject" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
-                    variant="outlined" block>Delete</v-btn>
+                    variant="outlined" block>{{ $t('delete') }}</v-btn>
 
                 <v-btn @click="isAddingProject = false" class="mt-3 pa-2" color="warning" size="medium"
-                    variant="outlined" block>Cancel</v-btn>
+                    variant="outlined" block>{{ $t('cancel') }}</v-btn>
 
             </v-form>
 
@@ -50,26 +37,22 @@
 
     <!-- If list is empty -->
 
-    <v-container 
-    v-if="$store.state.projects.projectsList.length == 0"
-    class="d-flex flex-column justify-center align-center">
+    <v-container v-if="$store.state.projects.projectsList.length == 0"
+        class="d-flex flex-column justify-center align-center">
 
         <h3 class="text-uppercase header-3">
-            You haven't added a project yet. Add now and start tracking your progress!
+            {{ $t('empty-message') }}
         </h3>
 
         <v-btn @click="isAddingProject = true" class="mt-5" variant="outlined" color="primary" size="x-large">
-            Create first project
+            {{ $t('create-first-project') }}
         </v-btn>
 
     </v-container>
 
     <!-- * Lists Start -->
 
-    <v-container
-    ref="container"
-    v-if="$store.state.projects.projectsList.length > 0"
-    class="my-5" >
+    <v-container ref="container" v-if="$store.state.projects.projectsList.length > 0" class="my-5">
 
         <v-card v-if="!isEditMode" class="text-caption text-grey">
 
@@ -80,21 +63,21 @@
                         color="primary" />
 
                     <v-tooltip activator="parent" location="left">
-                        Edit
+                        {{ $t('edit') }}
                     </v-tooltip>
 
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center" lg="7">
-                    <span>Title</span>
+                    <span>{{ $t('title') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center" lg="2">
-                    <span>Date</span>
+                    <span>{{ $t('date') }}</span>
                 </v-col>
 
                 <v-col class="d-none d-sm-flex justify-start align-center" lg="2">
-                    <span>Status</span>
+                    <span>{{ $t('status') }}</span>
                 </v-col>
 
             </v-row>
@@ -109,56 +92,31 @@
 
                 <v-col class="d-flex justify-start align-center" lg="4">
 
-                    <v-btn
-                      @click="selectAll"
-                      class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-circle-check"
-                      variant="outlined"
-                      color="primary">
-                      Select
-                      all
-                      </v-btn>
+                    <v-btn @click="selectAll" class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-circle-check" variant="outlined" color="primary">
+                        {{ $t('select-all') }}
+                    </v-btn>
 
                 </v-col>
 
-                <v-col 
-                class="d-flex justify-end align-center flex-column flex-md-row" 
-                lg="8">
+                <v-col class="d-flex justify-end align-center flex-column flex-md-row" lg="8">
 
-                    <v-btn
-                      @click="setOngoing"
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-dumbbell"
-                      variant="outlined"
-                      color="warning">
-                      Set
-                      ongoing
-                      </v-btn>
-                      <v-btn
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      @click="setFinisihed"
-                      prepend-icon="fa-solid fa-check"
-                      variant="outlined"
-                      color="success">
-                      Set
-                      finished
-                      </v-btn>
-                      <v-btn
-                      @click="multipleDelete"
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      prepend-icon="fa-solid fa-trash"
-                      variant="outlined"
-                      color="red-darken-3">
-                      Delete
-                      </v-btn>
-                      <v-btn
-                      class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-                      @click="cancelEditMode"
-                      prepend-icon="fa-solid fa-xmark"
-                      variant="outlined"
-                      color="error">
-                      Cancel
-                      </v-btn>
+                    <v-btn @click="setOngoing" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-dumbbell" variant="outlined" color="warning">
+                        {{ $t('set-ongoing') }}
+                    </v-btn>
+                    <v-btn class="mx-2 my-1 my-md-0 w-100 w-md-auto" @click="setFinisihed"
+                        prepend-icon="fa-solid fa-check" variant="outlined" color="success">
+                        {{ $t('set-finished') }}
+                    </v-btn>
+                    <v-btn @click="multipleDelete" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
+                        prepend-icon="fa-solid fa-trash" variant="outlined" color="red-darken-3">
+                        {{ $t('delete') }}
+                    </v-btn>
+                    <v-btn class="mx-2 my-1 my-md-0 w-100 w-md-auto" @click="cancelEditMode"
+                        prepend-icon="fa-solid fa-xmark" variant="outlined" color="error">
+                        {{ $t('cancel') }}
+                    </v-btn>
                 </v-col>
 
             </v-row>
@@ -167,21 +125,14 @@
 
         <!-- ! Edit Mode End -->
 
-        <v-card
-        v-for="(item, index) of $store.state.projects.projectsList"
-        :key="index"
-        :class="isSelectAll || item.isSelected ? 'selectedCard' : ''"
-        id="card-project"
-        class="mt-5 py-5 px-3 text-body-1 text-primary cursor-pointer">
+        <v-card v-for="(item, index) of $store.state.projects.projectsList" :key="index"
+            :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-project"
+            class="mt-5 py-5 px-3 text-body-1 text-primary cursor-pointer">
             <v-row class="d-flex flex-column flex-sm-row justify-space-between">
 
                 <v-spacer v-if="!isEditMode" />
 
-                <v-col 
-                v-if="isEditMode" 
-                @click="selectCard(item)" 
-                class="d-flex justify-start align-center"
-                lg="1">
+                <v-col v-if="isEditMode" @click="selectCard(item)" class="d-flex justify-start align-center" lg="1">
 
                     <v-icon class="cursor-pointer"
                         :icon="isSelectAll || item.isSelected ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'"
@@ -189,13 +140,10 @@
 
                 </v-col>
 
-               <v-col
-                 @click="handleCard(item, index)"
-                 class="d-flex justify-start align-center"
-                 lg="7">
+                <v-col @click="handleCard(item, index)" class="d-flex justify-start align-center" lg="7">
 
                     <v-tooltip activator="parent" location="top">
-                        Edit/Delete
+                        {{ $t('edit') }}/{{ $t('delete') }}
                     </v-tooltip>
 
                     <span>{{ item.name }}</span>
@@ -214,7 +162,7 @@
                         variant="outlined">
 
                         <v-tooltip activator="parent" location="top">
-                            Change Status
+                            {{ $t('change-status') }}
                         </v-tooltip>
 
                         {{ item.status }}
@@ -232,7 +180,7 @@
             <v-col class="my-5 d-flex justify-center">
 
                 <v-btn @click="addProject" class="add-btn" size="x-large" color="primary" variant="outlined">
-                    Add Project
+                    {{$t('add-project')}}
                 </v-btn>
 
             </v-col>
@@ -245,20 +193,13 @@
 
     <!-- Notifications -->
 
-    <v-snackbar
-      v-model="snackbarAdded"
-      timeout="2000"
-      color="green-darken-3">
+    <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
 
         <p class="message text-center">You added a project!</p>
 
     </v-snackbar>
 
-    <v-snackbar
-    class="snackbar"
-      v-model="snackbarUpdated"
-      timeout="2000"
-      color="indigo-darken-3">
+    <v-snackbar class="snackbar" v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
 
         <p class="message text-center">You updated a project!</p>
 
@@ -335,7 +276,7 @@ export default {
 
         toggleItemStatus(index) {
             this.$store.dispatch('switchProjectStatus', index);
-            if(this.$store.state.projects.projectsList[index].status == 'finished'){
+            if (this.$store.state.projects.projectsList[index].status == 'finished') {
                 let successSound = new Audio(soundOfSuccess);
                 successSound.play();
             }
@@ -374,7 +315,7 @@ export default {
 
             let deletedSound = new Audio(soundOfDeleted);
             deletedSound.play();
-            
+
             this.snackbarDeleted = true;
             this.isAddingProject = false;
             this.isEditProject = false;
@@ -433,7 +374,7 @@ export default {
     mounted() {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
-        }, 1000);  
+        }, 1000);
     }
 }
 </script>
@@ -472,7 +413,7 @@ span.success:hover {
     border-left: 1px solid #2196F3;
 }
 
-.small-screen{
+.small-screen {
     gap: .5rem;
 }
 </style>

@@ -4,6 +4,7 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import router from './router/router';
 import store from './store/store';
+import i18n from './locale/lang';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -20,4 +21,5 @@ library.add(far)
 app.use(vuetify);
 app.use(router);
 app.use(store);
+app.use(i18n);
 app.mount('#app');

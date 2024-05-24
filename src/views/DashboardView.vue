@@ -1,17 +1,17 @@
 <template>
-    <h1 class="text-h5">DASHBOARD</h1>
+    <h1 class="text-h5">{{ $t('dashboard') }}</h1>
     <v-container class="my-5">
 
         <!-- * Notification Start -->
         <v-dialog v-model="isNotification" max-width="700">
             <v-card class="pa-5 d-flex flex-column notification">
                 <div class="d-flex justify-space-between align-center">
-                    <h2 class="text-h5 text-sm-h4 text-md-h3">CONGRATULATIONS!</h2>
+                    <h2 class="text-h5 text-sm-h4 text-md-h3">{{ $t('congratulationss') }}</h2>
                     <v-icon class="d-flex align-center" size="large" :icon="icon" />
                 </div>
                 <h5 class="text-p2 text-sm-p1 text-md-h5">{{ msg }}</h5>
                 <v-btn max-width="40%" variant="outlined" @click="isNotification = false">
-                    Close
+                    {{ $t('close') }}
                 </v-btn>
             </v-card>
         </v-dialog>
@@ -24,9 +24,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Finished</span>
-                            <span>Total</span>
-                            <span>Projects</span>
+                            <span>{{ $t('finished') }}</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('projects') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ finishedProject }}</strong>
@@ -35,9 +35,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Ongoing</span>
-                            <span>Total</span>
-                            <span>Projects</span>
+                            <span>{{ $t('ongoing') }}</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('projects') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ ongoingProject }}</strong>
@@ -68,9 +68,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Readed</span>
-                            <span>Total</span>
-                            <span>Books</span>
+                            <span>{{ $t('readed') }}</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('books') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ readedBooks }}</strong>
@@ -79,9 +79,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Readed</span>
-                            <span>Total</span>
-                            <span>Pages</span>
+                            <span>{{ $t('readed') }}</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('pages') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ readedTotalPages }}</strong>
@@ -112,9 +112,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Played</span>
-                            <span>Total</span>
-                            <span>Games</span>
+                            <span>{{ $t('played') }}</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('games') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ playedGames }}</strong>
@@ -123,9 +123,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Your</span>
-                            <span>Favorite</span>
-                            <span>Platform</span>
+                            <span>{{ $t('your') }}</span>
+                            <span>{{ $t('favorite') }}</span>
+                            <span>{{ $t('platform') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ mostPlayPlatform }}</strong>
@@ -156,9 +156,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Watched</span>
-                            <span>Total</span>
-                            <span>Movies</span>
+                            <span>{{ $t('watched') }}</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('movies') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h3 text-md-h2 font-weight-bold">{{ watchedMovies }}</strong>
@@ -167,9 +167,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Your</span>
-                            <span>Favorite</span>
-                            <span>Genre</span>
+                            <span>{{ $t('your') }}</span>
+                            <span>{{ $t('favorite') }}</span>
+                            <span>{{ $t('genre') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h4 text-md-h3 font-weight-bold">{{ favoriteGenre }}</strong>
@@ -200,9 +200,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
-                            <span>Your</span>
-                            <span>Favorite</span>
-                            <span>Investment</span>
+                            <span>{{ $t('your') }}</span>
+                            <span>{{ $t('favorite') }}</span>
+                            <span>{{ $t('investments') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h4 text-md-h3 font-weight-bold">{{ maxGenre }}</strong>
@@ -211,9 +211,9 @@
 
                     <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column justify-center">
-                            <span>Total</span>
-                            <span>Investment</span>
-                            <span>Cost</span>
+                            <span>{{ $t('total') }}</span>
+                            <span>{{ $t('investments') }}</span>
+                            <span>{{ $t('cost') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <strong class="text-h4 text-md-h3 font-weight-bold">
@@ -373,7 +373,7 @@ export default {
         /* Projects Start */
         finishedProject(val) {
             if (val > 5) {
-                this.msg = "You have completed more than 5 projects!";
+                this.msg = this.$t('finished-projects-msg');
                 this.icon = "fa-solid fa-check"
                 this.isNotification = true;
             }
@@ -384,14 +384,14 @@ export default {
     /* Books Start */
     readedBooks(val) {
         if (val > 10) {
-            this.msg = "You've read over 10 books";
+            this.msg = this.$t('readed-books-msg');
             this.icon = 'fa-solid fa-book'
             this.isNotification = true;
         }
     },
     readedTotalPages(val) {
         if (val > 1000) {
-            this.msg = "You've read over 1000 pages!";
+            this.msg = this.$t('readed-pages-msg');
             this.icon = 'fa-solid fa-book'
             this.isNotification = true;
         }
@@ -401,7 +401,7 @@ export default {
     /* Movies Start */
     watchedMovies(val) {
         if (val > 5) {
-            this.msg = "You've wathced over 5 movies!";
+            this.msg = this.$t('watched-movies-msg');
             this.icon = 'fa-solid fa-film';
             this.isNotification = true;
         }
@@ -411,7 +411,7 @@ export default {
     /* Games Start */
     playedGames(val) {
         if (val > 5) {
-            this.msg = "You've played over 5 games!";
+            this.msg = this.$t('played-games-msg');
             this.icon = 'fa-solid fa-gamepad';
             this.isNotification = true;
         }

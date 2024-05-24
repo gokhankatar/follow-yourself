@@ -1,57 +1,67 @@
 <template>
     <v-navigation-drawer :rail="rail" permanent v-model="drawer" class="text-teal-darken-2">
         <v-list>
-            <v-list-item prepend-icon="fas fa-home" title="Home" value="home" router to="/">
+            <v-list-item prepend-icon="fas fa-home" :title="$t('home')" value="home" router to="/">
                 <v-tooltip activator="parent" location="end">
-                    Home
+                    {{ $t('home') }}
                 </v-tooltip>
             </v-list-item>
-            <v-list-item prepend-icon="fa-solid fa-layer-group" title="Dashboard" value="dashboard" router
+            <v-list-item prepend-icon="fa-solid fa-layer-group" :title="$t('dashboard')" value="dashboard" router
                 to="/dashboard">
                 <v-tooltip activator="parent" location="end">
-                    Dashboard
+                    {{
+                        $t('dashboard')
+                    }}
                 </v-tooltip>
             </v-list-item>
-            <v-list-item prepend-icon="fa-solid fa-briefcase" title="My Projects" value="projects" router
+            <v-list-item prepend-icon="fa-solid fa-briefcase" :title="$t('my-projects')" value="projects" router
                 to="/projects">
                 <v-tooltip activator="parent" location="end">
-                    Projects
+                    {{
+                        $t('projects')
+                    }}
                 </v-tooltip>
             </v-list-item>
-            <v-list-item prepend-icon="fa-solid fa-sack-dollar" title="My Investments" value="investments" router
+            <v-list-item prepend-icon="fa-solid fa-sack-dollar" :title="$t('my-investments')" value="investments" router
                 to="/investments">
                 <v-tooltip activator="parent" location="end">
-                    Investments
+                    {{ $t('investments') }}
                 </v-tooltip>
             </v-list-item>
-            <v-list-item prepend-icon="fa-solid fa-book" title="My Books" value="books" router to="/books">
+            <v-list-item prepend-icon="fa-solid fa-book" :title="$t('my-books')" value="books" router to="/books">
                 <v-tooltip activator="parent" location="end">
-                    Books
+                    {{
+                        $t('books')
+                    }}
                 </v-tooltip>
             </v-list-item>
-            <v-list-item prepend-icon="fa-solid fa-tv" title="My Movies" value="movies" router to="/movies">
+            <v-list-item prepend-icon="fa-solid fa-tv" :title="$t('my-movies')" value="movies" router to="/movies">
                 <v-tooltip activator="parent" location="end">
-                    Movies
+                    {{
+                        $t('movies')
+                    }}
                 </v-tooltip>
             </v-list-item>
-            <v-list-item prepend-icon="fa-solid fa-gamepad" title="My Games" value="games" router to="/games">
+            <v-list-item prepend-icon="fa-solid fa-gamepad" :title="$t('my-games')" value="games" router to="/games">
                 <v-tooltip activator="parent" location="end">
-                    Games
+                    {{
+                        $t('games')
+                    }}
                 </v-tooltip>
             </v-list-item>
         </v-list>
         <v-list>
             <v-list-item :prepend-icon="$store.state.theme == 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"
-                :title="$store.state.theme == 'dark' ? 'Dark Theme' : 'Light Theme'" @click.stop="changeTheme">
+                :title="$store.state.theme == 'dark' ? $t('dark-theme') : $t('light-theme')" @click.stop="changeTheme">
                 <v-tooltip activator="parent" location="end">
-                    Change
-                    Theme
+                    {{
+                        $t('change-theme')
+                    }}
                 </v-tooltip>
             </v-list-item>
             <v-list-item @click="drawer = false" v-if="rail" prepend-icon="fa-solid fa-circle-chevron-left">
                 <v-tooltip activator="parent" location="end">
-                    Hide
-                    Bar
+                    {{ $t('hide-bar') }}
                 </v-tooltip>
             </v-list-item>
         </v-list>
@@ -70,9 +80,29 @@
 
         <template v-slot:append>
             <v-btn variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-code">
-                Source
-                Codes
+                {{ $t('source-codes') }}
             </v-btn>
+            <v-btn 
+            class="mx-2" id="menu-activator" variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-globe">
+                Languages
+            </v-btn>
+
+            <v-menu activator="#menu-activator">
+                <v-list>
+                    <v-list-item @click="$i18n.locale='tr'">
+                        <v-list-item-title class="cursor-pointer d-flex align-center justify-between">
+                            <img width="20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/1200px-Flag_of_Turkey.svg.png" alt="turkish">
+                            <span>&nbsp; Tr-tr</span>
+                        </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="$i18n.locale='en'">
+                        <v-list-item-title class="cursor-pointer d-flex align-center justify-between">
+                            <img width="20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png" alt="english">
+                            <span>&nbsp; En-en</span>
+                        </v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
         </template>
 
     </v-app-bar>
