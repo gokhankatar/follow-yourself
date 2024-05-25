@@ -121,14 +121,14 @@
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>{{ $t('your') }}</span>
                             <span>{{ $t('favorite') }}</span>
                             <span>{{ $t('platform') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h3 text-md-h2 font-weight-bold">{{ mostPlayPlatform }}</strong>
+                            <strong class="text-h4 text-sm-h3 text-md-h2 font-weight-bold">{{ mostPlayPlatform }}</strong>
                         </div>
                     </v-sheet>
 
@@ -165,14 +165,14 @@
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>{{ $t('your') }}</span>
                             <span>{{ $t('favorite') }}</span>
                             <span>{{ $t('genre') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h4 text-md-h3 font-weight-bold">{{ favoriteGenre }}</strong>
+                            <strong class="text-h4 text-sm-h3 text-md-h2 font-weight-bold">{{ favoriteGenre }}</strong>
                         </div>
                     </v-sheet>
 
@@ -198,25 +198,25 @@
             <v-col>
                 <v-card class="pa-5 d-flex flex-wrap justify-center align-center investment-card">
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column">
                             <span>{{ $t('your') }}</span>
                             <span>{{ $t('favorite') }}</span>
                             <span>{{ $t('investments') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h4 text-md-h3 font-weight-bold">{{ maxGenre }}</strong>
+                            <strong class="text-h5 text-sm-h4 text-md-h3 font-weight-bold">{{ maxGenre }}</strong>
                         </div>
                     </v-sheet>
 
-                    <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+                    <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
                         <div class="d-flex flex-column justify-center">
                             <span>{{ $t('total') }}</span>
                             <span>{{ $t('investments') }}</span>
                             <span>{{ $t('cost') }}</span>
                         </div>
                         <div class="d-flex justify-center align-center">
-                            <strong class="text-h4 text-md-h3 font-weight-bold">
+                            <strong class="text-h5 text-md-h4 font-weight-bold">
                                 <ul>
                                     <li v-for="item of costArray" :key="item">{{ item }}</li>
                                 </ul>
