@@ -6,7 +6,7 @@
         <v-dialog v-model="isNotification" max-width="700">
             <v-card class="pa-5 d-flex flex-column notification">
                 <div class="d-flex justify-space-between align-center">
-                    <h2 class="text-h5 text-sm-h4 text-md-h3">{{ $t('congratulationss') }}</h2>
+                    <h2 class="text-h5 text-sm-h4 text-md-h3">{{ $t('congratulations') }}</h2>
                     <v-icon class="d-flex align-center" size="large" :icon="icon" />
                 </div>
                 <h5 class="text-p2 text-sm-p1 text-md-h5">{{ msg }}</h5>

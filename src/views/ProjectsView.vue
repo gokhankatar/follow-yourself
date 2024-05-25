@@ -197,29 +197,45 @@
 
     <!-- Notifications -->
 
-    <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
+    <v-snackbar
+      v-model="snackbarAdded"
+      timeout="2000"
+      color="green-darken-3">
+      <p
+      class="message text-center">{{
+      $t('added-notification-project')
+      }}</p>
+      </v-snackbar>
 
-        <p class="message text-center">{{ $t('added-notification-project') }}</p>
+      <v-snackbar
+      v-model="snackbarUpdated"
+      timeout="2000"
+      color="indigo-darken-3">
+      <p
+      class="message text-center">{{
+      $t('updated-notification-project')
+      }}</p>
+      </v-snackbar>
 
-    </v-snackbar>
+      <v-snackbar
+      v-model="snackbarDeleted"
+      timeout="2000"
+      color="red-accent-3">
+      <p
+      class="message text-center">{{
+      $t('deleted-notification-project')
+      }}</p>
+      </v-snackbar>
 
-    <v-snackbar class="snackbar" v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
-
-        <p class="message text-center">{{ $t('updated-notification-project') }}</p>
-
-    </v-snackbar>
-
-    <v-snackbar v-model="snackbarDeleted" timeout="2000" color="red-accent-3">
-
-        <p class="message text-center">{{ $t('deleted-notification-project') }}</p>
-
-    </v-snackbar>
-
-    <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
-
-        <p class="message text-center">{{ $t('all-deleted-notification-project') }}</p>
-
-    </v-snackbar>
+      <v-snackbar
+      v-model="snackbarAllDeleted"
+      timeout="2000"
+      color="red-darken-3">
+      <p
+      class="message text-center">{{
+      $t('all-deleted-notification-project')
+      }}</p>
+      </v-snackbar>
 
 </template>
 
@@ -415,9 +431,5 @@ span.success:hover {
 
 .selectedCard {
     border-left: 1px solid #2196F3;
-}
-
-.small-screen {
-    gap: .5rem;
 }
 </style>
