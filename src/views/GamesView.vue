@@ -1,6 +1,6 @@
 <template>
 
-    <h1 class="text-h5 text-deep-purple">My Games</h1>
+    <h1 class="text-h5 text-deep-purple">{{ $t('my-games') }}</h1>
 
     <!-- Form -->
 
@@ -47,13 +47,19 @@
 
     <v-container v-if="$store.state.games.gamesList.length == 0" class="d-flex flex-column justify-center align-center">
 
-        <h3 class="text-uppercase header-3">
+        <h3 class="text-subtitle-1 text-uppercase font-weight-bold text-md-h4">
             {{ $t('empty-message-game') }}
         </h3>
 
-        <v-btn @click="isAddingGame = true" class="mt-5" variant="outlined" color="#673AB7" size="x-large">
-            {{ $t('create-first-game') }}
-        </v-btn>
+       <v-btn
+         @click="isAddingGame = true"
+         class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+         variant="outlined"
+         color="#673AB7">
+         {{
+         $t('create-first-game')
+         }}
+         </v-btn>
 
     </v-container>
 
@@ -214,25 +220,25 @@
 
     <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
 
-        <p class="message text-center">You added a game!</p>
+        <p class="message text-center">{{ $t('added-notification-game') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
 
-        <p class="message text-center">You updated a game!</p>
+        <p class="message text-center">{{ $t('updated-notification-game') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarDeleted" timeout="2000" color="red-accent-3">
 
-        <p class="message text-center">You deleted a game!</p>
+        <p class="message text-center">{{ $t('deleted-notification-game') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
 
-        <p class="message text-center">You deleted all your games!</p>
+        <p class="message text-center">{{ $t('all-deleted-notification-game') }}</p>
 
     </v-snackbar>
 

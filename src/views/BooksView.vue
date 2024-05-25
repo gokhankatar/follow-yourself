@@ -102,16 +102,15 @@
     v-if="$store.state.books.booksList.length == 0" 
     class="d-flex flex-column justify-center align-center">
 
-        <h3 class="text-uppercase header-3">
+        <h3 class="text-subtitle-1 text-uppercase font-weight-bold text-md-h4">
             {{ $t('empty-message-book') }}
         </h3>
 
         <v-btn 
         @click="isAddingBook = true" 
-        class="mt-5" 
+        class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
         variant="outlined" 
-        color="#8BC34A" 
-        size="x-large">
+        color="#8BC34A" >
         {{ $t('create-first-book') }}
         </v-btn>
 
@@ -365,7 +364,7 @@
     timeout="2000" 
     color="green-darken-3">
 
-        <p class="message text-center">You added a book!</p>
+        <p class="message text-center">{{ $t('added-notification-book') }}</p>
 
     </v-snackbar>
 
@@ -374,7 +373,7 @@
     timeout="2000" 
     color="indigo-darken-3">
 
-        <p class="message text-center">You updated a book!</p>
+        <p class="message text-center">{{ $t('updated-notification-book') }}</p>
 
     </v-snackbar>
 
@@ -383,13 +382,13 @@
     timeout="2000" 
     color="red-accent-3">
 
-        <p class="message text-center">You deleted a book!</p>
+        <p class="message text-center">{{ $t('deleted-notification-book') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
 
-        <p class="message text-center">You deleted all your books!</p>
+        <p class="message text-center">{{ $t('all-deleted-notification-book') }}</p>
 
     </v-snackbar>
 

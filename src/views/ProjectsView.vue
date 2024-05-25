@@ -40,13 +40,17 @@
     <v-container v-if="$store.state.projects.projectsList.length == 0"
         class="d-flex flex-column justify-center align-center">
 
-        <h3 class="text-uppercase header-3">
+        <h3 class="text-subtitle-1 text-uppercase font-weight-bold text-md-h4">
             {{ $t('empty-message-project') }}
         </h3>
 
-        <v-btn @click="isAddingProject = true" class="mt-5" variant="outlined" color="primary" size="x-large">
-            {{ $t('create-first-project') }}
-        </v-btn>
+        <v-btn
+          @click="isAddingProject = true"
+          class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+          variant="outlined"
+          color="primary">
+          {{$t('create-first-project')}}
+          </v-btn>
 
     </v-container>
 
@@ -195,25 +199,25 @@
 
     <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
 
-        <p class="message text-center">You added a project!</p>
+        <p class="message text-center">{{ $t('added-notification-project') }}</p>
 
     </v-snackbar>
 
     <v-snackbar class="snackbar" v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
 
-        <p class="message text-center">You updated a project!</p>
+        <p class="message text-center">{{ $t('updated-notification-project') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarDeleted" timeout="2000" color="red-accent-3">
 
-        <p class="message text-center">You deleted a project!</p>
+        <p class="message text-center">{{ $t('deleted-notification-project') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
 
-        <p class="message text-center">You deleted all your projects!</p>
+        <p class="message text-center">{{ $t('all-deleted-notification-project') }}</p>
 
     </v-snackbar>
 

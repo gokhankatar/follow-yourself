@@ -79,26 +79,38 @@
         </v-app-bar-title>
 
         <template v-slot:append>
-            <v-btn variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-code">
-                {{ $t('source-codes') }}
+            <v-btn @click="goToSourceCodes" variant="outlined" color="teal-darken-2">
+                <span class="d-none mx-2 d-md-flex">{{ $t('source-codes') }}</span>
+                <v-icon icon="fa-solid fa-code" />
             </v-btn>
-            <v-btn 
-            class="mx-2" id="menu-activator" variant="outlined" color="teal-darken-2" append-icon="fa-solid fa-globe">
-            {{ $t('languages') }}
+            <v-btn class="mx-2" id="menu-activator" variant="outlined" color="teal-darken-2">
+                <span class="d-none mx-2 d-md-flex">{{ $t('languages') }}</span>
+                <v-icon icon="fa-solid fa-globe" />
             </v-btn>
 
             <v-menu activator="#menu-activator">
                 <v-list>
-                    <v-list-item @click="$i18n.locale='tr'">
+                    <v-list-item @click="$i18n.locale = 'tr'">
                         <v-list-item-title class="cursor-pointer d-flex align-center justify-between">
-                            <img width="20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/1200px-Flag_of_Turkey.svg.png" alt="turkish">
+                            <img width="20"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/1200px-Flag_of_Turkey.svg.png"
+                                alt="turkish">
                             <span>&nbsp; Tr-tr</span>
                         </v-list-item-title>
                     </v-list-item>
-                    <v-list-item @click="$i18n.locale='en'">
+                    <v-list-item @click="$i18n.locale = 'en'">
                         <v-list-item-title class="cursor-pointer d-flex align-center justify-between">
-                            <img width="20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png" alt="english">
+                            <img width="20"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png"
+                                alt="english">
                             <span>&nbsp; En-en</span>
+                        </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="$i18n.locale = 'ja'">
+                        <v-list-item-title class="cursor-pointer d-flex align-center justify-between">
+                            <img width="20" src="https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg"
+                                alt="english">
+                            <span>&nbsp; JP-ja</span>
                         </v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -125,6 +137,9 @@ export default {
         },
         changeTheme() {
             this.$store.dispatch('switchTheme', 'theme changed')
+        },
+        goToSourceCodes() {
+            window.open('https://github.com/gokhankatar/improve-yourself', '_blank')
         }
     }
 }

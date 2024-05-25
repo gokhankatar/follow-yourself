@@ -59,13 +59,19 @@
     <v-container v-if="$store.state.investments.investmentsList.length == 0"
         class="d-flex flex-column justify-center align-center">
 
-        <h3 class="text-uppercase header-3">
+        <h3 class="text-subtitle-1 text-uppercase font-weight-bold text-md-h4">
             {{ $t('empty-message-investment') }}
         </h3>
 
-        <v-btn @click="isAddingInvestment = true" class="mt-5" variant="outlined" color="#00ACC1" size="x-large">
-            {{ $t('create-first-investment') }}
-        </v-btn>
+       <v-btn
+         @click="isAddingInvestment = true"
+         class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+         variant="outlined"
+         color="#00ACC1">
+         {{
+         $t('create-first-investment')
+         }}
+         </v-btn>
 
     </v-container>
 
@@ -249,25 +255,25 @@
 
     <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
 
-        <p class="message text-center">You added a investment!</p>
+        <p class="message text-center">{{ $t('added-notification-investment') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
 
-        <p class="message text-center">You updated a investment!</p>
+        <p class="message text-center">{{ $t('updated-notification-investment') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarDeleted" timeout="2000" color="red-accent-3">
 
-        <p class="message text-center">You deleted a investment!</p>
+        <p class="message text-center">{{ $t('deleted-notification-investment') }}</p>
 
     </v-snackbar>
 
     <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
 
-        <p class="message text-center">You deleted all your investments!</p>
+        <p class="message text-center">{{ $t('all-deleted-notification-investment') }}</p>
 
     </v-snackbar>
 
