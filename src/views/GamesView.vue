@@ -266,6 +266,8 @@ export default {
             snackbarUpdated: false,
             snackbarDeleted: false,
             snackbarAllDeleted: false,
+            isSmallScreen:false,
+            windowWidth: window.innerWidth,
             isEditMode: false,
             isSelectAll: false,
             nameRules: [
@@ -392,13 +394,18 @@ export default {
             } else {
                 this.$store.dispatch('setPlayedGame');
             }
+        },
+        handleResize() {
+            this.windowWidth = window.innerWidth;
         }
     },
     mounted() {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
         }, 1000);
+        window.addEventListener('resize', this.handleResize);
     },
+
     computed: {
         formattedDate() {
             const day = String(this.currentDate.getDate()).padStart(2, '0');
@@ -406,13 +413,22 @@ export default {
             const year = this.currentDate.getFullYear();
             return `${day}.${month}.${year}`;
         }
+    },
+    watch: {
+        windowWidth(val) {
+            if (val <= 600) {
+                this.isSmallScreen = true;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            } else {
+                this.isSmallScreen = false;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
-/* #673AB7 */
-
 #card-game {
     transition: all .2s ease;
 }

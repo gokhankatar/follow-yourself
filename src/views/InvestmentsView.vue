@@ -63,15 +63,12 @@
             {{ $t('empty-message-investment') }}
         </h3>
 
-       <v-btn
-         @click="isAddingInvestment = true"
-         class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
-         variant="outlined"
-         color="#00ACC1">
-         {{
-         $t('create-first-investment')
-         }}
-         </v-btn>
+        <v-btn @click="isAddingInvestment = true" class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+            variant="outlined" color="#00ACC1">
+            {{
+        $t('create-first-investment')
+    }}
+        </v-btn>
 
     </v-container>
 
@@ -137,12 +134,12 @@
 
                     <v-btn @click="setSold" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
                         prepend-icon="fa-solid fa-hand-holding-hand" variant="outlined" color="red-lighten-1">
-                        {{$t('set-sold')}}
+                        {{ $t('set-sold') }}
                     </v-btn>
 
                     <v-btn @click="setBought" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
                         prepend-icon="fa-solid fa-hand-holding-dollar" variant="outlined" color="success">
-                        {{$t('set-bought')}}
+                        {{ $t('set-bought') }}
                     </v-btn>
 
                     <v-btn @click="multipleDelete" class="mx-2 my-1 my-md-0 w-100 w-md-auto"
@@ -182,7 +179,7 @@
                 <v-col @click="handleInvestment(item, index)" class="d-flex justify-start align-center" lg="3">
 
                     <v-tooltip activator="parent" location="top">
-                        {{$t('edit')}}/{{$t('delete')}}
+                        {{ $t('edit') }}/{{ $t('delete') }}
                     </v-tooltip>
 
                     <span>{{ item.name.toUpperCase() }} <strong>({{ item.genre }})</strong></span>
@@ -192,7 +189,7 @@
                 <v-col @click="handleInvestment(item, index)" class="d-flex justify-start align-center" lg="2">
 
                     <v-tooltip activator="parent" location="top">
-                        {{$t('edit')}}/{{$t('delete')}}
+                        {{ $t('edit') }}/{{ $t('delete') }}
                     </v-tooltip>
 
                     <span>
@@ -204,7 +201,7 @@
                 <v-col @click="handleInvestment(item, index)" class="d-flex justify-start align-center" lg="2">
 
                     <v-tooltip activator="parent" location="top">
-                        {{$t('edit')}}/{{$t('delete')}}
+                        {{ $t('edit') }}/{{ $t('delete') }}
                     </v-tooltip>
 
                     <span>
@@ -312,6 +309,8 @@ export default {
             snackbarUpdated: false,
             snackbarDeleted: false,
             snackbarAllDeleted: false,
+            isSmallScreen: false,
+            windowWidth: window.innerWidth,
             isEditMode: false,
             isSelectAll: false,
             nameRules: [
@@ -465,6 +464,9 @@ export default {
             } else {
                 this.$store.dispatch('setSoldInvestment');
             }
+        },
+        handleResize() {
+            this.windowWidth = window.innerWidth;
         }
     },
 
@@ -472,6 +474,7 @@ export default {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
         }, 1000);
+        window.addEventListener('resize', this.handleResize);
     },
 
     computed: {
@@ -481,13 +484,22 @@ export default {
             const year = this.currentDate.getFullYear();
             return `${day}.${month}.${year}`;
         }
+    },
+    watch: {
+        windowWidth(val) {
+            if (val <= 600) {
+                this.isSmallScreen = true;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            } else {
+                this.isSmallScreen = false;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
-/* #00ACC1 */
-
 #card-investment {
     transition: all .2s ease;
 }

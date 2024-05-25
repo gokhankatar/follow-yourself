@@ -44,13 +44,10 @@
             {{ $t('empty-message-project') }}
         </h3>
 
-        <v-btn
-          @click="isAddingProject = true"
-          class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
-          variant="outlined"
-          color="primary">
-          {{$t('create-first-project')}}
-          </v-btn>
+        <v-btn @click="isAddingProject = true" class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+            variant="outlined" color="primary">
+            {{ $t('create-first-project') }}
+        </v-btn>
 
     </v-container>
 
@@ -184,7 +181,7 @@
             <v-col class="my-5 d-flex justify-center">
 
                 <v-btn @click="addProject" class="add-btn" size="x-large" color="primary" variant="outlined">
-                    {{$t('add-project')}}
+                    {{ $t('add-project') }}
                 </v-btn>
 
             </v-col>
@@ -197,45 +194,29 @@
 
     <!-- Notifications -->
 
-    <v-snackbar
-      v-model="snackbarAdded"
-      timeout="2000"
-      color="green-darken-3">
-      <p
-      class="message text-center">{{
-      $t('added-notification-project')
-      }}</p>
-      </v-snackbar>
+    <v-snackbar v-model="snackbarAdded" timeout="2000" color="green-darken-3">
+        <p class="message text-center">{{
+        $t('added-notification-project')
+    }}</p>
+    </v-snackbar>
 
-      <v-snackbar
-      v-model="snackbarUpdated"
-      timeout="2000"
-      color="indigo-darken-3">
-      <p
-      class="message text-center">{{
-      $t('updated-notification-project')
-      }}</p>
-      </v-snackbar>
+    <v-snackbar v-model="snackbarUpdated" timeout="2000" color="indigo-darken-3">
+        <p class="message text-center">{{
+        $t('updated-notification-project')
+    }}</p>
+    </v-snackbar>
 
-      <v-snackbar
-      v-model="snackbarDeleted"
-      timeout="2000"
-      color="red-accent-3">
-      <p
-      class="message text-center">{{
-      $t('deleted-notification-project')
-      }}</p>
-      </v-snackbar>
+    <v-snackbar v-model="snackbarDeleted" timeout="2000" color="red-accent-3">
+        <p class="message text-center">{{
+        $t('deleted-notification-project')
+    }}</p>
+    </v-snackbar>
 
-      <v-snackbar
-      v-model="snackbarAllDeleted"
-      timeout="2000"
-      color="red-darken-3">
-      <p
-      class="message text-center">{{
-      $t('all-deleted-notification-project')
-      }}</p>
-      </v-snackbar>
+    <v-snackbar v-model="snackbarAllDeleted" timeout="2000" color="red-darken-3">
+        <p class="message text-center">{{
+        $t('all-deleted-notification-project')
+            }}</p>
+    </v-snackbar>
 
 </template>
 
@@ -260,6 +241,8 @@ export default {
             snackbarUpdated: false,
             snackbarDeleted: false,
             snackbarAllDeleted: false,
+            isSmallScreen: false,
+            windowWidth: window.innerWidth,
             isEditMode: false,
             isSelectAll: false,
             titleRules: [
@@ -330,6 +313,7 @@ export default {
                 this.snackbarUpdated = true;
             }
         },
+
         deleteItem(itemIndex) {
             this.$store.dispatch('removeProject', itemIndex);
 
@@ -340,6 +324,7 @@ export default {
             this.isAddingProject = false;
             this.isEditProject = false;
         },
+
         cancelEditMode() {
             this.isEditMode = false;
             this.isSelectAll = false;
@@ -375,12 +360,16 @@ export default {
                 this.$store.dispatch('setOngoingProject');
             }
         },
+
         setFinisihed() {
             if (this.isSelectAll) {
                 this.$store.dispatch('setAllFinishedProject');
             } else {
                 this.$store.dispatch('setFinishedProject');
             }
+        },
+        handleResize() {
+            this.windowWidth = window.innerWidth;
         }
     },
     computed: {
@@ -395,6 +384,18 @@ export default {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
         }, 1000);
+        window.addEventListener('resize', this.handleResize);
+    },
+    watch: {
+        windowWidth(val) {
+            if (val <= 600) {
+                this.isSmallScreen = true;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            } else {
+                this.isSmallScreen = false;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            }
+        },
     }
 }
 </script>

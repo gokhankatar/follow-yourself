@@ -53,7 +53,8 @@
             {{ $t('empty-message-movie') }}
         </h3>
 
-        <v-btn @click="isAddingMovie = true" class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto" variant="outlined" color="#FF5722">
+        <v-btn @click="isAddingMovie = true" class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+            variant="outlined" color="#FF5722">
             {{ $t('create-first-movie') }}
         </v-btn>
 
@@ -270,6 +271,8 @@ export default {
             snackbarUpdated: false,
             snackbarDeleted: false,
             snackbarAllDeleted: false,
+            isSmallScreen: false,
+            windowWidth: window.innerWidth,
             isEditMode: false,
             isSelectAll: false,
             nameRules: [
@@ -397,6 +400,9 @@ export default {
             } else {
                 this.$store.dispatch('setWatchedMovie');
             }
+        },
+        handleResize() {
+            this.windowWidth = window.innerWidth;
         }
     },
 
@@ -404,6 +410,7 @@ export default {
         this.intervalId = setInterval(() => {
             this.currentDate = new Date();
         }, 1000);
+        window.addEventListener('resize', this.handleResize);
     },
 
     computed: {
@@ -413,13 +420,22 @@ export default {
             const year = this.currentDate.getFullYear();
             return `${day}.${month}.${year}`;
         }
+    },
+    watch: {
+        windowWidth(val) {
+            if (val <= 600) {
+                this.isSmallScreen = true;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            } else {
+                this.isSmallScreen = false;
+                console.log('SCREEN IS A SMALL ? ', this.isSmallScreen);
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
-/* #FF5722 */
-
 #card-movie {
     transition: all .2s ease;
 }
