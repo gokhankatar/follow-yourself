@@ -4,7 +4,7 @@
   "private": true,
   "author": "Gokhan Katar",
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
