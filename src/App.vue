@@ -1,6 +1,6 @@
 <template>
 
-  <v-app :theme="this.$store.state.theme">
+  <v-app :theme="$store.state.theme">
 
     <Navbar />
 

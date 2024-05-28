@@ -7,7 +7,7 @@ import movieModule from "./movieModule";
 import investmentModule from "./investmentModule";
 
 const vueLocal = new VuexPersist({
-  storage: window.storage,
+  storage: window.localStorage,
 });
 
 const store = createStore({
