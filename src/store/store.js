@@ -14,6 +14,7 @@ const store = createStore({
   state() {
     return {
       theme: "light",
+      isShowTitle: false,
     };
   },
   getters: {},
@@ -27,12 +28,22 @@ const store = createStore({
       }
       console.log(payload);
     },
+    switchShowTitle(state, payload) {
+      if (payload === true) {
+        state.isShowTitle = true;
+      } else if (payload === false) {
+        state.isShowTitle = false;
+      }
+    }
   },
 
   actions: {
     switchTheme(state, payload) {
       state.commit("switchMode", payload);
     },
+    titleShowChange(state, payload) {
+      state.commit('switchShowTitle', payload)
+    }
   },
 
   plugins: [vueLocal.plugin],
