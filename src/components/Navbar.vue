@@ -66,11 +66,11 @@
     </v-app-bar-title>
 
     <template v-slot:append>
-      <v-btn @click="goToSourceCodes" variant="outlined" color="teal-darken-2">
+      <v-btn :hidden="isHiddenBtn" @click="goToSourceCodes" variant="outlined" color="teal-darken-2">
         <span class="d-none mx-2 d-md-flex">{{ $t("source-codes") }}</span>
         <v-icon icon="fa-solid fa-code" />
       </v-btn>
-      <v-btn class="mx-2" id="menu-activator" variant="outlined" color="teal-darken-2">
+      <v-btn :hidden="isHiddenBtn" class="mx-2" id="menu-activator" variant="outlined" color="teal-darken-2">
         <span class="d-none mx-2 d-md-flex">{{ $t("languages") }}</span>
         <v-icon icon="fa-solid fa-globe" />
       </v-btn>
@@ -114,12 +114,20 @@ export default {
       isSmallScreen: false,
       windowWidth: window.innerWidth,
       isShowText: false,
+      isHiddenBtn:false
     };
   },
+
   methods: {
     handleMenu() {
       this.rail = !this.rail;
       this.drawer = true;
+
+      if(this.isSmallScreen && !this.rail){
+        this.isHiddenBtn = true;
+      } else{
+        this.isHiddenBtn = false;
+      }
     },
     changeTheme() {
       this.$store.dispatch("switchTheme", "theme changed");
@@ -131,6 +139,7 @@ export default {
       this.windowWidth = window.innerWidth;
     },
   },
+
   watch: {
     rail(val) {
       if (!val && this.isSmallScreen) {
@@ -145,14 +154,20 @@ export default {
       if (val <= 500) {
         this.isSmallScreen = true;
         if (!this.rail) {
-          this.$store.dispatch('titleShowChange', this.isSmallScreen)
+          this.isHiddenBtn = true;
+          this.$store.dispatch('titleShowChange', this.isSmallScreen);
+        } 
+        else if(this.rail){
+          this.isHiddenBtn = false
         }
       } else {
         this.isSmallScreen = false;
-        this.$store.dispatch('titleShowChange', this.isSmallScreen)
+        this.$store.dispatch('titleShowChange', this.isSmallScreen);
+        this.isHiddenBtn = false;
       }
     },
   },
+
   mounted() {
     window.addEventListener("resize", this.handleResize);
   },

@@ -2,12 +2,8 @@
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-light-green">
     {{ $t("my-books") }}
   </h1>
-  <div class="d-flex justify-center align-center flex-column" v-if="$store.state.isShowTitle">
-    <h2>H</h2>
-    <h2>E</h2>
-    <h2>L</h2>
-    <h2>L</h2>
-    <h2>O</h2>
+  <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
+    <v-icon icon="fa-solid fa-book" color="light-green" size="x-large"></v-icon>
   </div>
 
   <!-- Form -->

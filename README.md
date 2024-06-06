@@ -1,2 +1,2 @@
-# kucuk hataları gider kodu guzellestir  yazıları hallet
 # gsap animasyonlar
+# README dosyasını hazırla

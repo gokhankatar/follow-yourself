@@ -2,12 +2,8 @@
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-cyan-darken-1">
     {{ $t("my-investments") }}
   </h1>
-  <div class="d-flex justify-center align-center flex-column" v-if="$store.state.isShowTitle">
-    <h2>H</h2>
-    <h2>E</h2>
-    <h2>L</h2>
-    <h2>L</h2>
-    <h2>O</h2>
+  <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
+    <v-icon icon="fa-solid fa-sack-dollar" color="cyan-darken-1" size="x-large"></v-icon>
   </div>
 
   <!-- * Form Start -->

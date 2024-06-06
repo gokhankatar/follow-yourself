@@ -3,12 +3,8 @@
     {{ $t("my-games") }}
   </h1>
 
-  <div class="d-flex justify-center align-center flex-column" v-if="$store.state.isShowTitle">
-    <h2>H</h2>
-    <h2>E</h2>
-    <h2>L</h2>
-    <h2>L</h2>
-    <h2>O</h2>
+  <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
+    <v-icon icon="fa-solid fa-gamepad" color="deep-purple" size="x-large"></v-icon>
   </div>
 
   <!-- * Form Starts -->

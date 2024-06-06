@@ -1,10 +1,6 @@
 <template>
-  <div class="d-flex justify-center align-center flex-column" v-if="$store.state.isShowTitle">
-    <h2>H</h2>
-    <h2>E</h2>
-    <h2>L</h2>
-    <h2>L</h2>
-    <h2>O</h2>
+  <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
+    <v-icon icon="fas fa-home" color="teal-darken-2" size="x-large"></v-icon>
   </div>
 
   <v-carousel v-if="!$store.state.isShowTitle" height="800" progress="teal-darken-2" hide-delimiters cycle>
@@ -128,6 +124,7 @@
     </v-footer>
   </v-container>
 </template>
+
 <script>
 export default {
   name: "HomeView",
