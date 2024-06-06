@@ -3,10 +3,7 @@
     {{ $t("my-movies") }}
   </h1>
 
-  <div
-    class="d-flex justify-center align-center flex-column"
-    v-if="$store.state.isShowTitle"
-  >
+  <div class="d-flex justify-center align-center flex-column" v-if="$store.state.isShowTitle">
     <h2>H</h2>
     <h2>E</h2>
     <h2>L</h2>
@@ -14,146 +11,75 @@
     <h2>O</h2>
   </div>
 
-  <!-- Form -->
+  <!-- * Form Start -->
 
   <v-dialog v-model="isAddingMovie" transition="dialog-bottom-transition" max-width="400">
     <div class="form-container pa-5">
       <v-form ref="movieForm" @submit.prevent="createMovie">
-        <v-text-field
-          v-model="movieName"
-          :rules="nameRules"
-          class="text-white"
-          color="#FF5722"
-          label="Movie Name"
-          variant="outlined"
-          required
-        />
+        <v-text-field v-model="movieName" :rules="nameRules" class="text-white" color="#FF5722" label="Movie Name"
+          variant="outlined" required />
 
-        <v-autocomplete
-          v-model="movieGenre"
-          :rules="[(v) => !!v || 'State is required!']"
-          :items="[
-            'Action',
-            'Adventure',
-            'Horror',
-            'Sci-Fi',
-            'Romantic',
-            'Dram',
-            'Comedy',
-            'Thriller',
-            'Detective',
-            'Western',
-            'Animation',
-            'History',
-          ]"
-          class="text-white mt-2"
-          color="#FF5722"
-          chips
-          item-color="#FF5722"
-          label="Genre"
-          multiple
-          variant="outlined"
-          required
-        />
+        <v-autocomplete v-model="movieGenre" :rules="[(v) => !!v || 'State is required!']" :items="[
+    'Action',
+    'Adventure',
+    'Horror',
+    'Sci-Fi',
+    'Romantic',
+    'Dram',
+    'Comedy',
+    'Thriller',
+    'Detective',
+    'Western',
+    'Animation',
+    'History',
+  ]" class="text-white mt-2" color="#FF5722" chips item-color="#FF5722" label="Genre" multiple variant="outlined"
+          required />
 
-        <v-autocomplete
-          v-model="movieStatus"
-          :rules="[(v) => !!v || 'State is required!']"
-          :items="['will watch', 'watched']"
-          class="text-white mt-2"
-          color="#FF5722"
-          chips
-          item-color="#FF5722"
-          label="Watching Status"
-          variant="outlined"
-          required
-        />
+        <v-autocomplete v-model="movieStatus" :rules="[(v) => !!v || 'State is required!']"
+          :items="['will watch', 'watched']" class="text-white mt-2" color="#FF5722" chips item-color="#FF5722"
+          label="Watching Status" variant="outlined" required />
 
-        <v-btn
-          v-if="!isEditMovie"
-          class="mt-3 pa-2"
-          color="success"
-          size="medium"
-          variant="outlined"
-          type="submit"
-          block
-        >
-          {{ $t("create") }}</v-btn
-        >
+        <v-btn v-if="!isEditMovie" class="mt-3 pa-2" color="success" size="medium" variant="outlined" type="submit"
+          block>
+          {{ $t("create") }}</v-btn>
 
-        <v-btn
-          v-if="isEditMovie"
-          @click="editMovie(selectedItem)"
-          class="mt-3 pa-2"
-          color="primary"
-          size="medium"
-          variant="outlined"
-          block
-        >
-          {{ $t("save") }}</v-btn
-        >
+        <v-btn v-if="isEditMovie" @click="editMovie(selectedItem)" class="mt-3 pa-2" color="primary" size="medium"
+          variant="outlined" block>
+          {{ $t("save") }}</v-btn>
 
-        <v-btn
-          v-if="isEditMovie"
-          @click="deleteItem(itemIndex)"
-          class="mt-3 pa-2"
-          color="error"
-          size="medium"
-          variant="outlined"
-          block
-        >
-          {{ $t("delete") }}</v-btn
-        >
+        <v-btn v-if="isEditMovie" @click="deleteItem(itemIndex)" class="mt-3 pa-2" color="error" size="medium"
+          variant="outlined" block>
+          {{ $t("delete") }}</v-btn>
 
-        <v-btn
-          @click="isAddingMovie = false"
-          class="mt-3 pa-2"
-          color="warning"
-          size="medium"
-          variant="outlined"
-          block
-        >
-          {{ $t("cancel") }}</v-btn
-        >
+        <v-btn @click="isAddingMovie = false" class="mt-3 pa-2" color="warning" size="medium" variant="outlined" block>
+          {{ $t("cancel") }}</v-btn>
       </v-form>
     </div>
   </v-dialog>
 
+  <!-- ! Form End -->
+
   <!-- If list is empty -->
 
-  <v-container
-    v-if="$store.state.movies.moviesList.length == 0 && !$store.state.isShowTitle"
-    class="d-flex flex-column justify-center align-center"
-  >
+  <v-container v-if="$store.state.movies.moviesList.length == 0 && !$store.state.isShowTitle"
+    class="d-flex flex-column justify-center align-center">
     <h3 class="text-subtitle-1 text-uppercase font-weight-bold text-md-h4">
       {{ $t("empty-message-movie") }}
     </h3>
 
-    <v-btn
-      @click="isAddingMovie = true"
-      class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
-      variant="outlined"
-      color="#FF5722"
-    >
+    <v-btn @click="isAddingMovie = true" class="mt-5 d-flex justiy-center align-center w-100 w-sm-auto"
+      variant="outlined" color="#FF5722">
       {{ $t("create-first-movie") }}
     </v-btn>
   </v-container>
 
   <!-- Lists -->
 
-  <v-container
-    v-if="$store.state.movies.moviesList.length > 0 && !$store.state.isShowTitle"
-    class="my-5"
-  >
+  <v-container v-if="$store.state.movies.moviesList.length > 0 && !$store.state.isShowTitle" class="my-5">
     <v-card v-if="!isEditMode" class="px-2 py-1 text-caption text-grey">
       <v-row class="d-flex justify-space-between">
         <v-col class="d-flex justify-start align-center" lg="1">
-          <v-icon
-            @click="isEditMode = true"
-            class="cursor-pointer"
-            icon="fa-solid fa-pen-to-square"
-            color="#FF5722"
-          />
+          <v-icon @click="isEditMode = true" class="cursor-pointer" icon="fa-solid fa-pen-to-square" color="#FF5722" />
 
           <v-tooltip activator="parent" location="left">
             {{ $t("edit") }}
@@ -183,55 +109,30 @@
     <v-card v-if="isEditMode" class="my-4 px-2 py-3 text-body-2 text-primary">
       <v-row class="d-flex justify-space-between px-2 flex-column flex-md-row">
         <v-col class="d-flex justify-start align-center" lg="4">
-          <v-btn
-            @click="selectAll"
-            class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
-            prepend-icon="fa-solid fa-circle-check"
-            variant="outlined"
-            color="#FF5722"
-          >
+          <v-btn @click="selectAll" class="mx-0 mx-md-2 my-1 my-md-0 w-100 w-md-auto"
+            prepend-icon="fa-solid fa-circle-check" variant="outlined" color="#FF5722">
             {{ $t("select-all") }}
           </v-btn>
         </v-col>
 
         <v-col class="d-flex justify-end align-center flex-column flex-md-row" lg="8">
-          <v-btn
-            @click="setWillWatch"
-            class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-            prepend-icon="fa-solid fa-dumbbell"
-            variant="outlined"
-            color="warning"
-          >
+          <v-btn @click="setWillWatch" class="mx-2 my-1 my-md-0 w-100 w-md-auto" prepend-icon="fa-solid fa-dumbbell"
+            variant="outlined" color="warning">
             {{ $t("set-will-watch") }}
           </v-btn>
 
-          <v-btn
-            @click="setWatched"
-            class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-            prepend-icon="fa-solid fa-check"
-            variant="outlined"
-            color="success"
-          >
+          <v-btn @click="setWatched" class="mx-2 my-1 my-md-0 w-100 w-md-auto" prepend-icon="fa-solid fa-check"
+            variant="outlined" color="success">
             {{ $t("set-watched") }}
           </v-btn>
 
-          <v-btn
-            @click="multipleDelete"
-            class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-            prepend-icon="fa-solid fa-trash"
-            variant="outlined"
-            color="red-darken-3"
-          >
+          <v-btn @click="multipleDelete" class="mx-2 my-1 my-md-0 w-100 w-md-auto" prepend-icon="fa-solid fa-trash"
+            variant="outlined" color="red-darken-3">
             {{ $t("delete") }}
           </v-btn>
 
-          <v-btn
-            @click="cancelEditMode"
-            class="mx-2 my-1 my-md-0 w-100 w-md-auto"
-            prepend-icon="fa-solid fa-xmark"
-            variant="outlined"
-            color="error"
-          >
+          <v-btn @click="cancelEditMode" class="mx-2 my-1 my-md-0 w-100 w-md-auto" prepend-icon="fa-solid fa-xmark"
+            variant="outlined" color="error">
             {{ $t("cancel") }}
           </v-btn>
         </v-col>
@@ -240,38 +141,20 @@
 
     <!-- Edit Mode End -->
 
-    <v-card
-      v-for="(item, index) of $store.state.movies.moviesList"
-      :key="index"
-      :class="isSelectAll || item.isSelected ? 'selectedCard' : ''"
-      id="card-movie"
-      class="mt-5 py-5 px-3 text-body-1 text-deep-orange cursor-pointer"
-    >
+    <v-card v-for="(item, index) of $store.state.movies.moviesList" :key="index"
+      :class="isSelectAll || item.isSelected ? 'selectedCard' : ''" id="card-movie"
+      class="mt-5 py-5 px-3 text-body-1 text-deep-orange cursor-pointer">
       <v-row class="d-flex flex-column flex-sm-row justify-space-between">
         <v-spacer v-if="!isEditMode" />
 
-        <v-col
-          v-if="isEditMode"
-          @click="selectCard(item)"
-          class="d-flex justify-start align-center"
-          lg="1"
-        >
-          <v-icon
-            class="cursor-pointer"
-            :icon="
-              isSelectAll || item.isSelected
-                ? 'fa-solid fa-circle-check'
-                : 'fa-regular fa-circle'
-            "
-            :color="isSelectAll || item.isSelected ? '#FF5722' : 'blue-grey-darken-3'"
-          />
+        <v-col v-if="isEditMode" @click="selectCard(item)" class="d-flex justify-start align-center" lg="1">
+          <v-icon class="cursor-pointer" :icon="isSelectAll || item.isSelected
+    ? 'fa-solid fa-circle-check'
+    : 'fa-regular fa-circle'
+    " :color="isSelectAll || item.isSelected ? '#FF5722' : 'blue-grey-darken-3'" />
         </v-col>
 
-        <v-col
-          @click="handleMovie(item, index)"
-          class="d-flex justify-start align-center"
-          lg="5"
-        >
+        <v-col @click="handleMovie(item, index)" class="d-flex justify-start align-center" lg="5">
           <v-tooltip activator="parent" location="top">
             {{ $t("edit") }}/{{ $t("delete") }}
           </v-tooltip>
@@ -279,11 +162,7 @@
           <span>{{ item.name }}</span>
         </v-col>
 
-        <v-col
-          @click="handleMovie(item, index)"
-          class="d-flex justify-start align-center"
-          lg="2"
-        >
+        <v-col @click="handleMovie(item, index)" class="d-flex justify-start align-center" lg="2">
           <v-tooltip activator="parent" location="top">
             {{ $t("edit") }}/{{ $t("delete") }}
           </v-tooltip>
@@ -300,17 +179,9 @@
         </v-col>
 
         <v-col class="d-flex justify-start align-center" lg="2">
-          <v-chip
-            @click="toggleItemStatus(index)"
-            :class="item.status == 'watched' ? 'watched' : 'willWatch'"
-            :prepend-icon="
-              item.status == 'watched' ? 'fa-solid fa-check' : 'fa-solid fa-dumbbell'
-            "
-            :color="item.status == 'watched' ? 'success' : 'warning'"
-            class="cursor-pointer"
-            size="small"
-            variant="outlined"
-          >
+          <v-chip @click="toggleItemStatus(index)" :class="item.status == 'watched' ? 'watched' : 'willWatch'"
+            :prepend-icon="item.status == 'watched' ? 'fa-solid fa-check' : 'fa-solid fa-dumbbell'
+    " :color="item.status == 'watched' ? 'success' : 'warning'" class="cursor-pointer" size="small" variant="outlined">
             <v-tooltip activator="parent" location="top">
               {{ $t("change-status") }}
             </v-tooltip>
@@ -323,15 +194,8 @@
 
     <v-row>
       <v-col class="my-5 d-flex justify-center">
-        <v-btn
-          @click="addMovie"
-          class="add-btn"
-          size="x-large"
-          color="deep-orange"
-          variant="outlined"
-        >
-          {{ $t("add-movie") }}</v-btn
-        >
+        <v-btn @click="addMovie" class="add-btn" size="x-large" color="deep-orange" variant="outlined">
+          {{ $t("add-movie") }}</v-btn>
       </v-col>
     </v-row>
   </v-container>

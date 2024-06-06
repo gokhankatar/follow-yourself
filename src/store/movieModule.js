@@ -4,21 +4,23 @@ const movieModule = {
       moviesList: [],
     };
   },
+
   getters: {
     getWatchedMovies(state) {
-      return state.moviesList.filter((movie) => movie.status === "watched").length;
+      return state.moviesList.filter((movie) => movie.status === "watched")
+        .length;
     },
     favoriteMovieGenre(state) {
       let totalGenres = [];
 
-      state.moviesList.map(movie => {
-        if (movie.status === 'watched') {
-          totalGenres.push(movie.genre)
+      state.moviesList.map((movie) => {
+        if (movie.status === "watched") {
+          totalGenres.push(movie.genre);
         }
       });
 
       // find favorite genre
-      const genresArray = totalGenres.toString().split(',');
+      const genresArray = totalGenres.toString().split(",");
 
       const mostFrequentGenre = genresArray.reduce((acc, curr) => {
         acc[curr] = (acc[curr] || 0) + 1;
@@ -27,10 +29,11 @@ const movieModule = {
         }
         return acc;
       }, {}).mostFrequent;
-      
+
       return mostFrequentGenre;
-    }
+    },
   },
+
   mutations: {
     pushMovie(state, payload) {
       state.moviesList.push(payload);
@@ -56,47 +59,48 @@ const movieModule = {
       state.moviesList.splice(payload, 1);
     },
     selectAllMovie(state) {
-      if (state.moviesList.every(item => item.isSelected)) {
-        state.moviesList.forEach(item => item.isSelected = false);
+      if (state.moviesList.every((item) => item.isSelected)) {
+        state.moviesList.forEach((item) => (item.isSelected = false));
       } else {
-        state.moviesList.forEach(item => item.isSelected = false);
+        state.moviesList.forEach((item) => (item.isSelected = false));
       }
     },
     multipleDeleteMovie(state) {
-      state.moviesList.map(item => {
+      state.moviesList.map((item) => {
         if (item.isSelected) {
-          state.moviesList = state.moviesList.filter(movie => movie !== item);
+          state.moviesList = state.moviesList.filter((movie) => movie !== item);
         }
-      })
+      });
     },
     deleteAllMovie(state) {
       state.moviesList = [];
     },
     multipleWillWatchMovie(state) {
-      state.moviesList.map(item => {
+      state.moviesList.map((item) => {
         if (item.isSelected) {
-          item.status = 'will watch'
+          item.status = "will watch";
         }
-      })
+      });
     },
     allWillWatchMovie(state) {
-      state.moviesList.forEach(item => {
-        item.status = 'will watch'
+      state.moviesList.forEach((item) => {
+        item.status = "will watch";
       });
     },
     multipleWatchedMovie(state) {
-      state.moviesList.map(item => {
+      state.moviesList.map((item) => {
         if (item.isSelected) {
-          item.status = 'watched'
+          item.status = "watched";
         }
-      })
+      });
     },
     allWatchedMovie(state) {
-      state.moviesList.forEach(item => {
-        item.status = 'watched'
+      state.moviesList.forEach((item) => {
+        item.status = "watched";
       });
     },
   },
+
   actions: {
     addMovie(state, payload) {
       state.commit("pushMovie", payload);
@@ -111,7 +115,7 @@ const movieModule = {
       state.commit("deleteMovie", payload);
     },
     selectAllMovies(state, payload) {
-      state.commit('selectAllMovie', payload)
+      state.commit("selectAllMovie", payload);
     },
     multipleRemoveMovie(state, payload) {
       state.commit("multipleDeleteMovie", payload);

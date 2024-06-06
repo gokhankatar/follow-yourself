@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="d-flex justify-center align-center flex-column"
-    v-if="$store.state.isShowTitle"
-  >
+  <div class="d-flex justify-center align-center flex-column" v-if="$store.state.isShowTitle">
     <h2>H</h2>
     <h2>E</h2>
     <h2>L</h2>
@@ -10,24 +7,13 @@
     <h2>O</h2>
   </div>
 
-  <v-carousel
-    v-if="!$store.state.isShowTitle"
-    height="800"
-    progress="teal-darken-2"
-    hide-delimiters
-    cycle
-  >
-    <v-carousel-item
-      v-for="(slide, i) in slides"
-      :key="i"
-      class="slider-image"
-      cover
-      :src="slide.src"
-    >
+  <v-carousel v-if="!$store.state.isShowTitle" height="800" progress="teal-darken-2" hide-delimiters cycle>
+    <v-carousel-item v-for="(slide, i) in slides" :key="i" class="slider-image" cover :src="slide.src">
     </v-carousel-item>
   </v-carousel>
 
   <v-container class="pa-5" v-if="!$store.state.isShowTitle">
+
     <!-- * How to use start -->
     <v-row>
       <v-col>
@@ -39,12 +25,8 @@
     <v-row>
       <v-col>
         <v-expansion-panels variant="accordion">
-          <v-expansion-panel
-            v-for="item in useList"
-            :key="item"
-            :text="item.text"
-            :title="item.title"
-          ></v-expansion-panel>
+          <v-expansion-panel v-for="item in useList" :key="item" :text="item.text"
+            :title="item.title"></v-expansion-panel>
         </v-expansion-panels>
       </v-col>
     </v-row>
@@ -102,82 +84,30 @@
     <v-row>
       <v-col>
         <div class="chips d-flex flex-wrap justify-center align-center">
-          <v-chip
-            @click="goToVueJs"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >VueJs</v-chip
-          >
-          <v-chip
-            @click="goToVuetify"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Vuetify</v-chip
-          >
-          <v-chip
-            @click="goToVueRouter"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Vue Router</v-chip
-          >
-          <v-chip
-            @click="goToVuex"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Vuex</v-chip
-          >
-          <v-chip
-            @click="goToAws"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Amazon Web Services</v-chip
-          >
-          <v-chip
-            @click="goToGsap"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Gsap</v-chip
-          >
-          <v-chip
-            @click="goToFontAwesome"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Font Awesome</v-chip
-          >
-          <v-chip
-            @click="goToI18n"
-            class="chip cursor-pointer"
-            size="x-large"
-            variant="outlined"
-            >Vue i18n</v-chip
-          >
+          <v-chip @click="goToVueJs" class="chip cursor-pointer" size="x-large" variant="outlined">VueJs</v-chip>
+          <v-chip @click="goToVuetify" class="chip cursor-pointer" size="x-large" variant="outlined">Vuetify</v-chip>
+          <v-chip @click="goToVueRouter" class="chip cursor-pointer" size="x-large" variant="outlined">Vue
+            Router</v-chip>
+          <v-chip @click="goToVuex" class="chip cursor-pointer" size="x-large" variant="outlined">Vuex</v-chip>
+          <v-chip @click="goToAws" class="chip cursor-pointer" size="x-large" variant="outlined">Amazon Web
+            Services</v-chip>
+          <v-chip @click="goToGsap" class="chip cursor-pointer" size="x-large" variant="outlined">Gsap</v-chip>
+          <v-chip @click="goToFontAwesome" class="chip cursor-pointer" size="x-large" variant="outlined">Font
+            Awesome</v-chip>
+          <v-chip @click="goToI18n" class="chip cursor-pointer" size="x-large" variant="outlined">Vue i18n</v-chip>
         </div>
       </v-col>
     </v-row>
     <!-- ! Technologies end -->
 
     <v-footer class="d-flex flex-column mt-5 py-5">
-      <div
-        id="footer-container"
-        class="d-flex flex-column flex-md-row w-100 justify-between align-center px-2 py-5"
-      >
+      <div id="footer-container" class="d-flex flex-column flex-md-row w-100 justify-between align-center px-2 py-5">
         <strong>{{ $t("footer-msg") }}</strong>
 
         <v-spacer></v-spacer>
 
         <ul class="socials d-flex flex-wrap justify-center align-center">
-          <a
-            href="https://twitter.com/gokhan_crypto"
-            target="_blank"
-            aria-label="Twitter"
-          >
+          <a href="https://twitter.com/gokhan_crypto" target="_blank" aria-label="Twitter">
             <i class="fa-brands fa-x-twitter" id="social-icon"></i>
           </a>
           <a href="https://discord.gg/QNh6y9vv" target="_blank" aria-label="Discord">
@@ -186,11 +116,7 @@
           <a href="https://github.com/gokhankatar" target="_blank" aria-label="Github">
             <i class="fa-brands fa-github" id="social-icon"></i>
           </a>
-          <a
-            href="https://www.instagram.com/katargokhan96/"
-            target="_blank"
-            aria-label="Instagram"
-          >
+          <a href="https://www.instagram.com/katargokhan96/" target="_blank" aria-label="Instagram">
             <i class="fa-brands fa-instagram" id="social-icon"></i>
           </a>
         </ul>
@@ -254,6 +180,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .slider-img {
   display: flex;
@@ -282,10 +209,12 @@ export default {
 #footer-container {
   gap: 1rem;
 }
+
 .socials {
   display: flex;
   gap: 2rem;
 }
+
 #social-icon {
   border: 1px solid #00796b;
   border-radius: 50%;
@@ -295,6 +224,7 @@ export default {
   font-size: 1.5rem;
   transition: all 0.2s ease;
 }
+
 #social-icon:hover {
   background-color: #00796b;
   color: #fff;

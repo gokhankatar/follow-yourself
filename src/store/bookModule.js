@@ -4,6 +4,7 @@ const bookModule = {
       booksList: [],
     };
   },
+
   getters: {
     getReadedBooks(state) {
       return state.booksList.filter((book) => book.status === "readed").length;
@@ -18,6 +19,7 @@ const bookModule = {
       return totalPages;
     }
   },
+
   mutations: {
     pushBook(state, payload) {
       state.booksList.push(payload);
@@ -83,6 +85,7 @@ const bookModule = {
       });
     },
   },
+  
   actions: {
     addBook(state, payload) {
       state.commit("pushBook", payload);

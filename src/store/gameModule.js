@@ -4,6 +4,7 @@ const gameModule = {
       gamesList: [],
     };
   },
+
   getters: {
     getPlayedGames(state) {
       return state.gamesList.filter((game) => game.status === "played").length;
@@ -39,6 +40,7 @@ const gameModule = {
       return mostPopularPlatform;
     },
   },
+
   mutations: {
     pushGame(state, payload) {
       state.gamesList.push(payload);
@@ -50,7 +52,6 @@ const gameModule = {
         state.gamesList[payload].status = "playing";
       }
     },
-
     changeGameInfo(state, payload) {
       state.gamesList[payload.changedItemIndex].name = payload.changedItemName;
       state.gamesList[payload.changedItemIndex].platform =
@@ -103,6 +104,7 @@ const gameModule = {
       });
     },
   },
+
   actions: {
     addGame(state, payload) {
       state.commit("pushGame", payload);

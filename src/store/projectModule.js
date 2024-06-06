@@ -4,6 +4,7 @@ const projectModule = {
       projectsList: [],
     };
   },
+
   getters: {
     getFinishedProjects(state) {
       return state.projectsList.filter(
@@ -17,11 +18,11 @@ const projectModule = {
       ).length;
     },
   },
+
   mutations: {
     pushProject(state, payload) {
       state.projectsList.push(payload);
     },
-
     changeProjectStatus(state, payload) {
       if (state.projectsList[payload].status === "ongoing") {
         state.projectsList[payload].status = "finished";
@@ -29,14 +30,12 @@ const projectModule = {
         state.projectsList[payload].status = "ongoing";
       }
     },
-
     changeProjectInfo(state, payload) {
       state.projectsList[payload.changedItemIndex].name =
         payload.changedItemName;
       state.projectsList[payload.changedItemIndex].status =
         payload.changedItemStatus;
     },
-
     deleteProject(state, payload) {
       state.projectsList.splice(payload, 1);
     },
@@ -84,6 +83,7 @@ const projectModule = {
       });
     },
   },
+
   actions: {
     addProject(state, payload) {
       state.commit("pushProject", payload);
