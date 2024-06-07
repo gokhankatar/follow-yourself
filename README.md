@@ -10,6 +10,7 @@
 - Follow your ongoing/finished projects
 - Follow your readed/reading books
 - Upgrade yourself with my algorithms
+- Dark/Light Mode
 - English | Turkish | Japanese language support
 
 <!-- ------------------ -->
