@@ -26,15 +26,11 @@
 
 ## Installation
 
-
+To clone the repository, run the following command:
 
 ```sh
 git clone https://github.com/gokhankatar/improve-yourself
 
-
-- Install npm package after cloning the project
-
 npm install
-
 
 
