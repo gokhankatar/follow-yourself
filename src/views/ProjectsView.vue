@@ -1,3 +1,175 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+import soundOfCreated from "../assets/sounds/addCard.mp3";
+import soundOfSuccess from "../assets/sounds/success.mp3";
+import soundOfDeleted from "../assets/sounds/trashed.mp3";
+
+export default {
+  name: "ProjectsView",
+  data() {
+    return {
+      projectName: null,
+      projectStatus: null,
+      intervalId: null,
+      currentDate: new Date(),
+      isAddingProject: false,
+      isEditProject: false,
+      selectedItem: {},
+      itemIndex: "",
+      snackbarAdded: false,
+      snackbarUpdated: false,
+      snackbarDeleted: false,
+      snackbarAllDeleted: false,
+      isEditMode: false,
+      isSelectAll: false,
+      titleRules: [
+        (v) => !!v || "Title is required",
+        (v) => (v && v.length > 2) || "Title must be longer than 2 characters",
+      ],
+    };
+  },
+  
+  methods: {
+    addProject() {
+      this.isAddingProject = true;
+      this.isEditProject = false;
+      this.projectName = null;
+      this.projectStatus = null;
+    },
+
+    async createProject() {
+      let { valid } = await this.$refs.projectForm.validate();
+      if (valid) {
+        this.$store.dispatch("addProject", {
+          name: this.projectName,
+          status: this.projectStatus,
+        });
+
+        this.$refs.projectForm.reset();
+        this.isAddingProject = false;
+        this.snackbarAdded = true;
+
+        // created sound effect
+        let createdSound = new Audio(soundOfCreated);
+        createdSound.play();
+      }
+    },
+
+    toggleItemStatus(index) {
+      this.$store.dispatch("switchProjectStatus", index);
+      if (this.$store.state.projects.projectsList[index].status == "finished") {
+        let successSound = new Audio(soundOfSuccess);
+        successSound.play();
+      }
+    },
+
+    handleCard(item, index) {
+      this.isAddingProject = true;
+      this.isEditProject = true;
+      this.projectName = item.name;
+      this.projectStatus = item.status;
+      this.selectedItem = {
+        changedItemName: item.name,
+        changedItemStatus: item.status,
+        changedItemIndex: index,
+      };
+
+      // for delete
+      this.itemIndex = index;
+    },
+
+    async editProject(item) {
+      let { valid } = await this.$refs.projectForm.validate();
+      if (valid) {
+        this.selectedItem.changedItemName = this.projectName;
+        this.selectedItem.changedItemStatus = this.projectStatus;
+        this.$store.dispatch("switchProjectInfo", item);
+
+        this.isAddingProject = false;
+        this.isEditProject = false;
+        this.snackbarUpdated = true;
+      }
+    },
+
+    deleteItem(itemIndex) {
+      this.$store.dispatch("removeProject", itemIndex);
+
+      let deletedSound = new Audio(soundOfDeleted);
+      deletedSound.play();
+
+      this.snackbarDeleted = true;
+      this.isAddingProject = false;
+      this.isEditProject = false;
+    },
+
+    cancelEditMode() {
+      this.isEditMode = false;
+      this.isSelectAll = false;
+    },
+
+    selectCard(item) {
+      if (item.isSelected) {
+        item.isSelected = false;
+      } else {
+        item.isSelected = true;
+      }
+    },
+
+    selectAll() {
+      this.isSelectAll = !this.isSelectAll;
+      this.$store.dispatch("selectAllProjects");
+    },
+
+    multipleDelete() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("removeAllProject");
+        this.snackbarAllDeleted = true;
+      } else {
+        this.$store.dispatch("multipleRemoveProject");
+      }
+    },
+
+    setOngoing() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllOngoingProject");
+      } else {
+        this.$store.dispatch("setOngoingProject");
+      }
+    },
+
+    setFinisihed() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllFinishedProject");
+      } else {
+        this.$store.dispatch("setFinishedProject");
+      }
+    },
+  },
+
+  computed: {
+    formattedDate() {
+      const day = String(this.currentDate.getDate()).padStart(2, "0");
+      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
+      const year = this.currentDate.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
+  },
+
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.currentDate = new Date();
+    }, 1000);
+  },
+};
+</script>
+
 <template>
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-primary">
     {{ $t("my-projects") }}
@@ -180,170 +352,6 @@
     <p class="message text-center">{{ $t("all-deleted-notification-project") }}</p>
   </v-snackbar>
 </template>
-
-<script>
-import soundOfCreated from "../assets/sounds/addCard.mp3";
-import soundOfSuccess from "../assets/sounds/success.mp3";
-import soundOfDeleted from "../assets/sounds/trashed.mp3";
-
-export default {
-  name: "ProjectsView",
-  data() {
-    return {
-      projectName: null,
-      projectStatus: null,
-      intervalId: null,
-      currentDate: new Date(),
-      isAddingProject: false,
-      isEditProject: false,
-      selectedItem: {},
-      itemIndex: "",
-      snackbarAdded: false,
-      snackbarUpdated: false,
-      snackbarDeleted: false,
-      snackbarAllDeleted: false,
-      isEditMode: false,
-      isSelectAll: false,
-      titleRules: [
-        (v) => !!v || "Title is required",
-        (v) => (v && v.length > 2) || "Title must be longer than 2 characters",
-      ],
-    };
-  },
-  
-  methods: {
-    addProject() {
-      this.isAddingProject = true;
-      this.isEditProject = false;
-      this.projectName = null;
-      this.projectStatus = null;
-    },
-
-    async createProject() {
-      let { valid } = await this.$refs.projectForm.validate();
-      if (valid) {
-        this.$store.dispatch("addProject", {
-          name: this.projectName,
-          status: this.projectStatus,
-        });
-
-        this.$refs.projectForm.reset();
-        this.isAddingProject = false;
-        this.snackbarAdded = true;
-
-        // created sound effect
-        let createdSound = new Audio(soundOfCreated);
-        createdSound.play();
-      }
-    },
-
-    toggleItemStatus(index) {
-      this.$store.dispatch("switchProjectStatus", index);
-      if (this.$store.state.projects.projectsList[index].status == "finished") {
-        let successSound = new Audio(soundOfSuccess);
-        successSound.play();
-      }
-    },
-
-    handleCard(item, index) {
-      this.isAddingProject = true;
-      this.isEditProject = true;
-      this.projectName = item.name;
-      this.projectStatus = item.status;
-      this.selectedItem = {
-        changedItemName: item.name,
-        changedItemStatus: item.status,
-        changedItemIndex: index,
-      };
-
-      // for delete
-      this.itemIndex = index;
-    },
-
-    async editProject(item) {
-      let { valid } = await this.$refs.projectForm.validate();
-      if (valid) {
-        this.selectedItem.changedItemName = this.projectName;
-        this.selectedItem.changedItemStatus = this.projectStatus;
-        this.$store.dispatch("switchProjectInfo", item);
-
-        this.isAddingProject = false;
-        this.isEditProject = false;
-        this.snackbarUpdated = true;
-      }
-    },
-
-    deleteItem(itemIndex) {
-      this.$store.dispatch("removeProject", itemIndex);
-
-      let deletedSound = new Audio(soundOfDeleted);
-      deletedSound.play();
-
-      this.snackbarDeleted = true;
-      this.isAddingProject = false;
-      this.isEditProject = false;
-    },
-
-    cancelEditMode() {
-      this.isEditMode = false;
-      this.isSelectAll = false;
-    },
-
-    selectCard(item) {
-      if (item.isSelected) {
-        item.isSelected = false;
-      } else {
-        item.isSelected = true;
-      }
-    },
-
-    selectAll() {
-      this.isSelectAll = !this.isSelectAll;
-      this.$store.dispatch("selectAllProjects");
-    },
-
-    multipleDelete() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("removeAllProject");
-        this.snackbarAllDeleted = true;
-      } else {
-        this.$store.dispatch("multipleRemoveProject");
-      }
-    },
-
-    setOngoing() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllOngoingProject");
-      } else {
-        this.$store.dispatch("setOngoingProject");
-      }
-    },
-
-    setFinisihed() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllFinishedProject");
-      } else {
-        this.$store.dispatch("setFinishedProject");
-      }
-    },
-  },
-
-  computed: {
-    formattedDate() {
-      const day = String(this.currentDate.getDate()).padStart(2, "0");
-      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
-      const year = this.currentDate.getFullYear();
-      return `${day}.${month}.${year}`;
-    },
-  },
-
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.currentDate = new Date();
-    }, 1000);
-  },
-};
-</script>
 
 <style scoped>
 #card-project {

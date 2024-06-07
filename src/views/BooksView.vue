@@ -1,3 +1,190 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+import soundOfCreated from "../assets/sounds/addCard.mp3";
+import soundOfReaded from "../assets/sounds/readed.mp3";
+import soundOfDeleted from "../assets/sounds/trashed.mp3";
+
+export default {
+  name: "BooksView",
+  data() {
+    return {
+      bookName: null,
+      bookAuthor: null,
+      bookPages: null,
+      bookStatus: null,
+      intervalId: null,
+      currentDate: new Date(),
+      isAddingBook: false,
+      isEditBook: false,
+      selectedItem: {},
+      itemIndex: "",
+      snackbarAdded: false,
+      snackbarUpdated: false,
+      snackbarDeleted: false,
+      snackbarAllDeleted: false,
+      isEditMode: false,
+      isSelectAll: false,
+      nameRules: [
+        (v) => !!v || "Book name is required",
+        (v) => (v && v.length > 1) || "Book name must be longer than 1 characters",
+      ],
+      pageRules: [
+        (v) => !!v || "Number of page is required!",
+        (v) => (v > 25 && v < 2500) || "Number of pages must be between 25 and 2500",
+      ],
+    };
+  },
+
+  methods: {
+    async createBook() {
+      let { valid } = await this.$refs.bookForm.validate();
+
+      if (valid) {
+        this.$store.dispatch("addBook", {
+          name: this.bookName,
+          author: this.bookAuthor,
+          pages: this.bookPages,
+          status: this.bookStatus,
+        });
+
+        this.$refs.bookForm.reset();
+        this.isAddingBook = false;
+        this.snackbarAdded = true;
+
+        // created sound effect
+        let createdSound = new Audio(soundOfCreated);
+        createdSound.play();
+      }
+    },
+
+    toggleItemStatus(index) {
+      this.$store.dispatch("switchBookStatus", index);
+
+      if (this.$store.state.books.booksList[index].status == "readed") {
+        let readedSound = new Audio(soundOfReaded);
+        readedSound.play();
+      }
+    },
+
+    addBook() {
+      this.isAddingBook = true;
+      this.isEditBook = false;
+      this.bookName = null;
+      this.bookAuthor = null;
+      this.bookPages = null;
+      this.bookStatus = null;
+    },
+
+    handleCard(item, index) {
+      this.isAddingBook = true;
+      this.isEditBook = true;
+      this.bookName = item.name;
+      this.bookAuthor = item.author;
+      this.bookPages = item.pages;
+      this.bookStatus = item.status;
+
+      this.selectedItem = {
+        changedItemName: item.name,
+        changedItemAuthor: item.author,
+        changedItemPages: item.pages,
+        changedItemStatus: item.status,
+        changedItemIndex: index,
+      };
+
+      // for delete
+      this.itemIndex = index;
+    },
+
+    async editBook(item) {
+      let { valid } = await this.$refs.bookForm.validate();
+      if (valid) {
+        this.selectedItem.changedItemName = this.bookName;
+        this.selectedItem.changedItemAuthor = this.bookAuthor;
+        this.selectedItem.changedItemPages = this.bookPages;
+        this.selectedItem.changedItemStatus = this.bookStatus;
+        this.$store.dispatch("switchBookInfo", item);
+
+        this.isAddingBook = false;
+        this.isEditBook = false;
+        this.snackbarUpdated = true;
+      }
+    },
+    deleteItem(itemIndex) {
+      this.$store.dispatch("removeBook", itemIndex);
+
+      let deletedSound = new Audio(soundOfDeleted);
+      deletedSound.play();
+
+      this.snackbarDeleted = true;
+      this.isAddingBook = false;
+      this.isEditBook = false;
+    },
+    cancelEditMode() {
+      this.isEditMode = false;
+      this.isSelectAll = false;
+    },
+    selectCard(item) {
+      if (item.isSelected) {
+        item.isSelected = false;
+      } else {
+        item.isSelected = true;
+      }
+    },
+
+    selectAll() {
+      this.isSelectAll = !this.isSelectAll;
+      this.$store.dispatch("selectAllBooks");
+    },
+
+    multipleDelete() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("removeAllBook");
+        this.snackbarAllDeleted = true;
+      } else {
+        this.$store.dispatch("multipleRemoveBook");
+      }
+    },
+
+    setWillRead() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllWillReadBook");
+      } else {
+        this.$store.dispatch("setWillReadBook");
+      }
+    },
+    setReaded() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllReadedBook");
+      } else {
+        this.$store.dispatch("setReadedBook");
+      }
+    },
+  },
+
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.currentDate = new Date();
+    }, 1000);
+  },
+
+  computed: {
+    formattedDate() {
+      const day = String(this.currentDate.getDate()).padStart(2, "0");
+      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
+      const year = this.currentDate.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
+  },
+};
+</script>
+
 <template>
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-light-green">
     {{ $t("my-books") }}
@@ -211,185 +398,6 @@
     <p class="message text-center">{{ $t("all-deleted-notification-book") }}</p>
   </v-snackbar>
 </template>
-
-<script>
-import soundOfCreated from "../assets/sounds/addCard.mp3";
-import soundOfReaded from "../assets/sounds/readed.mp3";
-import soundOfDeleted from "../assets/sounds/trashed.mp3";
-
-export default {
-  name: "BooksView",
-  data() {
-    return {
-      bookName: null,
-      bookAuthor: null,
-      bookPages: null,
-      bookStatus: null,
-      intervalId: null,
-      currentDate: new Date(),
-      isAddingBook: false,
-      isEditBook: false,
-      selectedItem: {},
-      itemIndex: "",
-      snackbarAdded: false,
-      snackbarUpdated: false,
-      snackbarDeleted: false,
-      snackbarAllDeleted: false,
-      isEditMode: false,
-      isSelectAll: false,
-      nameRules: [
-        (v) => !!v || "Book name is required",
-        (v) => (v && v.length > 1) || "Book name must be longer than 1 characters",
-      ],
-      pageRules: [
-        (v) => !!v || "Number of page is required!",
-        (v) => (v > 25 && v < 2500) || "Number of pages must be between 25 and 2500",
-      ],
-    };
-  },
-
-  methods: {
-    async createBook() {
-      let { valid } = await this.$refs.bookForm.validate();
-
-      if (valid) {
-        this.$store.dispatch("addBook", {
-          name: this.bookName,
-          author: this.bookAuthor,
-          pages: this.bookPages,
-          status: this.bookStatus,
-        });
-
-        this.$refs.bookForm.reset();
-        this.isAddingBook = false;
-        this.snackbarAdded = true;
-
-        // created sound effect
-        let createdSound = new Audio(soundOfCreated);
-        createdSound.play();
-      }
-    },
-
-    toggleItemStatus(index) {
-      this.$store.dispatch("switchBookStatus", index);
-
-      if (this.$store.state.books.booksList[index].status == "readed") {
-        let readedSound = new Audio(soundOfReaded);
-        readedSound.play();
-      }
-    },
-
-    addBook() {
-      this.isAddingBook = true;
-      this.isEditBook = false;
-      this.bookName = null;
-      this.bookAuthor = null;
-      this.bookPages = null;
-      this.bookStatus = null;
-    },
-
-    handleCard(item, index) {
-      this.isAddingBook = true;
-      this.isEditBook = true;
-      this.bookName = item.name;
-      this.bookAuthor = item.author;
-      this.bookPages = item.pages;
-      this.bookStatus = item.status;
-
-      this.selectedItem = {
-        changedItemName: item.name,
-        changedItemAuthor: item.author,
-        changedItemPages: item.pages,
-        changedItemStatus: item.status,
-        changedItemIndex: index,
-      };
-
-      // for delete
-      this.itemIndex = index;
-    },
-
-    async editBook(item) {
-      let { valid } = await this.$refs.bookForm.validate();
-      if (valid) {
-        this.selectedItem.changedItemName = this.bookName;
-        this.selectedItem.changedItemAuthor = this.bookAuthor;
-        this.selectedItem.changedItemPages = this.bookPages;
-        this.selectedItem.changedItemStatus = this.bookStatus;
-        this.$store.dispatch("switchBookInfo", item);
-
-        this.isAddingBook = false;
-        this.isEditBook = false;
-        this.snackbarUpdated = true;
-      }
-    },
-    deleteItem(itemIndex) {
-      this.$store.dispatch("removeBook", itemIndex);
-
-      let deletedSound = new Audio(soundOfDeleted);
-      deletedSound.play();
-
-      this.snackbarDeleted = true;
-      this.isAddingBook = false;
-      this.isEditBook = false;
-    },
-    cancelEditMode() {
-      this.isEditMode = false;
-      this.isSelectAll = false;
-    },
-    selectCard(item) {
-      if (item.isSelected) {
-        item.isSelected = false;
-      } else {
-        item.isSelected = true;
-      }
-    },
-
-    selectAll() {
-      this.isSelectAll = !this.isSelectAll;
-      this.$store.dispatch("selectAllBooks");
-    },
-
-    multipleDelete() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("removeAllBook");
-        this.snackbarAllDeleted = true;
-      } else {
-        this.$store.dispatch("multipleRemoveBook");
-      }
-    },
-
-    setWillRead() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllWillReadBook");
-      } else {
-        this.$store.dispatch("setWillReadBook");
-      }
-    },
-    setReaded() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllReadedBook");
-      } else {
-        this.$store.dispatch("setReadedBook");
-      }
-    },
-  },
-
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.currentDate = new Date();
-    }, 1000);
-  },
-
-  computed: {
-    formattedDate() {
-      const day = String(this.currentDate.getDate()).padStart(2, "0");
-      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
-      const year = this.currentDate.getFullYear();
-      return `${day}.${month}.${year}`;
-    },
-  },
-};
-</script>
 
 <style scoped>
 #card-book {

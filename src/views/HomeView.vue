@@ -1,3 +1,64 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+export default {
+  name: "HomeView",
+  data() {
+    return {
+      slides: [
+        {
+          src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/dashboard.png",
+        },
+        { src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/books.png" },
+        { src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/create.png" },
+        { src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/proje.png" },
+      ],
+      useList: [
+        { title: this.$t("projects"), text: this.$t("projects-info") },
+        { title: this.$t("books"), text: this.$t("books-info") },
+        { title: this.$t("investments"), text: this.$t("investments-info") },
+        { title: this.$t("movies"), text: this.$t("movies-info") },
+        { title: this.$t("games"), text: this.$t("games-info") },
+        { title: this.$t("dashboard"), text: this.$t("dashboard-info") },
+      ],
+      tab: null,
+    };
+  },
+  methods: {
+    goToVueJs() {
+      window.open("https://vuejs.org", "_blank");
+    },
+    goToVuetify() {
+      window.open("https://vuetifyjs.com/en/", "_blank");
+    },
+    goToVueRouter() {
+      window.open("https://router.vuejs.org/", "_blank");
+    },
+    goToVuex() {
+      window.open("https://vuex.vuejs.org/", "_blank");
+    },
+    goToAws() {
+      window.open("https://aws.amazon.com/", "_blank");
+    },
+    goToGsap() {
+      window.open("https://gsap.com/", "_blank");
+    },
+    goToFontAwesome() {
+      window.open("https://fontawesome.com/", "_blank");
+    },
+    goToI18n() {
+      window.open("https://vue-i18n.intlify.dev/", "_blank");
+    },
+  },
+};
+</script>
+
 <template>
   <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
     <v-icon icon="fas fa-home" color="teal-darken-2" size="x-large"></v-icon>
@@ -124,59 +185,6 @@
     </v-footer>
   </v-container>
 </template>
-
-<script>
-export default {
-  name: "HomeView",
-  data() {
-    return {
-      slides: [
-        {
-          src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/dashboard.png",
-        },
-        { src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/books.png" },
-        { src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/create.png" },
-        { src: "https://improveyourself-images.s3.eu-north-1.amazonaws.com/proje.png" },
-      ],
-      useList: [
-        { title: this.$t("projects"), text: this.$t("projects-info") },
-        { title: this.$t("books"), text: this.$t("books-info") },
-        { title: this.$t("investments"), text: this.$t("investments-info") },
-        { title: this.$t("movies"), text: this.$t("movies-info") },
-        { title: this.$t("games"), text: this.$t("games-info") },
-        { title: this.$t("dashboard"), text: this.$t("dashboard-info") },
-      ],
-      tab: null,
-    };
-  },
-  methods: {
-    goToVueJs() {
-      window.open("https://vuejs.org", "_blank");
-    },
-    goToVuetify() {
-      window.open("https://vuetifyjs.com/en/", "_blank");
-    },
-    goToVueRouter() {
-      window.open("https://router.vuejs.org/", "_blank");
-    },
-    goToVuex() {
-      window.open("https://vuex.vuejs.org/", "_blank");
-    },
-    goToAws() {
-      window.open("https://aws.amazon.com/", "_blank");
-    },
-    goToGsap() {
-      window.open("https://gsap.com/", "_blank");
-    },
-    goToFontAwesome() {
-      window.open("https://fontawesome.com/", "_blank");
-    },
-    goToI18n() {
-      window.open("https://vue-i18n.intlify.dev/", "_blank");
-    },
-  },
-};
-</script>
 
 <style scoped>
 .slider-img {

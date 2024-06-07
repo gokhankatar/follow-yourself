@@ -1,3 +1,179 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+import soundOfCreated from "../assets/sounds/addCard.mp3";
+import soundOfWatched from "../assets/sounds/watched.mp3";
+import soundOfDeleted from "../assets/sounds/trashed.mp3";
+
+export default {
+  name: "MoviesView",
+  data() {
+    return {
+      movieName: null,
+      movieGenre: null,
+      movieStatus: null,
+      intervalId: null,
+      currentDate: new Date(),
+      isAddingMovie: false,
+      isEditMovie: false,
+      selectedItem: {},
+      itemIndex: "",
+      snackbarAdded: false,
+      snackbarUpdated: false,
+      snackbarDeleted: false,
+      snackbarAllDeleted: false,
+      isEditMode: false,
+      isSelectAll: false,
+      nameRules: [
+        (v) => !!v || "Movie name is required!",
+        (v) => (v && v.length >= 2) || "Movie name must be longer than 1",
+      ],
+    };
+  },
+
+  methods: {
+    async createMovie() {
+      let { valid } = await this.$refs.movieForm.validate();
+      if (valid) {
+        this.$store.dispatch("addMovie", {
+          name: this.movieName,
+          genre: this.movieGenre,
+          status: this.movieStatus,
+        });
+        this.$refs.movieForm.reset();
+        this.isAddingMovie = false;
+        this.snackbarAdded = true;
+
+        // created sound effect
+        let createdSound = new Audio(soundOfCreated);
+        createdSound.play();
+      }
+    },
+
+    toggleItemStatus(index) {
+      this.$store.dispatch("switchMovieStatus", index);
+
+      if (this.$store.state.movies.moviesList[index].status == "watched") {
+        let watchedSound = new Audio(soundOfWatched);
+        watchedSound.play();
+      }
+    },
+
+    addMovie() {
+      this.isAddingMovie = true;
+      this.isEditMovie = false;
+      this.movieName = null;
+      this.movieGenre = null;
+      this.movieStatus = null;
+    },
+
+    handleMovie(item, index) {
+      this.isAddingMovie = true;
+      this.isEditMovie = true;
+      this.movieName = item.name;
+      this.movieGenre = item.genre;
+      this.movieStatus = item.status;
+      this.selectedItem = {
+        changedItemName: item.name,
+        changedItemGenre: item.genre,
+        changedItemStatus: item.status,
+        changedItemIndex: index,
+      };
+
+      // for delete
+      this.itemIndex = index;
+    },
+
+    async editMovie(item) {
+      let { valid } = await this.$refs.movieForm.validate();
+
+      if (valid) {
+        this.selectedItem.changedItemName = this.movieName;
+        this.selectedItem.changedItemGenre = this.movieGenre;
+        this.selectedItem.changedItemStatus = this.movieStatus;
+        this.$store.dispatch("switchMovieInfo", item);
+
+        this.isAddingMovie = false;
+        this.isEditMovie = false;
+        this.snackbarUpdated = true;
+      }
+    },
+
+    deleteItem(itemIndex) {
+      this.$store.dispatch("removeMovie", itemIndex);
+
+      let deletedSound = new Audio(soundOfDeleted);
+      deletedSound.play();
+
+      this.snackbarDeleted = true;
+      this.isAddingMovie = false;
+      this.isEditMovie = false;
+    },
+    cancelEditMode() {
+      this.isEditMode = false;
+      this.isSelectAll = false;
+    },
+    selectCard(item) {
+      if (item.isSelected) {
+        item.isSelected = false;
+      } else {
+        item.isSelected = true;
+      }
+    },
+
+    selectAll() {
+      this.isSelectAll = !this.isSelectAll;
+      this.$store.dispatch("selectAllMovies");
+    },
+
+    multipleDelete() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("removeAllMovie");
+        this.snackbarAllDeleted = true;
+      } else {
+        this.$store.dispatch("multipleRemoveMovie");
+      }
+    },
+
+    setWillWatch() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllWillWatchMovie");
+      } else {
+        this.$store.dispatch("setWillWatchMovie");
+      }
+    },
+    setWatched() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllWatchedMovie");
+      } else {
+        this.$store.dispatch("setWatchedMovie");
+      }
+    },
+  },
+
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.currentDate = new Date();
+    }, 1000);
+  },
+
+  computed: {
+    formattedDate() {
+      const day = String(this.currentDate.getDate()).padStart(2, "0");
+      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
+      const year = this.currentDate.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
+  },
+};
+</script>
+
 <template>
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-deep-orange">
     {{ $t("my-movies") }}
@@ -214,174 +390,6 @@
     <p class="message text-center">{{ $t("all-deleted-notification-movie") }}</p>
   </v-snackbar>
 </template>
-
-<script>
-import soundOfCreated from "../assets/sounds/addCard.mp3";
-import soundOfWatched from "../assets/sounds/watched.mp3";
-import soundOfDeleted from "../assets/sounds/trashed.mp3";
-
-export default {
-  name: "MoviesView",
-  data() {
-    return {
-      movieName: null,
-      movieGenre: null,
-      movieStatus: null,
-      intervalId: null,
-      currentDate: new Date(),
-      isAddingMovie: false,
-      isEditMovie: false,
-      selectedItem: {},
-      itemIndex: "",
-      snackbarAdded: false,
-      snackbarUpdated: false,
-      snackbarDeleted: false,
-      snackbarAllDeleted: false,
-      isEditMode: false,
-      isSelectAll: false,
-      nameRules: [
-        (v) => !!v || "Movie name is required!",
-        (v) => (v && v.length >= 2) || "Movie name must be longer than 1",
-      ],
-    };
-  },
-
-  methods: {
-    async createMovie() {
-      let { valid } = await this.$refs.movieForm.validate();
-      if (valid) {
-        this.$store.dispatch("addMovie", {
-          name: this.movieName,
-          genre: this.movieGenre,
-          status: this.movieStatus,
-        });
-        this.$refs.movieForm.reset();
-        this.isAddingMovie = false;
-        this.snackbarAdded = true;
-
-        // created sound effect
-        let createdSound = new Audio(soundOfCreated);
-        createdSound.play();
-      }
-    },
-
-    toggleItemStatus(index) {
-      this.$store.dispatch("switchMovieStatus", index);
-
-      if (this.$store.state.movies.moviesList[index].status == "watched") {
-        let watchedSound = new Audio(soundOfWatched);
-        watchedSound.play();
-      }
-    },
-
-    addMovie() {
-      this.isAddingMovie = true;
-      this.isEditMovie = false;
-      this.movieName = null;
-      this.movieGenre = null;
-      this.movieStatus = null;
-    },
-
-    handleMovie(item, index) {
-      this.isAddingMovie = true;
-      this.isEditMovie = true;
-      this.movieName = item.name;
-      this.movieGenre = item.genre;
-      this.movieStatus = item.status;
-      this.selectedItem = {
-        changedItemName: item.name,
-        changedItemGenre: item.genre,
-        changedItemStatus: item.status,
-        changedItemIndex: index,
-      };
-
-      // for delete
-      this.itemIndex = index;
-    },
-
-    async editMovie(item) {
-      let { valid } = await this.$refs.movieForm.validate();
-
-      if (valid) {
-        this.selectedItem.changedItemName = this.movieName;
-        this.selectedItem.changedItemGenre = this.movieGenre;
-        this.selectedItem.changedItemStatus = this.movieStatus;
-        this.$store.dispatch("switchMovieInfo", item);
-
-        this.isAddingMovie = false;
-        this.isEditMovie = false;
-        this.snackbarUpdated = true;
-      }
-    },
-
-    deleteItem(itemIndex) {
-      this.$store.dispatch("removeMovie", itemIndex);
-
-      let deletedSound = new Audio(soundOfDeleted);
-      deletedSound.play();
-
-      this.snackbarDeleted = true;
-      this.isAddingMovie = false;
-      this.isEditMovie = false;
-    },
-    cancelEditMode() {
-      this.isEditMode = false;
-      this.isSelectAll = false;
-    },
-    selectCard(item) {
-      if (item.isSelected) {
-        item.isSelected = false;
-      } else {
-        item.isSelected = true;
-      }
-    },
-
-    selectAll() {
-      this.isSelectAll = !this.isSelectAll;
-      this.$store.dispatch("selectAllMovies");
-    },
-
-    multipleDelete() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("removeAllMovie");
-        this.snackbarAllDeleted = true;
-      } else {
-        this.$store.dispatch("multipleRemoveMovie");
-      }
-    },
-
-    setWillWatch() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllWillWatchMovie");
-      } else {
-        this.$store.dispatch("setWillWatchMovie");
-      }
-    },
-    setWatched() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllWatchedMovie");
-      } else {
-        this.$store.dispatch("setWatchedMovie");
-      }
-    },
-  },
-
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.currentDate = new Date();
-    }, 1000);
-  },
-
-  computed: {
-    formattedDate() {
-      const day = String(this.currentDate.getDate()).padStart(2, "0");
-      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
-      const year = this.currentDate.getFullYear();
-      return `${day}.${month}.${year}`;
-    },
-  },
-};
-</script>
 
 <style scoped>
 #card-movie {

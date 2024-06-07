@@ -1,3 +1,11 @@
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
 import { createStore } from "vuex";
 import VuexPersist from "vuex-persist";
 import projectModule from "./projectModule";

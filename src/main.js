@@ -1,3 +1,11 @@
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'

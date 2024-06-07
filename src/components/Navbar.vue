@@ -1,3 +1,81 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+export default {
+  name: "NavbarVue",
+  data() {
+    return {
+      drawer: true,
+      rail: true,
+      isSmallScreen: false,
+      windowWidth: window.innerWidth,
+      isShowText: false,
+      isHiddenBtn:false
+    };
+  },
+
+  methods: {
+    handleMenu() {
+      this.rail = !this.rail;
+      this.drawer = true;
+
+      if(this.isSmallScreen && !this.rail){
+        this.isHiddenBtn = true;
+      } else{
+        this.isHiddenBtn = false;
+      }
+    },
+    changeTheme() {
+      this.$store.dispatch("switchTheme", "theme changed");
+    },
+    goToSourceCodes() {
+      window.open("https://github.com/gokhankatar/improve-yourself", "_blank");
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+
+  watch: {
+    rail(val) {
+      if (!val && this.isSmallScreen) {
+        this.isShowText = true;
+        this.$store.dispatch("titleShowChange", this.isShowText);
+      } else {
+        this.isShowText = false;
+        this.$store.dispatch("titleShowChange", this.isShowText);
+      }
+    },
+    windowWidth(val) {
+      if (val <= 500) {
+        this.isSmallScreen = true;
+        if (!this.rail) {
+          this.isHiddenBtn = true;
+          this.$store.dispatch('titleShowChange', this.isSmallScreen);
+        } 
+        else if(this.rail){
+          this.isHiddenBtn = false
+        }
+      } else {
+        this.isSmallScreen = false;
+        this.$store.dispatch('titleShowChange', this.isSmallScreen);
+        this.isHiddenBtn = false;
+      }
+    },
+  },
+
+  mounted() {
+    window.addEventListener("resize", this.handleResize);
+  },
+};
+</script>
+
 <template>
   <v-navigation-drawer :rail="rail" permanent v-model="drawer" class="text-teal-darken-2">
     <v-list>
@@ -104,73 +182,5 @@
     </template>
   </v-app-bar>
 </template>
-<script>
-export default {
-  name: "NavbarVue",
-  data() {
-    return {
-      drawer: true,
-      rail: true,
-      isSmallScreen: false,
-      windowWidth: window.innerWidth,
-      isShowText: false,
-      isHiddenBtn:false
-    };
-  },
 
-  methods: {
-    handleMenu() {
-      this.rail = !this.rail;
-      this.drawer = true;
-
-      if(this.isSmallScreen && !this.rail){
-        this.isHiddenBtn = true;
-      } else{
-        this.isHiddenBtn = false;
-      }
-    },
-    changeTheme() {
-      this.$store.dispatch("switchTheme", "theme changed");
-    },
-    goToSourceCodes() {
-      window.open("https://github.com/gokhankatar/improve-yourself", "_blank");
-    },
-    handleResize() {
-      this.windowWidth = window.innerWidth;
-    },
-  },
-
-  watch: {
-    rail(val) {
-      if (!val && this.isSmallScreen) {
-        this.isShowText = true;
-        this.$store.dispatch("titleShowChange", this.isShowText);
-      } else {
-        this.isShowText = false;
-        this.$store.dispatch("titleShowChange", this.isShowText);
-      }
-    },
-    windowWidth(val) {
-      if (val <= 500) {
-        this.isSmallScreen = true;
-        if (!this.rail) {
-          this.isHiddenBtn = true;
-          this.$store.dispatch('titleShowChange', this.isSmallScreen);
-        } 
-        else if(this.rail){
-          this.isHiddenBtn = false
-        }
-      } else {
-        this.isSmallScreen = false;
-        this.$store.dispatch('titleShowChange', this.isSmallScreen);
-        this.isHiddenBtn = false;
-      }
-    },
-  },
-
-  mounted() {
-    window.addEventListener("resize", this.handleResize);
-  },
-};
-</script>
 <style scoped></style>

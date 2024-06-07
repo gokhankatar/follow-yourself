@@ -1,3 +1,179 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+import soundOfCreated from "../assets/sounds/addCard.mp3";
+import soundOfPlayed from "../assets/sounds/played.mp3";
+import soundOfDeleted from "../assets/sounds/trashed.mp3";
+
+export default {
+  name: "GamesView",
+  data() {
+    return {
+      gameName: null,
+      gamePlatform: null,
+      playStatus: null,
+      intervalId: null,
+      currentDate: new Date(),
+      isAddingGame: false,
+      isEditGame: false,
+      selectedItem: {},
+      itemIndex: "",
+      snackbarAdded: false,
+      snackbarUpdated: false,
+      snackbarDeleted: false,
+      snackbarAllDeleted: false,
+      isEditMode: false,
+      isSelectAll: false,
+      nameRules: [
+        (v) => !!v || "Game name is required",
+        (v) => (v && v.length > 2) || "Game name must be longer than 2 characters",
+      ],
+    };
+  },
+
+  methods: {
+    async createGame() {
+      let { valid } = await this.$refs.gameForm.validate();
+      if (valid) {
+        this.$store.dispatch("addGame", {
+          name: this.gameName,
+          platform: this.gamePlatform,
+          status: this.playStatus,
+        });
+
+        this.$refs.gameForm.reset();
+        this.isAddingGame = false;
+        this.snackbarAdded = true;
+
+        // created sound effect
+        let createdSound = new Audio(soundOfCreated);
+        createdSound.play();
+      }
+    },
+
+    toggleItemStatus(index) {
+      this.$store.dispatch("switchGameStatus", index);
+
+      if (this.$store.state.games.gamesList[index].status == "played") {
+        let playedSound = new Audio(soundOfPlayed);
+        playedSound.play();
+      }
+    },
+
+    addGame() {
+      this.isAddingGame = true;
+      this.isEditGame = false;
+      this.gameName = null;
+      this.gamePlatform = null;
+      this.playStatus = null;
+    },
+
+    handleGame(item, index) {
+      this.isAddingGame = true;
+      this.isEditGame = true;
+      this.gameName = item.name;
+      this.gamePlatform = item.platform;
+      this.playStatus = item.status;
+      this.selectedItem = {
+        changedItemName: item.name,
+        changedItemPlatform: item.platform,
+        changedItemStatus: item.status,
+        changedItemIndex: index,
+      };
+
+      // for delete
+      this.itemIndex = index;
+    },
+
+    async editGame(item) {
+      let { valid } = await this.$refs.gameForm.validate();
+      if (valid) {
+        this.selectedItem.changedItemName = this.gameName;
+        this.selectedItem.changedItemPlatform = this.gamePlatform;
+        this.selectedItem.changedItemStatus = this.playStatus;
+        this.$store.dispatch("switchGameInfo", item);
+
+        this.isAddingGame = false;
+        this.isEditGame = false;
+        this.snackbarUpdated = true;
+      }
+    },
+
+    deleteItem(itemIndex) {
+      this.$store.dispatch("removeGame", itemIndex);
+
+      let deletedSound = new Audio(soundOfDeleted);
+      deletedSound.play();
+
+      this.snackbarDeleted = true;
+      this.isAddingGame = false;
+      this.isEditGame = false;
+    },
+    cancelEditMode() {
+      this.isEditMode = false;
+      this.isSelectAll = false;
+    },
+    selectCard(item) {
+      if (item.isSelected) {
+        item.isSelected = false;
+      } else {
+        item.isSelected = true;
+      }
+    },
+
+    selectAll() {
+      this.isSelectAll = !this.isSelectAll;
+      this.$store.dispatch("selectAllGames");
+    },
+
+    multipleDelete() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("removeAllGame");
+        this.snackbarAllDeleted = true;
+      } else {
+        this.$store.dispatch("multipleRemoveGame");
+      }
+    },
+
+    setPlaying() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllPlayingGame");
+      } else {
+        this.$store.dispatch("setPlayingGame");
+      }
+    },
+    setPlayed() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllPlayedGame");
+      } else {
+        this.$store.dispatch("setPlayedGame");
+      }
+    },
+  },
+
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.currentDate = new Date();
+    }, 1000);
+  },
+
+  computed: {
+    formattedDate() {
+      const day = String(this.currentDate.getDate()).padStart(2, "0");
+      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
+      const year = this.currentDate.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
+  },
+};
+</script>
+
 <template>
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-deep-purple">
     {{ $t("my-games") }}
@@ -196,174 +372,6 @@
     <p class="message text-center">{{ $t("all-deleted-notification-game") }}</p>
   </v-snackbar>
 </template>
-
-<script>
-import soundOfCreated from "../assets/sounds/addCard.mp3";
-import soundOfPlayed from "../assets/sounds/played.mp3";
-import soundOfDeleted from "../assets/sounds/trashed.mp3";
-
-export default {
-  name: "GamesView",
-  data() {
-    return {
-      gameName: null,
-      gamePlatform: null,
-      playStatus: null,
-      intervalId: null,
-      currentDate: new Date(),
-      isAddingGame: false,
-      isEditGame: false,
-      selectedItem: {},
-      itemIndex: "",
-      snackbarAdded: false,
-      snackbarUpdated: false,
-      snackbarDeleted: false,
-      snackbarAllDeleted: false,
-      isEditMode: false,
-      isSelectAll: false,
-      nameRules: [
-        (v) => !!v || "Game name is required",
-        (v) => (v && v.length > 2) || "Game name must be longer than 2 characters",
-      ],
-    };
-  },
-
-  methods: {
-    async createGame() {
-      let { valid } = await this.$refs.gameForm.validate();
-      if (valid) {
-        this.$store.dispatch("addGame", {
-          name: this.gameName,
-          platform: this.gamePlatform,
-          status: this.playStatus,
-        });
-
-        this.$refs.gameForm.reset();
-        this.isAddingGame = false;
-        this.snackbarAdded = true;
-
-        // created sound effect
-        let createdSound = new Audio(soundOfCreated);
-        createdSound.play();
-      }
-    },
-
-    toggleItemStatus(index) {
-      this.$store.dispatch("switchGameStatus", index);
-
-      if (this.$store.state.games.gamesList[index].status == "played") {
-        let playedSound = new Audio(soundOfPlayed);
-        playedSound.play();
-      }
-    },
-
-    addGame() {
-      this.isAddingGame = true;
-      this.isEditGame = false;
-      this.gameName = null;
-      this.gamePlatform = null;
-      this.playStatus = null;
-    },
-
-    handleGame(item, index) {
-      this.isAddingGame = true;
-      this.isEditGame = true;
-      this.gameName = item.name;
-      this.gamePlatform = item.platform;
-      this.playStatus = item.status;
-      this.selectedItem = {
-        changedItemName: item.name,
-        changedItemPlatform: item.platform,
-        changedItemStatus: item.status,
-        changedItemIndex: index,
-      };
-
-      // for delete
-      this.itemIndex = index;
-    },
-
-    async editGame(item) {
-      let { valid } = await this.$refs.gameForm.validate();
-      if (valid) {
-        this.selectedItem.changedItemName = this.gameName;
-        this.selectedItem.changedItemPlatform = this.gamePlatform;
-        this.selectedItem.changedItemStatus = this.playStatus;
-        this.$store.dispatch("switchGameInfo", item);
-
-        this.isAddingGame = false;
-        this.isEditGame = false;
-        this.snackbarUpdated = true;
-      }
-    },
-
-    deleteItem(itemIndex) {
-      this.$store.dispatch("removeGame", itemIndex);
-
-      let deletedSound = new Audio(soundOfDeleted);
-      deletedSound.play();
-
-      this.snackbarDeleted = true;
-      this.isAddingGame = false;
-      this.isEditGame = false;
-    },
-    cancelEditMode() {
-      this.isEditMode = false;
-      this.isSelectAll = false;
-    },
-    selectCard(item) {
-      if (item.isSelected) {
-        item.isSelected = false;
-      } else {
-        item.isSelected = true;
-      }
-    },
-
-    selectAll() {
-      this.isSelectAll = !this.isSelectAll;
-      this.$store.dispatch("selectAllGames");
-    },
-
-    multipleDelete() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("removeAllGame");
-        this.snackbarAllDeleted = true;
-      } else {
-        this.$store.dispatch("multipleRemoveGame");
-      }
-    },
-
-    setPlaying() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllPlayingGame");
-      } else {
-        this.$store.dispatch("setPlayingGame");
-      }
-    },
-    setPlayed() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllPlayedGame");
-      } else {
-        this.$store.dispatch("setPlayedGame");
-      }
-    },
-  },
-
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.currentDate = new Date();
-    }, 1000);
-  },
-
-  computed: {
-    formattedDate() {
-      const day = String(this.currentDate.getDate()).padStart(2, "0");
-      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
-      const year = this.currentDate.getFullYear();
-      return `${day}.${month}.${year}`;
-    },
-  },
-};
-</script>
 
 <style scoped>
 #card-game {

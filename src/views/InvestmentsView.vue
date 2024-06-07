@@ -1,3 +1,216 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+import soundOfCreated from "../assets/sounds/addCard.mp3";
+import soundOfBought from "../assets/sounds/bought.mp3";
+import soundOfDeleted from "../assets/sounds/trashed.mp3";
+
+export default {
+  name: "InvestmentsView",
+  data() {
+    return {
+      investmentName: null,
+      investmentGenre: null,
+      investmentCost: null,
+      investmentAmount: null,
+      investmentStatus: null,
+      investmentCurrency: null,
+      currencies: [
+        { name: "USD $", symbol: "$" },
+        { name: "EUR €", symbol: "€" },
+        { name: "GBP £", symbol: "£" },
+        { name: "JPY ¥", symbol: "¥" },
+        { name: "TRY ₺", symbol: "₺" },
+        { name: "BTC ₿", symbol: "₿" },
+      ],
+      intervalId: null,
+      currentDate: new Date(),
+      isAddingInvestment: false,
+      isEditInvestment: false,
+      selectedItem: {},
+      itemIndex: "",
+      snackbarAdded: false,
+      snackbarUpdated: false,
+      snackbarDeleted: false,
+      snackbarAllDeleted: false,
+      isEditMode: false,
+      isSelectAll: false,
+      nameRules: [
+        (v) => !!v || "Investment name is required!",
+        (v) => (v && v.length >= 2) || "Investment name must be longer than 1!",
+      ],
+      amountRules: [
+        (v) => !!v || "Amount is required!",
+        (v) => v > 0 || "Amount must be longer than 0!",
+      ],
+      costRules: [
+        (v) => !!v || "Cost is required!",
+        (v) => v > 1 || "Amount must be longer than 1!",
+      ],
+    };
+  },
+
+  methods: {
+    async createInvestment() {
+      let { valid } = await this.$refs.investmentForm.validate();
+      if (valid) {
+        this.$store.dispatch("addInvestment", {
+          name: this.investmentName,
+          genre: this.investmentGenre,
+          cost: this.investmentCost,
+          amount: this.investmentAmount,
+          status: this.investmentStatus,
+          currency: this.investmentCurrency,
+        });
+        this.$refs.investmentForm.reset();
+        this.isAddingInvestment = false;
+        this.snackbarAdded = true;
+
+        // created sound effect
+        let createdSound = new Audio(soundOfCreated);
+        createdSound.play();
+      }
+    },
+
+    toggleItemStatus(index) {
+      this.$store.dispatch("switchInvestmentStatus", index);
+
+      if (this.$store.state.investments.investmentsList[index].status == "bought") {
+        let boughtSound = new Audio(soundOfBought);
+        boughtSound.play();
+      }
+    },
+
+    addInvestment() {
+      this.isAddingInvestment = true;
+      this.isEditInvestment = false;
+      this.investmentName = "";
+      this.investmentGenre = null;
+      this.investmentCost = null;
+      this.investmentAmount = null;
+      this.investmentStatus = null;
+      this.investmentCurrency = null;
+    },
+
+    handleInvestment(item, index) {
+      this.isAddingInvestment = true;
+      this.isEditInvestment = true;
+      this.investmentName = item.name;
+      this.investmentGenre = item.genre;
+      this.investmentCost = item.cost;
+      this.investmentAmount = item.amount;
+      this.investmentStatus = item.status;
+      this.investmentCurrency = item.currency;
+      this.selectedItem = {
+        changedItemName: item.name,
+        changedItemGenre: item.genre,
+        changedItemCost: item.cost,
+        changedItemAmount: item.amount,
+        changedItemCurrency: item.currency,
+        changedItemStatus: item.status,
+        changedItemIndex: index,
+      };
+
+      // for delete
+      this.itemIndex = index;
+    },
+
+    async editInvestment(item) {
+      let { valid } = await this.$refs.investmentForm.validate();
+
+      if (valid) {
+        this.selectedItem.changedItemName = this.investmentName;
+        this.selectedItem.changedItemGenre = this.investmentGenre;
+        this.selectedItem.changedItemCost = this.investmentCost;
+        this.selectedItem.changedItemAmount = this.investmentAmount;
+        this.selectedItem.changedItemCurrency = this.investmentCurrency;
+        this.selectedItem.changedItemStatus = this.investmentStatus;
+        this.$store.dispatch("switchInvestmentInfo", item);
+
+        this.isAddingInvestment = false;
+        this.isEditInvestment = false;
+        this.snackbarUpdated = true;
+      }
+    },
+
+    deleteItem(itemIndex) {
+      this.$store.dispatch("removeInvestment", itemIndex);
+
+      let deletedSound = new Audio(soundOfDeleted);
+      deletedSound.play();
+
+      this.snackbarDeleted = true;
+      this.isAddingInvestment = false;
+      this.isEditInvestment = false;
+    },
+
+    cancelEditMode() {
+      this.isEditMode = false;
+      this.isSelectAll = false;
+    },
+
+    selectCard(item) {
+      if (item.isSelected) {
+        item.isSelected = false;
+      } else {
+        item.isSelected = true;
+      }
+    },
+
+    selectAll() {
+      this.isSelectAll = !this.isSelectAll;
+      this.$store.dispatch("selectAllInvestments");
+    },
+
+    multipleDelete() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("removeAllInvestment");
+        this.snackbarAllDeleted = true;
+      } else {
+        this.$store.dispatch("multipleRemoveInvestment");
+      }
+    },
+
+    setBought() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllBoughtInvestment");
+      } else {
+        this.$store.dispatch("setBoughtInvestment");
+      }
+    },
+
+    setSold() {
+      if (this.isSelectAll) {
+        this.$store.dispatch("setAllSoldInvestment");
+      } else {
+        this.$store.dispatch("setSoldInvestment");
+      }
+    },
+  },
+
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.currentDate = new Date();
+    }, 1000);
+  },
+
+  computed: {
+    formattedDate() {
+      const day = String(this.currentDate.getDate()).padStart(2, "0");
+      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
+      const year = this.currentDate.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
+  },
+};
+</script>
+
 <template>
   <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-cyan-darken-1">
     {{ $t("my-investments") }}
@@ -229,211 +442,6 @@
     <p class="message text-center">{{ $t("all-deleted-notification-investment") }}</p>
   </v-snackbar>
 </template>
-
-<script>
-import soundOfCreated from "../assets/sounds/addCard.mp3";
-import soundOfBought from "../assets/sounds/bought.mp3";
-import soundOfDeleted from "../assets/sounds/trashed.mp3";
-
-export default {
-  name: "InvestmentsView",
-  data() {
-    return {
-      investmentName: null,
-      investmentGenre: null,
-      investmentCost: null,
-      investmentAmount: null,
-      investmentStatus: null,
-      investmentCurrency: null,
-      currencies: [
-        { name: "USD $", symbol: "$" },
-        { name: "EUR €", symbol: "€" },
-        { name: "GBP £", symbol: "£" },
-        { name: "JPY ¥", symbol: "¥" },
-        { name: "TRY ₺", symbol: "₺" },
-        { name: "BTC ₿", symbol: "₿" },
-      ],
-      intervalId: null,
-      currentDate: new Date(),
-      isAddingInvestment: false,
-      isEditInvestment: false,
-      selectedItem: {},
-      itemIndex: "",
-      snackbarAdded: false,
-      snackbarUpdated: false,
-      snackbarDeleted: false,
-      snackbarAllDeleted: false,
-      isEditMode: false,
-      isSelectAll: false,
-      nameRules: [
-        (v) => !!v || "Investment name is required!",
-        (v) => (v && v.length >= 2) || "Investment name must be longer than 1!",
-      ],
-      amountRules: [
-        (v) => !!v || "Amount is required!",
-        (v) => v > 0 || "Amount must be longer than 0!",
-      ],
-      costRules: [
-        (v) => !!v || "Cost is required!",
-        (v) => v > 1 || "Amount must be longer than 1!",
-      ],
-    };
-  },
-
-  methods: {
-    async createInvestment() {
-      let { valid } = await this.$refs.investmentForm.validate();
-      if (valid) {
-        this.$store.dispatch("addInvestment", {
-          name: this.investmentName,
-          genre: this.investmentGenre,
-          cost: this.investmentCost,
-          amount: this.investmentAmount,
-          status: this.investmentStatus,
-          currency: this.investmentCurrency,
-        });
-        this.$refs.investmentForm.reset();
-        this.isAddingInvestment = false;
-        this.snackbarAdded = true;
-
-        // created sound effect
-        let createdSound = new Audio(soundOfCreated);
-        createdSound.play();
-      }
-    },
-
-    toggleItemStatus(index) {
-      this.$store.dispatch("switchInvestmentStatus", index);
-
-      if (this.$store.state.investments.investmentsList[index].status == "bought") {
-        let boughtSound = new Audio(soundOfBought);
-        boughtSound.play();
-      }
-    },
-
-    addInvestment() {
-      this.isAddingInvestment = true;
-      this.isEditInvestment = false;
-      this.investmentName = "";
-      this.investmentGenre = null;
-      this.investmentCost = null;
-      this.investmentAmount = null;
-      this.investmentStatus = null;
-      this.investmentCurrency = null;
-    },
-
-    handleInvestment(item, index) {
-      this.isAddingInvestment = true;
-      this.isEditInvestment = true;
-      this.investmentName = item.name;
-      this.investmentGenre = item.genre;
-      this.investmentCost = item.cost;
-      this.investmentAmount = item.amount;
-      this.investmentStatus = item.status;
-      this.investmentCurrency = item.currency;
-      this.selectedItem = {
-        changedItemName: item.name,
-        changedItemGenre: item.genre,
-        changedItemCost: item.cost,
-        changedItemAmount: item.amount,
-        changedItemCurrency: item.currency,
-        changedItemStatus: item.status,
-        changedItemIndex: index,
-      };
-
-      // for delete
-      this.itemIndex = index;
-    },
-
-    async editInvestment(item) {
-      let { valid } = await this.$refs.investmentForm.validate();
-
-      if (valid) {
-        this.selectedItem.changedItemName = this.investmentName;
-        this.selectedItem.changedItemGenre = this.investmentGenre;
-        this.selectedItem.changedItemCost = this.investmentCost;
-        this.selectedItem.changedItemAmount = this.investmentAmount;
-        this.selectedItem.changedItemCurrency = this.investmentCurrency;
-        this.selectedItem.changedItemStatus = this.investmentStatus;
-        this.$store.dispatch("switchInvestmentInfo", item);
-
-        this.isAddingInvestment = false;
-        this.isEditInvestment = false;
-        this.snackbarUpdated = true;
-      }
-    },
-
-    deleteItem(itemIndex) {
-      this.$store.dispatch("removeInvestment", itemIndex);
-
-      let deletedSound = new Audio(soundOfDeleted);
-      deletedSound.play();
-
-      this.snackbarDeleted = true;
-      this.isAddingInvestment = false;
-      this.isEditInvestment = false;
-    },
-
-    cancelEditMode() {
-      this.isEditMode = false;
-      this.isSelectAll = false;
-    },
-
-    selectCard(item) {
-      if (item.isSelected) {
-        item.isSelected = false;
-      } else {
-        item.isSelected = true;
-      }
-    },
-
-    selectAll() {
-      this.isSelectAll = !this.isSelectAll;
-      this.$store.dispatch("selectAllInvestments");
-    },
-
-    multipleDelete() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("removeAllInvestment");
-        this.snackbarAllDeleted = true;
-      } else {
-        this.$store.dispatch("multipleRemoveInvestment");
-      }
-    },
-
-    setBought() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllBoughtInvestment");
-      } else {
-        this.$store.dispatch("setBoughtInvestment");
-      }
-    },
-
-    setSold() {
-      if (this.isSelectAll) {
-        this.$store.dispatch("setAllSoldInvestment");
-      } else {
-        this.$store.dispatch("setSoldInvestment");
-      }
-    },
-  },
-
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.currentDate = new Date();
-    }, 1000);
-  },
-
-  computed: {
-    formattedDate() {
-      const day = String(this.currentDate.getDate()).padStart(2, "0");
-      const month = String(this.currentDate.getMonth() + 1).padStart(2, "0");
-      const year = this.currentDate.getFullYear();
-      return `${day}.${month}.${year}`;
-    },
-  },
-};
-</script>
 
 <style scoped>
 #card-investment {

@@ -1,3 +1,195 @@
+<script>
+/*
+* @description : Follow your developments and activities with algorithms
+* @author : Gokhan Katar
+* @github : https://github.com/gokhankatar
+* @x : https://twitter.com/gokhan_crypto/
+* @instagram :  https://www.instagram.com/katargokhan96/
+*/
+
+export default {
+  name: "DashboardView",
+  data() {
+    return {
+      // Notification
+      isNotification: false,
+      msg: "",
+      icon: null,
+
+      // Project
+      finishedProject: null,
+      ongoingProject: null,
+
+      // Book
+      readedBooks: null,
+      readedTotalPages: null,
+
+      // Game
+      playedGames: null,
+      mostPlayPlatform: null,
+
+      // Movie
+      watchedMovies: null,
+      favoriteGenre: null,
+
+      // investment
+      maxGenre: null,
+      costArray: [],
+    };
+  },
+
+  methods: {
+    /* Projects Start */
+    getterProject() {
+      this.finishedProject = this.$store.getters.getFinishedProjects;
+      this.ongoingProject = this.$store.getters.getOngoingProjects;
+    },
+    /* Projects End */
+
+    /* Books Start */
+    getterBook() {
+      this.readedBooks = this.$store.getters.getReadedBooks;
+      this.readedTotalPages = this.$store.getters.getTotalReadedPages;
+    },
+    /* Books End */
+
+    /* Games Start */
+    getterGame() {
+      this.playedGames = this.$store.getters.getPlayedGames;
+      this.mostPlayPlatform = this.$store.getters.playPlatform;
+    },
+    /* Games End */
+
+    /* Movies Start */
+    getterMovie() {
+      this.watchedMovies = this.$store.getters.getWatchedMovies;
+      this.favoriteGenre = this.$store.getters.favoriteMovieGenre;
+    },
+    /* Movies End */
+
+    /* Investment Start */
+    getterInvestment() {
+      this.maxGenre = this.$store.getters.getMaxGenre;
+      this.costArray = this.$store.getters.totalCost;
+    },
+    /* Investment End */
+
+    // algorithms
+    goToMovies() {
+      let url = `https://www.imdb.com/search/title/?genres=${this.favoriteGenre}`;
+      window.open(url, "_blank");
+    },
+
+    goToGames() {
+      let genre;
+      if (this.mostPlayPlatform === "Nintendo") {
+        genre = "nintendo-switch";
+      } else if (this.mostPlayPlatform === "Playstation") {
+        genre = "ps5";
+      } else if (this.mostPlayPlatform === "Xbox") {
+        genre = "Xbox";
+      } else if (this.mostPlayPlatform === "PC") {
+        genre = "PC";
+      } else if (this.mostPlayPlatform === "Mobile") {
+        genre = "Mobile";
+      }
+      let url = `https://www.metacritic.com/browse/game/Xbox/all/all-time/new/?releaseYearMin=1958&releaseYearMax=2024&platform=${genre}&page=1`;
+      window.open(url, "_blank");
+    },
+
+    goToProjectManagement() {
+      let url =
+        "https://www.indeed.com/career-advice/career-development/project-management-techniques";
+      window.open(url, "_blank");
+    },
+
+    goToBook() {
+      let url =
+        "https://www.goodreads.com/list/show/2681.Time_Magazine_s_All_Time_100_Novels";
+      window.open(url, "_blank");
+    },
+
+    goToInvestment() {
+      let genre;
+      if (this.maxGenre === "Stocks") {
+        genre = "stocks-usa";
+      } else if (this.maxGenre === "Cryptocurrency") {
+        genre = "cryptocurrencies";
+      } else if (this.maxGenre === "Forex") {
+        genre = "currencies";
+      } else if (this.maxGenre === "Gold") {
+        genre = "etfs/funds-gold";
+      } else if (this.maxGenre === "Silver") {
+        genre = "etfs/funds-gold";
+      } else {
+        genre = "";
+      }
+
+      let url = `https://www.tradingview.com/markets/${genre}`;
+      window.open(url, "_blank");
+    },
+  },
+
+  mounted() {
+    this.getterProject();
+    this.getterBook();
+    this.getterGame();
+    this.getterMovie();
+    this.getterInvestment();
+  },
+
+  watch: {
+    /* Projects Start */
+    finishedProject(val) {
+      if (val > 5) {
+        this.msg = this.$t("finished-projects-msg");
+        this.icon = "fa-solid fa-check";
+        this.isNotification = true;
+      }
+    },
+  },
+  /* Projects End */
+
+  /* Books Start */
+  readedBooks(val) {
+    if (val > 10) {
+      this.msg = this.$t("readed-books-msg");
+      this.icon = "fa-solid fa-book";
+      this.isNotification = true;
+    }
+  },
+
+  readedTotalPages(val) {
+    if (val > 1000) {
+      this.msg = this.$t("readed-pages-msg");
+      this.icon = "fa-solid fa-book";
+      this.isNotification = true;
+    }
+  },
+  /* Books End */
+
+  /* Movies Start */
+  watchedMovies(val) {
+    if (val > 5) {
+      this.msg = this.$t("watched-movies-msg");
+      this.icon = "fa-solid fa-film";
+      this.isNotification = true;
+    }
+  },
+  /* Movies End */
+
+  /* Games Start */
+  playedGames(val) {
+    if (val > 5) {
+      this.msg = this.$t("played-games-msg");
+      this.icon = "fa-solid fa-gamepad";
+      this.isNotification = true;
+    }
+  },
+  /* Games End */
+};
+</script>
+
 <template>
   <h1 v-if="!$store.state.isShowTitle" class="text-h5">{{ $t("dashboard") }}</h1>
   <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
@@ -254,190 +446,6 @@
     <!-- ! Investments End -->
   </v-container>
 </template>
-
-<script>
-export default {
-  name: "DashboardView",
-  data() {
-    return {
-      // Notification
-      isNotification: false,
-      msg: "",
-      icon: null,
-
-      // Project
-      finishedProject: null,
-      ongoingProject: null,
-
-      // Book
-      readedBooks: null,
-      readedTotalPages: null,
-
-      // Game
-      playedGames: null,
-      mostPlayPlatform: null,
-
-      // Movie
-      watchedMovies: null,
-      favoriteGenre: null,
-
-      // investment
-      maxGenre: null,
-      costArray: [],
-    };
-  },
-
-  methods: {
-    /* Projects Start */
-    getterProject() {
-      this.finishedProject = this.$store.getters.getFinishedProjects;
-      this.ongoingProject = this.$store.getters.getOngoingProjects;
-    },
-    /* Projects End */
-
-    /* Books Start */
-    getterBook() {
-      this.readedBooks = this.$store.getters.getReadedBooks;
-      this.readedTotalPages = this.$store.getters.getTotalReadedPages;
-    },
-    /* Books End */
-
-    /* Games Start */
-    getterGame() {
-      this.playedGames = this.$store.getters.getPlayedGames;
-      this.mostPlayPlatform = this.$store.getters.playPlatform;
-    },
-    /* Games End */
-
-    /* Movies Start */
-    getterMovie() {
-      this.watchedMovies = this.$store.getters.getWatchedMovies;
-      this.favoriteGenre = this.$store.getters.favoriteMovieGenre;
-    },
-    /* Movies End */
-
-    /* Investment Start */
-    getterInvestment() {
-      this.maxGenre = this.$store.getters.getMaxGenre;
-      this.costArray = this.$store.getters.totalCost;
-    },
-    /* Investment End */
-
-    // algorithms
-    goToMovies() {
-      let url = `https://www.imdb.com/search/title/?genres=${this.favoriteGenre}`;
-      window.open(url, "_blank");
-    },
-
-    goToGames() {
-      let genre;
-      if (this.mostPlayPlatform === "Nintendo") {
-        genre = "nintendo-switch";
-      } else if (this.mostPlayPlatform === "Playstation") {
-        genre = "ps5";
-      } else if (this.mostPlayPlatform === "Xbox") {
-        genre = "Xbox";
-      } else if (this.mostPlayPlatform === "PC") {
-        genre = "PC";
-      } else if (this.mostPlayPlatform === "Mobile") {
-        genre = "Mobile";
-      }
-      let url = `https://www.metacritic.com/browse/game/Xbox/all/all-time/new/?releaseYearMin=1958&releaseYearMax=2024&platform=${genre}&page=1`;
-      window.open(url, "_blank");
-    },
-
-    goToProjectManagement() {
-      let url =
-        "https://www.indeed.com/career-advice/career-development/project-management-techniques";
-      window.open(url, "_blank");
-    },
-
-    goToBook() {
-      let url =
-        "https://www.goodreads.com/list/show/2681.Time_Magazine_s_All_Time_100_Novels";
-      window.open(url, "_blank");
-    },
-
-    goToInvestment() {
-      let genre;
-      if (this.maxGenre === "Stocks") {
-        genre = "stocks-usa";
-      } else if (this.maxGenre === "Cryptocurrency") {
-        genre = "cryptocurrencies";
-      } else if (this.maxGenre === "Forex") {
-        genre = "currencies";
-      } else if (this.maxGenre === "Gold") {
-        genre = "etfs/funds-gold";
-      } else if (this.maxGenre === "Silver") {
-        genre = "etfs/funds-gold";
-      } else {
-        genre = "";
-      }
-
-      let url = `https://www.tradingview.com/markets/${genre}`;
-      window.open(url, "_blank");
-    },
-  },
-
-  mounted() {
-    this.getterProject();
-    this.getterBook();
-    this.getterGame();
-    this.getterMovie();
-    this.getterInvestment();
-  },
-
-  watch: {
-    /* Projects Start */
-    finishedProject(val) {
-      if (val > 5) {
-        this.msg = this.$t("finished-projects-msg");
-        this.icon = "fa-solid fa-check";
-        this.isNotification = true;
-      }
-    },
-  },
-  /* Projects End */
-
-  /* Books Start */
-  readedBooks(val) {
-    if (val > 10) {
-      this.msg = this.$t("readed-books-msg");
-      this.icon = "fa-solid fa-book";
-      this.isNotification = true;
-    }
-  },
-
-  readedTotalPages(val) {
-    if (val > 1000) {
-      this.msg = this.$t("readed-pages-msg");
-      this.icon = "fa-solid fa-book";
-      this.isNotification = true;
-    }
-  },
-  /* Books End */
-
-  /* Movies Start */
-  watchedMovies(val) {
-    if (val > 5) {
-      this.msg = this.$t("watched-movies-msg");
-      this.icon = "fa-solid fa-film";
-      this.isNotification = true;
-    }
-  },
-  /* Movies End */
-
-  /* Games Start */
-  playedGames(val) {
-    if (val > 5) {
-      this.msg = this.$t("played-games-msg");
-      this.icon = "fa-solid fa-gamepad";
-      this.isNotification = true;
-    }
-  },
-  /* Games End */
-};
-</script>
 
 <style scoped>
 .project-card,
