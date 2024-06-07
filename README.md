@@ -1,4 +1,5 @@
 <h1>Improve Yourself<h1>
+<img src="src/assets/preview-img/general-view.png" />
 
 <h4>Features<h4> 
 
@@ -11,9 +12,6 @@
 - Dark/Light Mode
 - English | Turkish | Japanese language support
 
-<h4>Preview<h4> 
-<img src="src/assets/preview-img/general-view.png" />
-
 <h4>Dark Mode<h4> 
 <img src="src/assets/preview-img/dark-mode.png" />
 
@@ -25,6 +23,14 @@
 
 <h4>Mobile View<h4> 
 <img src="src/assets/preview-img/mobile-view.png" />
+
+
+## Installation
+```sh
+git clone https://github.com/gokhankatar/improve-yourself
+
+```sh
+npm install
 
 
 
