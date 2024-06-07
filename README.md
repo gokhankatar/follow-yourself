@@ -1,7 +1,7 @@
-<h1>Improve Yourself<h1>
+## Improve Yourself
 <img src="src/assets/preview-img/general-view.png" />
 
-<h4>Features<h4> 
+## Features
 
 - Follow your watch/watched movies
 - Follow your played/playing games
@@ -12,24 +12,23 @@
 - Dark/Light Mode
 - English | Turkish | Japanese language support
 
-<h4>Dark Mode<h4> 
+## Dark Mode
 <img src="src/assets/preview-img/dark-mode.png" />
 
-<h4>Light Mode<h4> 
+## Light Mode
 <img src="src/assets/preview-img/light-mode.png" />
 
-<h4>Tablet View<h4> 
+## Tablet View
 <img src="src/assets/preview-img/tablet-view.png" />
 
-<h4>Mobile View<h4> 
+## Mobile View
 <img src="src/assets/preview-img/mobile-view.png" />
 
 
 ## Installation
-```sh
-git clone https://github.com/gokhankatar/improve-yourself
 
 ```sh
+git clone https://github.com/gokhankatar/improve-yourself
 npm install
 
 
