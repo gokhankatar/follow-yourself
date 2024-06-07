@@ -30,7 +30,8 @@ To clone the repository, run the following command:
 
 ```sh
 git clone https://github.com/gokhankatar/improve-yourself
-
+```markdownTo install the necessary npm packages, run the following command:
+```sh
 npm install
 
 
