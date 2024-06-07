@@ -1,10 +1,10 @@
 /*
-* @description : Follow your developments and activities with algorithms
-* @author : Gokhan Katar
-* @github : https://github.com/gokhankatar
-* @x : https://twitter.com/gokhan_crypto/
-* @instagram :  https://www.instagram.com/katargokhan96/
-*/
+ * @description : Follow your developments and activities with algorithms
+ * @author : Gokhan Katar
+ * @github : https://github.com/gokhankatar
+ * @x : https://twitter.com/gokhan_crypto/
+ * @instagram :  https://www.instagram.com/katargokhan96/
+ */
 
 import { createStore } from "vuex";
 import VuexPersist from "vuex-persist";
@@ -42,7 +42,7 @@ const store = createStore({
       } else if (payload === false) {
         state.isShowTitle = false;
       }
-    }
+    },
   },
 
   actions: {
@@ -50,8 +50,8 @@ const store = createStore({
       state.commit("switchMode", payload);
     },
     titleShowChange(state, payload) {
-      state.commit('switchShowTitle', payload)
-    }
+      state.commit("switchShowTitle", payload);
+    },
   },
 
   plugins: [vueLocal.plugin],
