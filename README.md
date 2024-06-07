@@ -32,10 +32,22 @@ To clone the repository, run the following command:
 git clone https://github.com/gokhankatar/improve-yourself
 
 ``` 
+go to directory
+
+```sh
+cd .\improve-yourself\
+
+``` 
 and then install npm:
 
 ```sh
 npm install
+
+``` 
+open your browser:
+
+```sh
+npm run serve
 
 
 
