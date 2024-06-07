@@ -31,10 +31,9 @@
 ```sh
 git clone https://github.com/gokhankatar/improve-yourself
 
-```markdown
-Install npm package after cloning the project
 
-```sh
+- Install npm package after cloning the project
+
 npm install
 
 
