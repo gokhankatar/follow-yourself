@@ -10,6 +10,7 @@
 import soundOfCreated from "../assets/sounds/addCard.mp3";
 import soundOfPlayed from "../assets/sounds/played.mp3";
 import soundOfDeleted from "../assets/sounds/trashed.mp3";
+import gsap from "gsap";
 
 export default {
   name: "GamesView",
@@ -161,6 +162,29 @@ export default {
     this.intervalId = setInterval(() => {
       this.currentDate = new Date();
     }, 1000);
+
+    // gsap animations
+    gsap.from(".game-header", {
+      x: -1500,
+      duration: 2,
+      ease: "elastic",
+    });
+    gsap.to(".game-header", {
+      x: 0,
+      duration: 2,
+      ease: "elastic",
+    });
+
+    gsap.from(".game-container", {
+      x: 1500,
+      duration: 2.3,
+      ease: "elastic",
+    });
+    gsap.to(".game-container", {
+      x: 0,
+      duration: 2.3,
+      ease: "elastic",
+    });
   },
 
   computed: {
@@ -175,7 +199,7 @@ export default {
 </script>
 
 <template>
-  <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-deep-purple">
+  <h1 v-if="!$store.state.isShowTitle" class="game-header text-h5 text-deep-purple">
     {{ $t("my-games") }}
   </h1>
 
@@ -235,7 +259,7 @@ export default {
 
   <!-- Lists -->
 
-  <v-container v-if="$store.state.games.gamesList.length > 0 && !$store.state.isShowTitle" class="my-5">
+  <v-container v-if="$store.state.games.gamesList.length > 0 && !$store.state.isShowTitle" class="game-container my-5">
     <v-card v-if="!isEditMode" class="px-2 py-1 text-caption text-grey">
       <v-row class="d-flex justify-space-between">
         <v-col class="d-flex justify-start align-center" lg="1">

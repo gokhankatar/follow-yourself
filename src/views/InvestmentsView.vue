@@ -10,6 +10,7 @@
 import soundOfCreated from "../assets/sounds/addCard.mp3";
 import soundOfBought from "../assets/sounds/bought.mp3";
 import soundOfDeleted from "../assets/sounds/trashed.mp3";
+import gsap from "gsap";
 
 export default {
   name: "InvestmentsView",
@@ -198,6 +199,29 @@ export default {
     this.intervalId = setInterval(() => {
       this.currentDate = new Date();
     }, 1000);
+
+    // gsap animations
+    gsap.from(".investment-header", {
+      x: -1500,
+      duration: 2,
+      ease: "elastic",
+    });
+    gsap.to(".investment-header", {
+      x: 0,
+      duration: 2,
+      ease: "elastic",
+    });
+
+    gsap.from(".investment-container", {
+      x: 1500,
+      duration: 2.3,
+      ease: "elastic",
+    });
+    gsap.to(".investment-container", {
+      x: 0,
+      duration: 2.3,
+      ease: "elastic",
+    });
   },
 
   computed: {
@@ -212,7 +236,7 @@ export default {
 </script>
 
 <template>
-  <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-cyan-darken-1">
+  <h1 v-if="!$store.state.isShowTitle" class="investment-header text-h5 text-cyan-darken-1">
     {{ $t("my-investments") }}
   </h1>
   <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
@@ -284,7 +308,7 @@ export default {
   <!-- Lists -->
 
   <v-container v-if="$store.state.investments.investmentsList.length > 0 && !$store.state.isShowTitle
-    " class="my-5">
+    " class="investment-container my-5">
     <v-card v-if="!isEditMode" class="px-2 py-1 text-caption text-grey">
       <v-row class="d-flex justify-space-between">
         <v-col class="d-flex justify-start align-center" lg="1">

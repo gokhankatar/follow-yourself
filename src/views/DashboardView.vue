@@ -1,11 +1,13 @@
 <script>
 /*
-* @description : Follow your developments and activities with algorithms
-* @author : Gokhan Katar
-* @github : https://github.com/gokhankatar
-* @x : https://twitter.com/gokhan_crypto/
-* @instagram :  https://www.instagram.com/katargokhan96/
-*/
+ * @description : Follow your developments and activities with algorithms
+ * @author : Gokhan Katar
+ * @github : https://github.com/gokhankatar
+ * @x : https://twitter.com/gokhan_crypto/
+ * @instagram :  https://www.instagram.com/katargokhan96/
+ */
+
+import gsap from "gsap";
 
 export default {
   name: "DashboardView",
@@ -136,6 +138,74 @@ export default {
     this.getterGame();
     this.getterMovie();
     this.getterInvestment();
+
+    // gsap animations
+    // gsap animations
+    gsap.from(".dashboard-header", {
+      x: 1500,
+      duration: 2,
+      ease: "elastic",
+    });
+    gsap.to(".dashboard-header", {
+      x: 0,
+      duration: 2,
+      ease: "elastic",
+    });
+
+    gsap.from(".project-card", {
+      x: -1500,
+      duration: 2,
+      ease: "elastic",
+    });
+    gsap.to(".project-card", {
+      x: 0,
+      duration: 2,
+      ease: "elastic",
+    });
+
+    gsap.from(".book-card", {
+      x: 1500,
+      duration: 2.3,
+      ease: "elastic",
+    });
+    gsap.to(".book-card", {
+      x: 0,
+      duration: 2.3,
+      ease: "elastic",
+    });
+
+    gsap.from(".game-card", {
+      x: -1500,
+      duration: 2.6,
+      ease: "elastic",
+    });
+    gsap.to(".game-card", {
+      x: 0,
+      duration: 2.6,
+      ease: "elastic",
+    });
+
+    gsap.from(".movie-card", {
+      x: 1500,
+      duration: 2.9,
+      ease: "elastic",
+    });
+    gsap.to(".movie-card", {
+      x: 0,
+      duration: 2.9,
+      ease: "elastic",
+    });
+
+    gsap.from(".investment-card", {
+      x: -1500,
+      duration: 3.2,
+      ease: "elastic",
+    });
+    gsap.to(".investment-card", {
+      x: 0,
+      duration: 3.2,
+      ease: "elastic",
+    });
   },
 
   watch: {
@@ -191,13 +261,12 @@ export default {
 </script>
 
 <template>
-  <h1 v-if="!$store.state.isShowTitle" class="text-h5">{{ $t("dashboard") }}</h1>
+  <h1 v-if="!$store.state.isShowTitle" class="dashboard-header text-h5">{{ $t("dashboard") }}</h1>
   <div class="d-flex justify-center align-center ma-5" v-if="$store.state.isShowTitle">
     <v-icon icon="fa-solid fa-layer-group" color="teal-darken-2" size="x-large"></v-icon>
   </div>
 
   <v-container v-if="!$store.state.isShowTitle" class="my-5">
-
     <!-- * Notification Start -->
     <v-dialog v-model="isNotification" max-width="700">
       <v-card class="pa-5 d-flex flex-column notification">
@@ -217,7 +286,9 @@ export default {
     <v-row>
       <v-col>
         <v-card class="pa-5 d-flex flex-wrap justify-center align-center project-card">
-          <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("finished") }}</span>
               <span>{{ $t("total") }}</span>
@@ -225,12 +296,14 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h3 text-md-h2 font-weight-bold">{{
-    finishedProject
-  }}</strong>
+                finishedProject
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("ongoing") }}</span>
               <span>{{ $t("total") }}</span>
@@ -238,13 +311,16 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h3 text-md-h2 font-weight-bold">{{
-    ongoingProject
-  }}</strong>
+                ongoingProject
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet v-if="ongoingProject >= 2" @click="goToProjectManagement"
-            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-projects">
+          <v-sheet
+            v-if="ongoingProject >= 2"
+            @click="goToProjectManagement"
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-projects"
+          >
             <div class="d-flex flex-column">
               <span>Look at</span>
               <span>project management</span>
@@ -263,7 +339,9 @@ export default {
     <v-row class="my-5">
       <v-col>
         <v-card class="pa-5 d-flex flex-wrap justify-center align-center book-card">
-          <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("readed") }}</span>
               <span>{{ $t("total") }}</span>
@@ -271,12 +349,14 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h3 text-md-h2 font-weight-bold">{{
-    readedBooks
-  }}</strong>
+                readedBooks
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("readed") }}</span>
               <span>{{ $t("total") }}</span>
@@ -284,13 +364,16 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h3 text-md-h2 font-weight-bold">{{
-    readedTotalPages
-  }}</strong>
+                readedTotalPages
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet v-if="readedBooks >= 1" @click="goToBook"
-            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-books">
+          <v-sheet
+            v-if="readedBooks >= 1"
+            @click="goToBook"
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-books"
+          >
             <div class="d-flex flex-column">
               <span>What</span>
               <span>should I</span>
@@ -309,7 +392,9 @@ export default {
     <v-row class="my-5">
       <v-col>
         <v-card class="pa-5 d-flex flex-wrap justify-center align-center game-card">
-          <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("played") }}</span>
               <span>{{ $t("total") }}</span>
@@ -317,12 +402,14 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h3 text-md-h2 font-weight-bold">{{
-    playedGames
-  }}</strong>
+                playedGames
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("your") }}</span>
               <span>{{ $t("favorite") }}</span>
@@ -330,13 +417,16 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h4 text-sm-h3 text-md-h2 font-weight-bold">{{
-    mostPlayPlatform
-  }}</strong>
+                mostPlayPlatform
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet v-if="playedGames >= 2" @click="goToGames"
-            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-games">
+          <v-sheet
+            v-if="playedGames >= 2"
+            @click="goToGames"
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-games"
+          >
             <div class="d-flex flex-column">
               <span>See</span>
               <span>all</span>
@@ -355,7 +445,9 @@ export default {
     <v-row class="my-5">
       <v-col>
         <v-card class="pa-5 d-flex flex-wrap justify-center align-center movie-card">
-          <v-sheet class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("watched") }}</span>
               <span>{{ $t("total") }}</span>
@@ -363,12 +455,14 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h3 text-md-h2 font-weight-bold">{{
-    watchedMovies
-  }}</strong>
+                watchedMovies
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("your") }}</span>
               <span>{{ $t("favorite") }}</span>
@@ -376,13 +470,16 @@ export default {
             </div>
             <div class="d-flex justify-center align-center">
               <strong class="text-h4 text-sm-h3 text-md-h2 font-weight-bold">{{
-    favoriteGenre
-  }}</strong>
+                favoriteGenre
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet v-if="watchedMovies >= 2" @click="goToMovies"
-            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-movies">
+          <v-sheet
+            v-if="watchedMovies >= 2"
+            @click="goToMovies"
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-movies"
+          >
             <div class="d-flex flex-column">
               <span>See</span>
               <span>the best</span>
@@ -401,7 +498,9 @@ export default {
     <v-row class="my-5">
       <v-col>
         <v-card class="pa-5 d-flex flex-wrap justify-center align-center investment-card">
-          <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column">
               <span>{{ $t("your") }}</span>
               <span>{{ $t("favorite") }}</span>
@@ -410,11 +509,13 @@ export default {
             <div class="d-flex justify-center align-center">
               <strong class="text-h5 text-sm-h4 text-md-h3 font-weight-bold">{{
                 maxGenre
-                }}</strong>
+              }}</strong>
             </div>
           </v-sheet>
 
-          <v-sheet class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white">
+          <v-sheet
+            class="cursor-pointer pa-3 d-flex flex-wrap text-h5 text-sm-h4 text-md-h3 text-white"
+          >
             <div class="d-flex flex-column justify-center">
               <span>{{ $t("total") }}</span>
               <span>{{ $t("investments") }}</span>
@@ -429,8 +530,11 @@ export default {
             </div>
           </v-sheet>
 
-          <v-sheet v-if="costArray.length > 0" @click="goToInvestment"
-            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-investments">
+          <v-sheet
+            v-if="costArray.length > 0"
+            @click="goToInvestment"
+            class="cursor-pointer pa-3 d-flex text-h5 text-sm-h4 text-md-h3 text-white go-investments"
+          >
             <div class="d-flex flex-column">
               <span>Let's</span>
               <span>browse</span>
@@ -459,35 +563,45 @@ export default {
 }
 
 .project-card {
-  background: rgba(0, 0, 0, 0.5) url("https://cdn.pixabay.com/photo/2018/03/10/09/45/businessman-3213659_1280.jpg") no-repeat center center;
+  background: rgba(0, 0, 0, 0.5)
+    url("https://cdn.pixabay.com/photo/2018/03/10/09/45/businessman-3213659_1280.jpg")
+    no-repeat center center;
   box-shadow: 0 0 2rem #2196f3;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .book-card {
-  background: rgba(0, 0, 0, 0.5) url("https://cdn.pixabay.com/photo/2017/03/27/13/03/book-2178586_1280.jpg") no-repeat center center;
+  background: rgba(0, 0, 0, 0.5)
+    url("https://cdn.pixabay.com/photo/2017/03/27/13/03/book-2178586_1280.jpg") no-repeat
+    center center;
   box-shadow: 0 0 2rem #8bc34a;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .game-card {
-  background: rgba(0, 0, 0, 0.5) url("https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") no-repeat center center;
+  background: rgba(0, 0, 0, 0.5)
+    url("https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+    no-repeat center center;
   box-shadow: 0 0 2rem #673ab7;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .movie-card {
-  background: rgba(0, 0, 0, 0.5) url("https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center;
+  background: rgba(0, 0, 0, 0.5)
+    url("https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
+    no-repeat center center;
   box-shadow: 0 0 2rem #ff5722;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .investment-card {
-  background: rgba(0, 0, 0, 0.5) url("https://cdn.pixabay.com/photo/2020/08/09/14/25/business-5475664_1280.jpg") no-repeat center center;
+  background: rgba(0, 0, 0, 0.5)
+    url("https://cdn.pixabay.com/photo/2020/08/09/14/25/business-5475664_1280.jpg")
+    no-repeat center center;
   box-shadow: 0 0 2rem #00acc1;
   background-size: cover;
   background-repeat: no-repeat;

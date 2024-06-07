@@ -10,6 +10,7 @@
 import soundOfCreated from "../assets/sounds/addCard.mp3";
 import soundOfWatched from "../assets/sounds/watched.mp3";
 import soundOfDeleted from "../assets/sounds/trashed.mp3";
+import gsap from "gsap";
 
 export default {
   name: "MoviesView",
@@ -161,6 +162,29 @@ export default {
     this.intervalId = setInterval(() => {
       this.currentDate = new Date();
     }, 1000);
+
+    // gsap animations
+    gsap.from(".movie-header", {
+      x: -1500,
+      duration: 2,
+      ease: "elastic",
+    });
+    gsap.to(".movie-header", {
+      x: 0,
+      duration: 2,
+      ease: "elastic",
+    });
+
+    gsap.from(".movie-container", {
+      x: 1500,
+      duration: 2.3,
+      ease: "elastic",
+    });
+    gsap.to(".movie-container", {
+      x: 0,
+      duration: 2.3,
+      ease: "elastic",
+    });
   },
 
   computed: {
@@ -175,7 +199,7 @@ export default {
 </script>
 
 <template>
-  <h1 v-if="!$store.state.isShowTitle" class="text-h5 text-deep-orange">
+  <h1 v-if="!$store.state.isShowTitle" class="movie-header text-h5 text-deep-orange">
     {{ $t("my-movies") }}
   </h1>
 
@@ -247,7 +271,7 @@ export default {
 
   <!-- Lists -->
 
-  <v-container v-if="$store.state.movies.moviesList.length > 0 && !$store.state.isShowTitle" class="my-5">
+  <v-container v-if="$store.state.movies.moviesList.length > 0 && !$store.state.isShowTitle" class="movie-container my-5">
     <v-card v-if="!isEditMode" class="px-2 py-1 text-caption text-grey">
       <v-row class="d-flex justify-space-between">
         <v-col class="d-flex justify-start align-center" lg="1">
