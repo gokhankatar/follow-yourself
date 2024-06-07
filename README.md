@@ -1,7 +1,5 @@
 <h1>Improve Yourself<h1>
 
-<!-- ------------------ -->
-
 <h4>Features<h4> 
 
 - Follow your watch/watched movies
@@ -12,8 +10,6 @@
 - Upgrade yourself with my algorithms
 - Dark/Light Mode
 - English | Turkish | Japanese language support
-
-<!-- ------------------ -->
 
 <h4>Preview<h4> 
 <img src="src/assets/preview-img/general-view.png" />
