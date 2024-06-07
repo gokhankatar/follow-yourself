@@ -24,14 +24,12 @@
 ## Mobile View
 <img src="src/assets/preview-img/mobile-view.png" />
 
-
-```markdown
 ## Installation
-
-To clone the repository, run the following command:
 
 ```sh
 git clone https://github.com/gokhankatar/improve-yourself
+
+npm install
 
 
 
