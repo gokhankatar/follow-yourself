@@ -11,3 +11,15 @@
 - Follow your readed/reading books
 - Upgrade yourself with my algorithms
 
+<!-- ------------------ -->
+
+<img src="src/assets/preview-img/general-view.png" />
+
+<h4>Dark Mode<h4> 
+<img src="src/assets/preview-img/dark-mode.png" />
+
+<h4>Light Mode<h4> 
+<img src="src/assets/preview-img/light-mode.png" />
+
+
+
