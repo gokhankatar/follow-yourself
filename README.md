@@ -31,5 +31,8 @@ To clone the repository, run the following command:
 ```sh
 git clone https://github.com/gokhankatar/improve-yourself
 
+# and then you should run this command
+npm install
+
 
 
