@@ -8,6 +8,7 @@
  */
 
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export default {
   name: "HomeView",
@@ -60,6 +61,8 @@ export default {
   },
   mounted() {
     // gsap animations
+    gsap.registerPlugin(ScrollTrigger);
+
     gsap.from(".carousel", {
       opacity: 0,
       duration: 2.5,
@@ -70,82 +73,132 @@ export default {
     });
 
     gsap.from("#how-to-use", {
-      x: -1500,
-      duration: 3,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#how-to-use",
+      },
+      scale: 0.1,
+      duration: 2,
+      ease: "bounce",
     });
+
     gsap.to("#how-to-use", {
-      x: 0,
-      duration: 3,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#how-to-use",
+      },
+      scale: 1,
+      duration: 2,
+      ease: "bounce",
     });
 
     gsap.from(".expansion-panel", {
-      y: 1500,
-      duration: 3.2,
+      scrollTrigger: {
+        trigger: "#how-to-use",
+        start: "top center",
+      },
+      scale: 0.1,
+      duration: 2,
       ease: "elastic",
     });
     gsap.to(".expansion-panel", {
-      y: 0,
-      duration: 3.2,
+      scrollTrigger: {
+        trigger: "#how-to-use",
+        start: "top center",
+      },
+      scale: 1,
+      duration: 2,
       ease: "elastic",
     });
 
     gsap.from("#why-use", {
-      x: 1500,
-      duration: 3.4,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#why-use",
+      },
+      scale: 0.1,
+      duration: 2,
+      ease: "bounce",
     });
+
     gsap.to("#why-use", {
-      x: 0,
-      duration: 3.4,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#why-use",
+      },
+      scale: 1,
+      duration: 2,
+      ease: "bounce",
     });
 
     gsap.from(".why-use-card", {
-      x: -1500,
-      duration: 3.6,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#why-use",
+      },
+      scale: 0.1,
+      duration: 2,
+      ease: "bounce",
     });
+
     gsap.to(".why-use-card", {
-      x: 0,
-      duration: 3.6,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#why-use",
+      },
+      scale: 1,
+      duration: 2,
+      ease: "bounce",
     });
 
     gsap.from("#header-technologies", {
-      x: 1500,
-      duration: 3.9,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#header-technologies",
+      },
+      scale: 0.1,
+      duration: 2.2,
+      ease: "bounce",
     });
+
     gsap.to("#header-technologies", {
-      x: 0,
-      duration: 3.9,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#header-technologies",
+      },
+      scale: 1,
+      duration: 2.2,
+      ease: "bounce",
     });
 
     gsap.from(".technologies", {
-      y: 1500,
-      opacity: 0.5,
-      duration: 4.2,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: "#header-technologies",
+      },
+      scale: 0.4,
+      duration: 2.2,
+      ease: "bounce",
     });
+
     gsap.to(".technologies", {
-      y: 0,
-      opacity: 1,
-      duration: 4.2,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: ".technologies",
+        toggleActions: "restart pause reverse pause",
+        scrub: true,
+      },
+      scale: 1,
+      duration: 2.2,
+      ease: "bounce",
     });
 
     gsap.from(".footer", {
-      y: -1500,
-      duration: 4.4,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: ".footer",
+      },
+      opacity: 0.1,
+      duration: 2.5,
+      ease: "bounce",
     });
+
     gsap.to(".footer", {
-      y: 0,
-      duration: 4.4,
-      ease: "elastic",
+      scrollTrigger: {
+        trigger: ".footer",
+      },
+      opacity: 1,
+      duration: 2.5,
+      ease: "bounce",
     });
   },
 };
