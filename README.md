@@ -1,5 +1,5 @@
-## Improve Yourself
-<img src="src/assets/preview-img/general-view.png" />
+## Follow Yourself
+<img src="src/assets/preview-img/general.png" />
 
 ## Features
 
@@ -29,13 +29,13 @@
 To clone the repository, run the following command:
 
 ```sh
-git clone https://github.com/gokhankatar/improve-yourself
+git clone https://github.com/gokhankatar/follow-yourself
 
 ``` 
 go to directory
 
 ```sh
-cd .\improve-yourself\
+cd .\follow-yourself\
 
 ``` 
 and then install npm:

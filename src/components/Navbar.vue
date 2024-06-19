@@ -215,7 +215,7 @@ export default {
     </template>
 
     <v-app-bar-title class="d-none d-sm-flex text-uppercase text-teal-darken-2">
-      <span class="font-weight-light">improve</span>
+      <span class="font-weight-light">follow</span>
       <span class="font-weight-bold">yourself</span>
     </v-app-bar-title>
 
