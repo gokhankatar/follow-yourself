@@ -55,7 +55,7 @@ export default {
       }
     },
     windowWidth(val) {
-      if (val <= 500) {
+      if (val <= 600) {
         this.isSmallScreen = true;
         if (!this.rail) {
           this.isHiddenBtn = true;
