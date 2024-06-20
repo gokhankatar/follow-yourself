@@ -96,24 +96,6 @@ export default {
       ease: "elastic",
     });
   },
-
-  // ------
-  created() {
-    if (this.windowWidth < 600) {
-      this.isSmallScreen = true;
-      if (!this.rail) {
-        this.isHiddenBtn = true;
-        this.$store.dispatch("titleShowChange", this.isSmallScreen);
-      } else if (this.rail) {
-        this.isHiddenBtn = false;
-      }
-    } else {
-      this.isSmallScreen = false;
-      this.$store.dispatch("titleShowChange", this.isSmallScreen);
-      this.isHiddenBtn = false;
-    }
-  },
-  // ----
 };
 </script>
 
