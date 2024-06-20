@@ -78,24 +78,42 @@ export default {
     gsap.from(".nav-drawer", {
       y: -999999,
       duration: 2.8,
-      ease: 'elastic'
+      ease: "elastic",
     });
-    gsap.to(".nav-drawer",{
+    gsap.to(".nav-drawer", {
       y: 0,
       duration: 2.8,
-      ease: 'elastic'
+      ease: "elastic",
     });
-    gsap.from(".app-bar",{
+    gsap.from(".app-bar", {
       x: 999999,
       duration: 3,
-      ease: 'elastic'
+      ease: "elastic",
     });
     gsap.to(".app-bar", {
       x: 0,
       duration: 3,
-      ease: 'elastic'
+      ease: "elastic",
     });
   },
+
+  // ------
+  created() {
+    if (this.windowWidth < 600) {
+      this.isSmallScreen = true;
+      if (!this.rail) {
+        this.isHiddenBtn = true;
+        this.$store.dispatch("titleShowChange", this.isSmallScreen);
+      } else if (this.rail) {
+        this.isHiddenBtn = false;
+      }
+    } else {
+      this.isSmallScreen = false;
+      this.$store.dispatch("titleShowChange", this.isSmallScreen);
+      this.isHiddenBtn = false;
+    }
+  },
+  // ----
 };
 </script>
 
