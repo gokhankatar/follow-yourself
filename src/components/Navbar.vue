@@ -37,7 +37,7 @@ export default {
       this.$store.dispatch("switchTheme", "theme changed");
     },
     goToSourceCodes() {
-      window.open("https://github.com/gokhankatar/improve-yourself", "_blank");
+      window.open("https://github.com/gokhankatar/follow-yourself", "_blank");
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
