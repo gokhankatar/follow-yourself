@@ -11,6 +11,7 @@
 - Upgrade yourself with my algorithms
 - Dark/Light Mode
 - English | Turkish | Japanese language support
+- <a href="https://www.followyourself.net" target="_blank">Go to site</a>
 
 ## Dark Mode
 <img src="src/assets/preview-img/dark-mode.png" />
