@@ -16,18 +16,23 @@ import GamesView from '../views/GamesView.vue';
 import InvestmentsView from '../views/InvestmentsView.vue';
 
 const routes = [
-    { path: '/', name: 'Home', component: HomeView },
-    { path: '/dashboard', name: 'Dashboard', component: DashboardView },
-    { path: '/projects', name: 'Projects', component: ProjectsView },
-    { path: '/books', name: 'Books', component: BooksView },
-    { path: '/movies', name: 'Movies', component: MoviesView },
-    { path: '/games', name: 'Games', component: GamesView },
-    { path: '/investments', name: 'Investments', component: InvestmentsView }
+    { path: '/', name: 'Home', component: HomeView, meta: { title: 'Home' } },
+    { path: '/dashboard', name: 'Dashboard', component: DashboardView, meta: { title: 'Dashboard' } },
+    { path: '/projects', name: 'Projects', component: ProjectsView, meta: { title: 'Projects' } },
+    { path: '/books', name: 'Books', component: BooksView, meta: { title: 'Books' } },
+    { path: '/movies', name: 'Movies', component: MoviesView, meta: { title: 'Movies' } },
+    { path: '/games', name: 'Games', component: GamesView, meta: { title: 'Games' } },
+    { path: '/investments', name: 'Investments', component: InvestmentsView, meta: { title: 'Investments' } }
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+router.beforeEach((to, from, next) => {
+    document.title = `Follow Yourself | ${to.meta.title}`;
+    next();
 });
 
 export default router;
